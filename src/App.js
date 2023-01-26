@@ -1,14 +1,10 @@
 import "./App.css";
-import Card from "./components/Card";
+import ProductsList from "./components/ProductsList";
 
 function App() {
   return (
     <div className="App">
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+      <ProductsList />
     </div>
   );
 }

@@ -1,0 +1,16 @@
+.product-title {
+  text-transform: capitalize;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.product-img {
+  width: 200px;
+  height: 200px;
+}
