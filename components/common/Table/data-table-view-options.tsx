@@ -10,7 +10,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 
 interface DataTableViewOptionsProps<TData> {
@@ -33,8 +32,7 @@ export function DataTableViewOptions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Widoczność kolumn</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuLabel className="pb-0">Kolumny</DropdownMenuLabel>
         {table
           .getAllColumns()
           .filter(

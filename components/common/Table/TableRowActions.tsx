@@ -5,7 +5,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal } from 'lucide-react';
+import {
+  CircleXIcon,
+  Download,
+  Eye,
+  MoreHorizontal,
+  Pencil,
+} from 'lucide-react';
 
 export default function TableRowActions() {
   return (
@@ -17,10 +23,22 @@ export default function TableRowActions() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>Edytuj</DropdownMenuItem>
-        <DropdownMenuItem>Podgląd</DropdownMenuItem>
-        <DropdownMenuItem>Pobierz</DropdownMenuItem>
-        <DropdownMenuItem>Usuń</DropdownMenuItem>
+        <DropdownMenuItem className="gap-1 hover:opacity-60">
+          <Pencil />
+          Edytuj
+        </DropdownMenuItem>
+        <DropdownMenuItem className="gap-1 hover:opacity-60">
+          <Eye />
+          Podgląd
+        </DropdownMenuItem>
+        <DropdownMenuItem className="gap-1 hover:opacity-60">
+          <Download />
+          Pobierz
+        </DropdownMenuItem>
+        <DropdownMenuItem className="gap-1 hover:opacity-60">
+          <CircleXIcon />
+          Usuń
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -6,23 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../assets/logo.svg';
 
-// export const protocols: Protocol[] = [
-//   {
-//     author: 'Jan Kowalski',
-//     firma: 'ABC',
-//     createdAt: '31.10.2024',
-//     type: 'chiller',
-//     description: 'asdasdasd',
-//   },
-//   {
-//     author: 'Piotr Nowak',
-//     firma: 'CDE',
-//     createdAt: '30.10.2024',
-//     type: 'valve',
-//     description: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-//   },
-// ];
-
 const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
   author: `Jan Kowalski ${i + 1}`,
   firma: `Firma ${String.fromCharCode(65 + (i % 26))}${i}`,

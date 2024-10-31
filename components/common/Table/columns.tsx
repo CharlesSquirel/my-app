@@ -10,10 +10,12 @@ const labels = [
   {
     value: 'chiller',
     label: 'chiller',
+    displayLabel: 'Protokół agregatu',
   },
   {
     value: 'valve',
     label: 'valve',
+    displayLabel: 'Protokół zaworu',
   },
 ];
 
@@ -46,7 +48,19 @@ export const columns: ColumnDef<Protocol>[] = [
 
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
+          {label && (
+            <Badge
+              variant={
+                label.label === 'valve'
+                  ? 'valve'
+                  : label.label === 'chiller'
+                    ? 'chiller'
+                    : 'outline'
+              }
+            >
+              {label.displayLabel}
+            </Badge>
+          )}
         </div>
       );
     },
