@@ -1,116 +1,35 @@
 import { columns } from '@/components/common/Table/columns';
 import { DataTable } from '@/components/common/Table/data-table';
 import UserAvatar from '@/components/common/UserAvatar.tsx/UserAvatar';
+import { Protocol } from '@/lib/types/columnTypes';
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '../assets/logo.svg';
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
+// export const protocols: Protocol[] = [
+//   {
+//     author: 'Jan Kowalski',
+//     firma: 'ABC',
+//     createdAt: '31.10.2024',
+//     type: 'chiller',
+//     description: 'asdasdasd',
+//   },
+//   {
+//     author: 'Piotr Nowak',
+//     firma: 'CDE',
+//     createdAt: '30.10.2024',
+//     type: 'valve',
+//     description: 'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
+//   },
+// ];
 
-export const payments: Payment[] = [
-  {
-    id: '728ed52f',
-    amount: 100,
-    status: 'pending',
-    email: 'm@example.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'example@gmail.com',
-  },
-  {
-    id: '489e1d42',
-    amount: 125,
-    status: 'processing',
-    email: 'ostatni',
-  },
-  // ...
-];
+const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
+  author: `Jan Kowalski ${i + 1}`,
+  firma: `Firma ${String.fromCharCode(65 + (i % 26))}${i}`,
+  createdAt: `31.10.${2024 - Math.floor(i / 10)}`, // zmiana roku co 10 elementów
+  type: i % 2 === 0 ? 'chiller' : 'valve', // na zmianę chiller i valve
+  description: `Opis ${i + 1} - ${'a'.repeat((i % 5) + 5)}`, // różna długość opisu
+}));
 
 export default function Header() {
   return (
@@ -121,7 +40,7 @@ export default function Header() {
         </Link>
         <UserAvatar />
       </header>
-      <DataTable data={payments} columns={columns} />
+      <DataTable data={protocols} columns={columns} />
     </>
   );
 }
