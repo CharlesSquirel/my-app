@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { DataTableViewOptions } from './data-table-view-options';
 
+import NewProtocolDropdown from '../NewProtocolDropdown/NewProtocolDropdown';
 import { DataTableFacetedFilter } from './table-faceted-filter';
 
 const types = [
@@ -39,7 +40,7 @@ export function DataTableToolbar<TData>({
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex flex-col items-start justify-between gap-3 md:flex-row md:items-center md:gap-0">
       <div className="flex flex-1 items-center space-x-2">
         <Input
           placeholder="Wyszukaj..."
@@ -75,7 +76,10 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center gap-2">
+        <DataTableViewOptions table={table} />
+        <NewProtocolDropdown />
+      </div>
     </div>
   );
 }
