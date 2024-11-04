@@ -22,6 +22,13 @@ const types = [
   },
 ];
 
+const firma = [
+  {
+    value: 'firma ABC',
+    label: 'Firma ABC',
+  },
+];
+
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
 }
@@ -43,11 +50,18 @@ export function DataTableToolbar<TData>({
           className="h-8 w-[150px] lg:w-[250px]"
         />
         {table.getColumn('type') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('type')}
-            title="Rodzaj"
-            options={types}
-          />
+          <div className="flex gap-2">
+            <DataTableFacetedFilter
+              column={table.getColumn('type')}
+              title="Rodzaj"
+              options={types}
+            />
+            <DataTableFacetedFilter
+              column={table.getColumn('firma')}
+              title="Obiekt"
+              options={firma}
+            />
+          </div>
         )}
 
         {isFiltered && (

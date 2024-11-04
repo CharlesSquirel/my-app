@@ -1,3 +1,4 @@
+import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import './globals.css';
 
@@ -13,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pl">
-      <body className={`antialiased`}>{children}</body>
+      <body
+        className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !px-[66px] !py-7 antialiased`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

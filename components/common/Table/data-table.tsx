@@ -56,7 +56,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="rounded-md border p-7">
+      <div className="mb-5 flex flex-col gap-5 rounded-md border bg-white p-5 shadow-sm">
         <DataTableToolbar table={table} />
 
         <Table>
@@ -107,6 +107,7 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
+        <DataTablePagination table={table} />
       </div>
       {/* <TablePagination
         onNextClick={() => table.nextPage()}
@@ -114,7 +115,6 @@ export function DataTable<TData, TValue>({
         nextDisabled={!table.getCanNextPage()}
         previousDisabled={!table.getCanPreviousPage()}
       /> */}
-      <DataTablePagination table={table} />
     </>
   );
 }
