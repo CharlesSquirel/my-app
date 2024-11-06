@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/toaster';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import './globals.css';
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body
         className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !px-[66px] !py-7 antialiased`}
       >
+        <Toaster />
         {children}
       </body>
     </html>
