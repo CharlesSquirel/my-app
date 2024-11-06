@@ -1,10 +1,10 @@
 'use server';
 
 import { prisma } from '../db/db';
+import { errorMessages } from '../errorMessages/errorMessages';
 import { UserDTO } from '../types/userTypes';
 
 export async function createUser(data: UserDTO) {
-  console.log('zaczynam');
   const userData = {
     firstName: data.firstName,
     lastName: data.lastName,
@@ -19,7 +19,7 @@ export async function createUser(data: UserDTO) {
       },
     });
     if (exist) {
-      return new Error('Użytkownik o podanym emailu istnieje');
+      throw new Error(errorMessages.userExist);
     }
     const user = await prisma.user.create({
       data: {
@@ -32,6 +32,12 @@ export async function createUser(data: UserDTO) {
     console.log(`User created: ${JSON.stringify(user, null, 2)}`);
     return user;
   } catch (error) {
-    console.error(`Error in createUser, ${error}`);
+    if (error instanceof Error) {
+      if (error.message === errorMessages.userExist) {
+        throw new Error(errorMessages.userExist);
+      }
+      throw new Error(errorMessages.disconnect);
+    }
+    throw new Error('Wystąpił nieoczekiwany błąd');
   }
 }

@@ -2,23 +2,34 @@
 
 import TextInput from '@/components/common/TextInput.tsx/TextInput';
 import FormContainer from '@/components/containers/FormContainer/FormContainer';
-import { useToast } from '@/hooks/use-toast';
 import { createUser } from '@/lib/actions/userActions';
+import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { UserDTO } from '@/lib/types/userTypes';
 import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 export default function UserForm() {
-  const { toast } = useToast();
-  // const onSubmit = (data: UserDTO) => console.log(data);
-  const handleleOnSubmit = (data: UserDTO) => {
-    createUser(data);
-    toast({
-      title: 'Scheduled: Catch up',
-      description: 'Friday, February 10, 2023 at 5:57 PM',
-    });
-  };
   const router = useRouter();
+
+  // const onSubmit = (data: UserDTO) => console.log(data);
+  const handleleOnSubmit = async (data: UserDTO) => {
+    try {
+      await createUser(data);
+      toast.success('Pomyślnie dodano użytkownika');
+      router.push('/');
+    } catch (error) {
+      console.log(error);
+      if (error instanceof Error) {
+        if (error.message === errorMessages.userExist) {
+          toast.error(errorMessages.userExist);
+        } else {
+          toast.error(errorMessages.disconnect);
+        }
+      }
+      // toast.error('Wystąpił nieoczekiwany błąd');
+    }
+  };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
       <button onClick={() => router.back()}>

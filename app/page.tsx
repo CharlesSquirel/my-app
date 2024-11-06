@@ -2,6 +2,7 @@ import { columns } from '@/components/common/Table/columns';
 import { DataTable } from '@/components/common/Table/data-table';
 import { Protocol } from '@/lib/types/columnTypes';
 import Header from './Header/Header';
+
 const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
   author: `Jan Kowalski ${i + 1}`,
   firma: `Firma ${String.fromCharCode(65 + (i % 26))}${i}`,
