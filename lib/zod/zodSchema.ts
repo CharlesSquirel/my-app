@@ -128,3 +128,12 @@ export const ChillerValidationSchema = z.object({
 });
 
 export type SchemaTypeChiller = z.infer<typeof ChillerValidationSchema>;
+
+export const UserValidationSchema = z.object({
+  firstName: createStringValidator(),
+  lastName: createStringValidator(),
+  userSignature: createStringValidator(),
+  email: createStringValidator().email({
+    message: 'Nieprawidłowy format email',
+  }),
+});

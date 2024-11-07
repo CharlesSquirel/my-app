@@ -2,43 +2,59 @@
 
 import TextInput from '@/components/common/TextInput.tsx/TextInput';
 import FormContainer from '@/components/containers/FormContainer/FormContainer';
-import { createUser } from '@/lib/actions/userActions';
+import { createUser, editUser } from '@/lib/actions/userActions';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
+import { FormModeType } from '@/lib/types/common';
 import { UserDTO } from '@/lib/types/userTypes';
+import { UserValidationSchema } from '@/lib/zod/zodSchema';
 import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
-export default function UserForm() {
+interface UserFormProps {
+  mode: FormModeType;
+  defaultValues: any;
+  id?: string;
+}
+
+export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
   const router = useRouter();
 
-  // const onSubmit = (data: UserDTO) => console.log(data);
-  const handleleOnSubmit = async (data: UserDTO) => {
+  const handleOnSubmit = async (data: UserDTO) => {
     try {
-      await createUser(data);
-      toast.success('Pomyślnie dodano użytkownika');
-      router.push('/');
+      if (mode === 'edit' && id) {
+        await editUser(data, id);
+      } else {
+        await createUser(data);
+      }
+      toast.success(
+        `Pomyślnie ${mode === 'add' ? 'dodano' : 'edytowano'} użytkownika`,
+      );
+      router.push('/user');
     } catch (error) {
-      console.log(error);
       if (error instanceof Error) {
         if (error.message === errorMessages.userExist) {
           toast.error(errorMessages.userExist);
-        } else {
+        } else if (error.message === errorMessages.disconnect) {
           toast.error(errorMessages.disconnect);
-        }
+        } else toast.error('Wystąpił nieoczekiwany błąd');
       }
-      // toast.error('Wystąpił nieoczekiwany błąd');
     }
   };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
       <button onClick={() => router.back()}>
-        <X className="absolute right-6 top-6" size={35} />
+        <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
       </button>
       <FormContainer
-        onSubmit={handleleOnSubmit}
+        mode={mode}
+        onSubmit={handleOnSubmit}
         title="Dane podstawowe"
-        formTitle="Dodaj nowego użytkownika"
+        formTitle={
+          mode === 'add' ? 'Dodaj nowego użytkownika' : 'Edytuj użytkownika'
+        }
+        validationSchema={UserValidationSchema}
+        defaultValues={defaultValues}
       >
         <TextInput placeholder="Imię" name="firstName" />
         <TextInput placeholder="Nazwisko" name="lastName" />

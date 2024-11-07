@@ -4,3 +4,10 @@ export interface UserDTO {
   userSignature: string;
   email: string;
 }
+
+export const defaultUserValues: UserDTO = {
+  firstName: '',
+  lastName: '',
+  userSignature: '',
+  email: '',
+};

@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { FormModeType } from '@/lib/types/common';
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   DefaultValues,
   FieldValues,
@@ -21,12 +23,13 @@ import { Button } from '../../ui/button';
 interface FormContainerProps<T extends FieldValues> {
   children: React.ReactNode;
   onSubmit: SubmitHandler<T>;
-  validationSchema?: ZodType<any, any, any>;
+  validationSchema: ZodType<any, any, any>;
   closeUrl?: string;
-  defaultValues?: DefaultValues<T>;
+  defaultValues: DefaultValues<T>;
   id?: string;
   title?: string;
   formTitle: string;
+  mode: FormModeType;
 }
 
 export default function FormContainer<T extends FieldValues>({
@@ -34,9 +37,15 @@ export default function FormContainer<T extends FieldValues>({
   onSubmit,
   title,
   formTitle,
+  validationSchema,
+  mode,
+  defaultValues,
 }: FormContainerProps<T>) {
-  const form = useForm<T>();
-  // const onSubmit = (data: ChillerDTO) => console.log(data);
+  const form = useForm<T>({
+    resolver: zodResolver(validationSchema),
+    defaultValues: defaultValues,
+  });
+
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -49,7 +58,9 @@ export default function FormContainer<T extends FieldValues>({
           )}
           <CardContent className="flex flex-col pb-0">{children}</CardContent>
           <CardFooter className="justify-end">
-            <Button type="submit">Submit</Button>
+            <Button type="submit">
+              {mode === 'add' ? 'Utwórz' : 'Edytuj'}
+            </Button>
           </CardFooter>
         </Card>
       </form>
