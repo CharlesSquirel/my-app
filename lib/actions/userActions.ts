@@ -8,7 +8,6 @@ import { UserDTO } from '../types/userTypes';
 
 function handleError(error: unknown, defaultMessage: string): never {
   if (error instanceof Error) {
-    console.error(error.message);
     throw new Error(error.message || defaultMessage);
   }
   throw new Error(defaultMessage);
