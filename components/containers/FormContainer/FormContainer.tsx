@@ -23,7 +23,7 @@ import { Button } from '../../ui/button';
 interface FormContainerProps<T extends FieldValues> {
   children: React.ReactNode;
   onSubmit: SubmitHandler<T>;
-  validationSchema: ZodType<any, any, any>;
+  validationSchema: ZodType<T>;
   closeUrl?: string;
   defaultValues: DefaultValues<T>;
   id?: string;
@@ -31,6 +31,10 @@ interface FormContainerProps<T extends FieldValues> {
   formTitle: string;
   mode: FormModeType;
 }
+
+const getSubmitButtonText = (mode: FormModeType) => {
+  return mode === 'add' ? 'Utwórz' : 'Edytuj';
+};
 
 export default function FormContainer<T extends FieldValues>({
   children,
@@ -58,9 +62,7 @@ export default function FormContainer<T extends FieldValues>({
           )}
           <CardContent className="flex flex-col pb-0">{children}</CardContent>
           <CardFooter className="justify-end">
-            <Button type="submit">
-              {mode === 'add' ? 'Utwórz' : 'Edytuj'}
-            </Button>
+            <Button type="submit">{getSubmitButtonText(mode)}</Button>
           </CardFooter>
         </Card>
       </form>

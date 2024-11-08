@@ -53,6 +53,7 @@ export default function TextInput({
         disabled={disabled}
         {...register(name)}
         autoComplete="off"
+        aria-label={label || placeholder}
       />
       {description && <FormDescription>{description}</FormDescription>}
 

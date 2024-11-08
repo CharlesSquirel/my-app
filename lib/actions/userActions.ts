@@ -1,18 +1,21 @@
 'use server';
 
+import { User } from '@prisma/client';
 import { revalidatePath } from 'next/cache';
 import { prisma } from '../db/db';
 import { errorMessages } from '../errorMessages/errorMessages';
 import { UserDTO } from '../types/userTypes';
 
-export async function createUser(data: UserDTO) {
-  const userData = {
-    firstName: data.firstName,
-    lastName: data.lastName,
-    email: data.email,
-    userSignature: data.userSignature,
-  };
-  const { firstName, lastName, email, userSignature } = userData;
+function handleError(error: unknown, defaultMessage: string): never {
+  if (error instanceof Error) {
+    console.error(error.message);
+    throw new Error(error.message || defaultMessage);
+  }
+  throw new Error(defaultMessage);
+}
+
+export async function createUser(data: UserDTO): Promise<UserDTO> {
+  const { firstName, lastName, email, userSignature } = data;
   try {
     const exist = await prisma.user.findUnique({
       where: {
@@ -33,17 +36,11 @@ export async function createUser(data: UserDTO) {
     console.log(`User created: ${JSON.stringify(user, null, 2)}`);
     return user;
   } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === errorMessages.userExist) {
-        throw new Error(errorMessages.userExist);
-      }
-      throw new Error(errorMessages.disconnect);
-    }
-    throw new Error('Wystąpił nieoczekiwany błąd');
+    handleError(error, errorMessages.userNotExist);
   }
 }
 
-export default async function findUserById(id: string) {
+export default async function findUserById(id: string): Promise<User> {
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -56,16 +53,11 @@ export default async function findUserById(id: string) {
 
     return user;
   } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === errorMessages.userNotExist) {
-        throw new Error(`${errorMessages.userNotExist}: ${id}`);
-      }
-    }
-    throw new Error('Wystąpił nieoczekiwany błąd');
+    handleError(error, 'Unexpected error finding user by ID.');
   }
 }
 
-export async function editUser(data: UserDTO, id: string) {
+export async function editUser(data: UserDTO, id: string): Promise<void> {
   try {
     await prisma.user.update({
       where: {
@@ -76,16 +68,11 @@ export async function editUser(data: UserDTO, id: string) {
 
     console.log(`User edited: ${id}`);
   } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === errorMessages.edit) {
-        throw new Error(errorMessages.edit);
-      }
-    }
-    throw new Error('Wystąpił nieoczekiwany błąd');
+    handleError(error, errorMessages.edit || 'Error editing user.');
   }
 }
 
-export async function findAllUsers() {
+export async function findAllUsers(): Promise<User[]> {
   try {
     const users = await prisma.user.findMany();
     return users;
@@ -96,12 +83,6 @@ export async function findAllUsers() {
 
 export async function deleteUser(id: string): Promise<void> {
   try {
-    const user = await findUserById(id);
-
-    if (!user) {
-      throw new Error(errorMessages.userNotExist);
-    }
-
     const deletedUser = await prisma.user.delete({
       where: {
         id,
@@ -110,11 +91,6 @@ export async function deleteUser(id: string): Promise<void> {
     revalidatePath('/user');
     console.log(`User succesfully deleted: ${deletedUser}`);
   } catch (error) {
-    if (error instanceof Error) {
-      if (error.message === errorMessages.userNotExist) {
-        throw new Error(errorMessages.userNotExist);
-      }
-    }
-    throw new Error('Wystąpił nieoczekiwany błąd');
+    handleError(error, errorMessages.userNotExist || 'User does not exist.');
   }
 }
