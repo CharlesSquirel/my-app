@@ -10,10 +10,10 @@ export default function FormSectionContainer({
   children,
 }: FormSectionContainerProps) {
   return (
-    <Card>
+    <Card className="mb-5">
       {title && (
         <CardHeader>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle>{title ? title : ' '}</CardTitle>
         </CardHeader>
       )}
       <CardContent className="flex flex-col pb-0">{children}</CardContent>

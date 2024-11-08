@@ -13,6 +13,23 @@ function handleError(error: unknown, defaultMessage: string): never {
   throw new Error(defaultMessage);
 }
 
+export default async function findUserById(id: string): Promise<User> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+    if (!user) {
+      throw Error(errorMessages.userNotExist);
+    }
+
+    return user;
+  } catch (error) {
+    handleError(error, 'Unexpected error finding user by ID.');
+  }
+}
+
 export async function createUser(data: UserDTO): Promise<UserDTO> {
   const { firstName, lastName, email, userSignature } = data;
   try {
@@ -32,27 +49,12 @@ export async function createUser(data: UserDTO): Promise<UserDTO> {
         email,
       },
     });
-    console.log(`User created: ${JSON.stringify(user, null, 2)}`);
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`User created: ${JSON.stringify(user, null, 2)}`);
+    }
     return user;
   } catch (error) {
     handleError(error, errorMessages.userNotExist);
-  }
-}
-
-export default async function findUserById(id: string): Promise<User> {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id,
-      },
-    });
-    if (!user) {
-      throw Error(errorMessages.userNotExist);
-    }
-
-    return user;
-  } catch (error) {
-    handleError(error, 'Unexpected error finding user by ID.');
   }
 }
 

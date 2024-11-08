@@ -104,7 +104,7 @@ model HumidifierMaterial {
   humidifier         Humidifier @relation(fields: [materialId], references: [id])
 }
 
-model Firma {
+model Location {
   id           String   @id @default(cuid()) @map("_id")
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -117,6 +117,24 @@ model Firma {
   city         String
   tel          String?
   contactEmail String?
+  Firma        Firma?   @relation(fields: [locationId], references: [id])
+  locationId   String
+}
+
+model Firma {
+  id           String     @id @default(cuid()) @map("_id")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  fullName     String
+  shortName    String
+  street       String
+  houseNumber  Float
+  localNumber  Float?
+  postCode     String
+  city         String
+  tel          String?
+  contactEmail String?
+  locations    Location[]
 }
 
 model Circuit {
