@@ -1,5 +1,6 @@
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
+import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function RootLayout({
       <body
         className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !px-[66px] !py-7 antialiased`}
       >
+        <Toaster position="top-center" />
         {children}
       </body>
     </html>

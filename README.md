@@ -36,3 +36,7 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 npx --legacy-peer-deps shadcn@latest
+
+## What I learned
+
+I tried to prevent the unmouting of `js <Toaster/> ` component, but it disapeared when I was using `js router.back() `. It turned out that `js router.back()` behaves as the user click previous browser button and the Next searches for the previous page in the browser history. Instead of it I used `js router.push("/") ` which aims just link to another url and don't cause `js <Toaster/> ` suddenly disapearing.
