@@ -13,9 +13,22 @@ import toast from 'react-hot-toast';
 
 interface UserFormProps {
   mode: FormModeType;
-  defaultValues: any;
+  defaultValues: Partial<UserDTO>;
   id?: string;
 }
+
+const errorMessagesMap: Record<string, string> = {
+  [errorMessages.userExist]: errorMessages.userExist,
+  [errorMessages.disconnect]: errorMessages.disconnect,
+};
+
+const getFormTitle = (mode: FormModeType) => {
+  return mode === 'add' ? 'Dodaj nowego użytkownika' : 'Edytuj użytkownika';
+};
+
+const getSuccessMessage = (mode: FormModeType) => {
+  return `Pomyślnie ${mode === 'add' ? 'dodano' : 'edytowano'} użytkownika`;
+};
 
 export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
   const router = useRouter();
@@ -27,18 +40,14 @@ export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
       } else {
         await createUser(data);
       }
-      toast.success(
-        `Pomyślnie ${mode === 'add' ? 'dodano' : 'edytowano'} użytkownika`,
-      );
+      toast.success(getSuccessMessage(mode));
       router.push('/user');
     } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === errorMessages.userExist) {
-          toast.error(errorMessages.userExist);
-        } else if (error.message === errorMessages.disconnect) {
-          toast.error(errorMessages.disconnect);
-        } else toast.error('Wystąpił nieoczekiwany błąd');
-      }
+      const message =
+        error instanceof Error
+          ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
+          : 'Wystąpił nieoczekiwany błąd';
+      toast.error(message);
     }
   };
   return (
@@ -50,9 +59,7 @@ export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
         mode={mode}
         onSubmit={handleOnSubmit}
         title="Dane podstawowe"
-        formTitle={
-          mode === 'add' ? 'Dodaj nowego użytkownika' : 'Edytuj użytkownika'
-        }
+        formTitle={getFormTitle(mode)}
         validationSchema={UserValidationSchema}
         defaultValues={defaultValues}
       >
