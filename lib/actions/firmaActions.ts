@@ -59,9 +59,14 @@ export async function createFirma(data: FirmaDTO): Promise<Firma> {
   }
 }
 
-export async function findFirmaById(id: string): Promise<Firma> {
+export async function findFirmaById(
+  id: string,
+): Promise<Prisma.FirmaGetPayload<{ include: { locations: true } }>> {
   try {
-    const existingFirma = await prisma.firma.findUnique({ where: { id } });
+    const existingFirma = await prisma.firma.findUnique({
+      where: { id },
+      include: { locations: true },
+    });
     if (!existingFirma) {
       throw new Error(errorMessages.firmaNotExist);
     }

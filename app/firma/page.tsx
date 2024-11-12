@@ -1,3 +1,4 @@
+import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import PageTitle from '@/components/common/PageTitle/PageTitle';
 import {
   Table,
@@ -8,6 +9,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { findAllFirma } from '@/lib/actions/firmaActions';
+import { Eye, Pencil, Trash2 } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
 
 export default async function Firmas() {
   const firmaAll = await findAllFirma();
@@ -26,18 +30,29 @@ export default async function Firmas() {
         </TableHeader>
         <TableBody>
           {firmaAll.map((firma) => (
-            <TableRow key={firma.id}>
-              <TableCell>{firma.shortName}</TableCell>
-              <TableCell>{`${firma.street} ${firma.houseNumber}/${firma.localNumber}, ${firma.postCode} ${firma.city}`}</TableCell>
-              <TableCell>{`${firma.tel}, ${firma.contactEmail}`}</TableCell>
-              <TableCell>{firma.locations.length}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-            firma.locations.map((location) => {
-<TableRow key={location.id}>
-
-</TableRow>
-            })
+            <React.Fragment key={firma.id}>
+              <TableRow>
+                <TableCell>{firma.shortName}</TableCell>
+                <TableCell>{`${firma.street} ${firma.houseNumber}/${firma.localNumber}, ${firma.postCode} ${firma.city}`}</TableCell>
+                <TableCell>{`${firma.tel}, ${firma.contactEmail}`}</TableCell>
+                <TableCell>{firma.locations.length}</TableCell>
+                <TableCell className="flex gap-2">
+                  <Link href={`/firma/${firma.id}`}>
+                    <Eye className="cursor-pointer hover:stroke-customBlue" />
+                  </Link>
+                  <Link href={`/user/${firma.id}`}>
+                    <Pencil className="hover:stroke-customBlue" />
+                  </Link>
+                  <AlertDialogComponent
+                    title="Czy na pewno chcesz usunąć użytkownika?"
+                    description="Ta akcja usunie bezpowrotnie dane użytkownika z bazy danych"
+                    id={firma.id}
+                  >
+                    <Trash2 className="cursor-pointer hover:stroke-destructive" />
+                  </AlertDialogComponent>
+                </TableCell>
+              </TableRow>
+            </React.Fragment>
           ))}
         </TableBody>
       </Table>
