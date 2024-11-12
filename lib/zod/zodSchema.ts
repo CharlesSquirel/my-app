@@ -1,6 +1,17 @@
 import { z } from 'zod';
 import { createNumberValidator, createStringValidator } from './zodHelpers';
 
+const validationMessages = {
+  invalidEmailFormat: 'To nie jest poprawny format email',
+  invalidPhoneFormat: 'To nie jest poprawny numer telefonu',
+  invalidPostCodeFormat: 'To nie jest poprawny kod pocztowy!',
+  invalidPostCodeLetters: 'Kod pocztowy musi składać się z 6 znaków!',
+};
+
+const getvalidationStringMessage = (num: number): string => {
+  return `To pole nie może mieć więcej niż ${num} znaków!`;
+};
+
 const AirPollution = z.union([
   z.literal('Bardzo brudny'),
   z.literal('Brudny'),
@@ -134,6 +145,59 @@ export const UserValidationSchema = z.object({
   lastName: createStringValidator(),
   userSignature: createStringValidator(),
   email: createStringValidator().email({
-    message: 'Nieprawidłowy format email',
+    message: validationMessages.invalidEmailFormat,
   }),
+});
+
+export const LocationValidationSchema = z.object({
+  fullName: createStringValidator(),
+  shortName: createStringValidator().max(10, {
+    message: getvalidationStringMessage(10),
+  }),
+  street: createStringValidator(),
+  houseNumber: createStringValidator(),
+  localNumber: z.string().optional(),
+  postCode: createStringValidator()
+    .length(6, {
+      message: validationMessages.invalidPostCodeLetters,
+    })
+    .regex(/^\d{2}-\d{3}$/, {
+      message: validationMessages.invalidPostCodeFormat,
+    }),
+  city: createStringValidator(),
+  tel: z
+    .string()
+    .optional()
+    .refine((value) => !value || /^[\d\s-]+$/.test(value), {
+      message: validationMessages.invalidPhoneFormat,
+    }),
+  contactEmail: z.string().optional(),
+});
+
+export const FirmaValidationSchema = z.object({
+  fullName: createStringValidator(),
+  shortName: createStringValidator().max(10, {
+    message: getvalidationStringMessage(10),
+  }),
+  street: createStringValidator(),
+  houseNumber: createStringValidator(),
+  localNumber: z.string().optional(),
+  postCode: createStringValidator()
+    .length(6, {
+      message: validationMessages.invalidPostCodeLetters,
+    })
+    .regex(/^\d{2}-\d{3}$/, {
+      message: validationMessages.invalidPostCodeFormat,
+    }),
+  city: createStringValidator(),
+  tel: z
+    .string()
+    .optional()
+    .refine((value) => !value || /^[\d\s-]+$/.test(value), {
+      message: validationMessages.invalidPhoneFormat,
+    }),
+  contactEmail: z.string().optional(),
+  locations: z
+    .array(LocationValidationSchema)
+    .min(1, { message: 'Musi być minimum 1 obiekt' }),
 });

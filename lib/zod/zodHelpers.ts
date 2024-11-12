@@ -6,9 +6,7 @@ export const createNumberValidator = () =>
       required_error: 'To pole jest wymagane!',
       invalid_type_error: 'To pole jest wymagane!',
     })
-    .min(0, { message: 'Wartość nie może być mniejsze niż 0' })
-    .optional();
-
+    .min(0, { message: 'Wartość nie może być mniejsze niż 0' });
 export const createStringValidator = () =>
   z
     .string({ required_error: 'To pole jest wymagane!' })
