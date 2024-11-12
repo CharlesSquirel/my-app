@@ -11,10 +11,9 @@ import { findAllFirma } from '@/lib/actions/firmaActions';
 
 export default async function Firmas() {
   const firmaAll = await findAllFirma();
-  console.log(firmaAll);
   return (
     <section>
-      <PageTitle title="Firmy" />
+      <PageTitle title="Firmy i siedziby" />
       <Table>
         <TableHeader>
           <TableRow>
@@ -34,6 +33,11 @@ export default async function Firmas() {
               <TableCell>{firma.locations.length}</TableCell>
               <TableCell></TableCell>
             </TableRow>
+            firma.locations.map((location) => {
+<TableRow key={location.id}>
+
+</TableRow>
+            })
           ))}
         </TableBody>
       </Table>

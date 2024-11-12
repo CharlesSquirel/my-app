@@ -10,7 +10,7 @@ export default function FormSectionContainer({
   children,
 }: FormSectionContainerProps) {
   return (
-    <Card className="mb-5">
+    <Card className="relative mb-5 pb-5">
       {title && (
         <CardHeader>
           <CardTitle>{title ? title : ' '}</CardTitle>

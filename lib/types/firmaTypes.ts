@@ -2,8 +2,8 @@ export interface LocationDTO {
   fullName: string;
   shortName: string;
   street: string;
-  houseNumber: number;
-  localNumber?: number;
+  houseNumber: string;
+  localNumber?: string;
   postCode: string;
   city: string;
   tel?: string;
@@ -14,8 +14,8 @@ export interface FirmaDTO {
   fullName: string;
   shortName: string;
   street: string;
-  houseNumber: number;
-  localNumber?: number;
+  houseNumber: string;
+  localNumber?: string;
   postCode: string;
   city: string;
   tel?: string;
@@ -27,8 +27,8 @@ export const firmaDefaultValues: FirmaDTO = {
   fullName: '',
   shortName: '',
   street: '',
-  houseNumber: 0,
-  localNumber: 0,
+  houseNumber: '',
+  localNumber: '',
   postCode: '',
   city: '',
   tel: '',

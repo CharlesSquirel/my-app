@@ -52,9 +52,12 @@ export default function FormContainer<T extends FieldValues>({
 
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-[700px] space-y-6"
+      >
         <PageTitle title={formTitle} />
-        <Card className="w-[450px]">
+        <Card>
           {title && (
             <CardHeader>
               <CardTitle>{title}</CardTitle>

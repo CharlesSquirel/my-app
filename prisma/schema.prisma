@@ -111,8 +111,8 @@ model Location {
   fullName     String
   shortName    String
   street       String
-  houseNumber  Float
-  localNumber  Float?
+  houseNumber  String
+  localNumber  String?
   postCode     String
   city         String
   tel          String?
@@ -128,8 +128,8 @@ model Firma {
   fullName     String
   shortName    String
   street       String
-  houseNumber  Float
-  localNumber  Float?
+  houseNumber  String
+  localNumber  String?
   postCode     String
   city         String
   tel          String?
