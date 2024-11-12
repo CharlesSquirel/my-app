@@ -7,9 +7,9 @@ import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { UserDTO } from '@/lib/types/userTypes';
 import { UserValidationSchema } from '@/lib/zod/zodSchema';
-import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import ButtonBack from '../common/ButtonBack/ButtonBack';
 
 interface UserFormProps {
   mode: FormModeType;
@@ -52,9 +52,7 @@ export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
   };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
-      <button onClick={() => router.back()}>
-        <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
-      </button>
+      <ButtonBack />
       <FormContainer
         mode={mode}
         onSubmit={handleOnSubmit}

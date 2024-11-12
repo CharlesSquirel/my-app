@@ -4,6 +4,7 @@ interface ViewDataRowProps {
 }
 
 export default function ViewDataRow({ label, data }: ViewDataRowProps) {
+  // console.log(data)
   if (!data) return null;
   return (
     <div className="flex gap-2">

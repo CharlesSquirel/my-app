@@ -1,5 +1,5 @@
-import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import PageTitle from '@/components/common/PageTitle/PageTitle';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -9,7 +9,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { findAllFirma } from '@/lib/actions/firmaActions';
-import { Eye, Pencil, Trash2 } from 'lucide-react';
+import { SquareArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
@@ -17,7 +17,12 @@ export default async function Firmas() {
   const firmaAll = await findAllFirma();
   return (
     <section>
-      <PageTitle title="Firmy i siedziby" />
+      <div className="mb-3 flex items-center justify-between">
+        <PageTitle title="Firmy" />
+        <Button asChild>
+          <Link href="/firma/add">Dodaj firmę</Link>
+        </Button>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -25,7 +30,7 @@ export default async function Firmas() {
             <TableHead>Adres</TableHead>
             <TableHead>Kontakt</TableHead>
             <TableHead>Liczba obiektów</TableHead>
-            <TableHead>Akcje</TableHead>
+            <TableHead>Więcej...</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -38,18 +43,8 @@ export default async function Firmas() {
                 <TableCell>{firma.locations.length}</TableCell>
                 <TableCell className="flex gap-2">
                   <Link href={`/firma/${firma.id}`}>
-                    <Eye className="cursor-pointer hover:stroke-customBlue" />
+                    <SquareArrowRight className="cursor-pointer hover:stroke-customBlue" />
                   </Link>
-                  <Link href={`/user/${firma.id}`}>
-                    <Pencil className="hover:stroke-customBlue" />
-                  </Link>
-                  <AlertDialogComponent
-                    title="Czy na pewno chcesz usunąć użytkownika?"
-                    description="Ta akcja usunie bezpowrotnie dane użytkownika z bazy danych"
-                    id={firma.id}
-                  >
-                    <Trash2 className="cursor-pointer hover:stroke-destructive" />
-                  </AlertDialogComponent>
                 </TableCell>
               </TableRow>
             </React.Fragment>
