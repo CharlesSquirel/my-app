@@ -1,6 +1,6 @@
 'use client';
 
-import { createFirma } from '@/lib/actions/firmaActions';
+import { createFirma, editFirma } from '@/lib/actions/firmaActions';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { FirmaDTO } from '@/lib/types/firmaTypes';
@@ -36,6 +36,10 @@ const getSuccessMessage = (mode: FormModeType) => {
 };
 
 export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
+  if (mode === 'edit' && !id) {
+    throw new Error('Brak id firmy do edycji');
+  }
+
   const [locationCount, setLocationCount] = useState(1);
   const handleIncrement = () => {
     setLocationCount(locationCount + 1);
@@ -47,11 +51,16 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
 
   const handleOnSubmit = async (data: FirmaDTO) => {
     try {
-      console.table(data);
-      await createFirma(data);
+      if (mode === 'edit' && id) {
+        await editFirma(data, id);
+      } else {
+        await createFirma(data);
+      }
+
       toast.success(getSuccessMessage(mode));
       router.push('/firma');
     } catch (error) {
+      console.log(error);
       const message =
         error instanceof Error
           ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')

@@ -89,3 +89,64 @@ export async function findAllFirma(): Promise<
     handleError(error, errorMessages.disconnect);
   }
 }
+
+export async function editFirma(data: FirmaDTO, id: string): Promise<void> {
+  const {
+    fullName,
+    shortName,
+    street,
+    houseNumber,
+    localNumber,
+    postCode,
+    city,
+    tel,
+    contactEmail,
+    locations,
+  } = data;
+
+  const firmaEditData: Omit<FirmaDTO, 'locations'> = {
+    fullName,
+    shortName,
+    street,
+    houseNumber,
+    localNumber,
+    postCode,
+    city,
+    tel,
+    contactEmail,
+  };
+
+  const firmaLocationEdit: Partial<FirmaDTO> = {
+    locations: data.locations,
+  };
+
+  try {
+    await prisma.firma.update({
+      where: { id },
+      data: firmaEditData,
+    });
+    if (data.locations && Array.isArray(data.locations)) {
+      await Promise.all(
+        data.locations.map((location) =>
+          prisma.location.update({
+            where: { id: location.locationId },
+            data: {
+              fullName: location.fullName,
+              shortName: location.shortName,
+              street: location.street,
+              houseNumber: location.houseNumber,
+              localNumber: location.localNumber,
+              postCode: location.postCode,
+              city: location.city,
+              tel: location.tel,
+              contactEmail: location.contactEmail,
+              locationId: id,
+            },
+          }),
+        ),
+      );
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

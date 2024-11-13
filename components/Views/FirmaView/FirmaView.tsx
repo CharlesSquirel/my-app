@@ -19,12 +19,16 @@ export default function FirmaViewComponent({ firma }: FirmaViewProps) {
         <PageTitle title={`Dane firmy ${firma.shortName}`} />
         <div className="flex gap-2">
           <Button asChild variant="outline">
-            <Link href="/">
+            <Link href={`/firma/edit/${firma.id}`}>
               <Pencil />
               Edytuj
             </Link>
           </Button>
-          <Button variant="destructive" className="flex items-center">
+          <Button
+            variant="destructive"
+            className="flex items-center"
+            aria-label="Usuń firmę"
+          >
             <Trash2 /> Usuń
           </Button>
         </div>
