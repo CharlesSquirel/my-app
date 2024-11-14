@@ -8,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { findAllUsers } from '@/lib/actions/userActions';
+import { deleteUser, findAllUsers } from '@/lib/actions/userActions';
 import { Pencil, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -43,6 +43,7 @@ export default async function Users() {
                   title="Czy na pewno chcesz usunąć użytkownika?"
                   description="Ta akcja usunie bezpowrotnie dane użytkownika z bazy danych"
                   id={user.id}
+                  onDelete={deleteUser}
                 >
                   <Trash2 className="hover:stroke-destructive" />
                 </AlertDialogComponent>

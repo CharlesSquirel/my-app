@@ -11,28 +11,34 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { deleteUser } from '@/lib/actions/userActions';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 interface AlertDialogComponentProps {
   children: React.ReactNode;
   title: string;
   description?: string;
-
   id: string;
+  onDelete: (id: string) => void;
+  pathAfterDelete?: string;
 }
 
 export default function AlertDialogComponent({
   children,
   title,
   description,
-
+  onDelete,
   id,
+  pathAfterDelete,
 }: AlertDialogComponentProps) {
+  const router = useRouter();
   const handleOnDelete = async (id: string) => {
     try {
-      await deleteUser(id);
-      toast.success(`Pomyślnie usunięto użytkownika`);
+      await onDelete(id);
+      toast.success(`Pomyślnie usunięto`);
+      if (pathAfterDelete) {
+        router.push(pathAfterDelete);
+      }
     } catch (error) {
       toast.error('Wystąpił nieoczekiwany błąd');
     }
