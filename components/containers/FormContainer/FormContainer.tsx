@@ -32,6 +32,7 @@ interface FormContainerProps<T extends FieldValues> {
   formTitle: string;
   mode: FormModeType;
   isLoading?: boolean;
+  subTitle?: string;
 }
 
 const getSubmitButtonText = (mode: FormModeType) => {
@@ -47,6 +48,7 @@ export default function FormContainer<T extends FieldValues>({
   mode,
   defaultValues,
   isLoading,
+  subTitle,
 }: FormContainerProps<T>) {
   const form = useForm<T>({
     resolver: zodResolver(validationSchema),
@@ -59,7 +61,7 @@ export default function FormContainer<T extends FieldValues>({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-6 md:w-[700px]"
       >
-        <PageTitle title={formTitle} />
+        <PageTitle title={formTitle} subTitle={subTitle} />
         <Card>
           {title && (
             <CardHeader>

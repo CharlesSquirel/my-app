@@ -35,20 +35,19 @@ model VerificationRequest {
 }
 
 model Valve {
-  id              String            @id @default(cuid()) @map("_id")
-  firma           String
-  type            String
-  serialNumber    String
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  userId          String
-  userSignature   String
-  firstName       String
-  lastName        String
-  description     String?
-  clientEmailPerm Boolean
-  clientEmail     String?
-  infoBlocks      ValvesInfoBlock[]
+  id            String            @id @default(cuid()) @map("_id")
+  firma         String
+  location      String
+  type          String
+  serialNumber  String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  userId        String
+  userSignature String
+  firstName     String
+  lastName      String
+  description   String?
+  infoBlocks    ValvesInfoBlock[]
 }
 
 model ValvesInfoBlock {
