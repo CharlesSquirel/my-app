@@ -7,9 +7,10 @@ import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { UserDTO } from '@/lib/types/userTypes';
 import { UserValidationSchema } from '@/lib/zod/zodSchema';
-import { X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ButtonBack from '../common/ButtonBack/ButtonBack';
 
 interface UserFormProps {
   mode: FormModeType;
@@ -31,15 +32,21 @@ const getSuccessMessage = (mode: FormModeType) => {
 };
 
 export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
+  if (mode === 'edit' && !id) {
+    throw new Error('Brak id użytkownika do edycji');
+  }
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const handleOnSubmit = async (data: UserDTO) => {
+    setIsLoading(true);
     try {
       if (mode === 'edit' && id) {
         await editUser(data, id);
       } else {
         await createUser(data);
       }
+      setIsLoading(false);
       toast.success(getSuccessMessage(mode));
       router.push('/user');
     } catch (error) {
@@ -48,13 +55,12 @@ export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
           ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
           : 'Wystąpił nieoczekiwany błąd';
       toast.error(message);
+      setIsLoading(false);
     }
   };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
-      <button onClick={() => router.back()}>
-        <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
-      </button>
+      <ButtonBack />
       <FormContainer
         mode={mode}
         onSubmit={handleOnSubmit}
@@ -62,6 +68,7 @@ export default function UserForm({ mode, defaultValues, id }: UserFormProps) {
         formTitle={getFormTitle(mode)}
         validationSchema={UserValidationSchema}
         defaultValues={defaultValues}
+        isLoading={isLoading}
       >
         <TextInput placeholder="Imię" name="firstName" />
         <TextInput placeholder="Nazwisko" name="lastName" />

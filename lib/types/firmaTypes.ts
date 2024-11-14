@@ -3,11 +3,11 @@ export interface LocationDTO {
   shortName: string;
   street: string;
   houseNumber: string;
-  localNumber?: string;
+  localNumber?: string | null;
   postCode: string;
   city: string;
-  tel?: string;
-  contactEmail?: string;
+  tel?: string | null;
+  contactEmail?: string | null;
 }
 
 export interface FirmaDTO {
@@ -15,11 +15,11 @@ export interface FirmaDTO {
   shortName: string;
   street: string;
   houseNumber: string;
-  localNumber?: string;
+  localNumber?: string | null;
   postCode: string;
   city: string;
-  tel?: string;
-  contactEmail?: string;
+  tel?: string | null;
+  contactEmail?: string | null;
   locations: LocationDTO[];
 }
 

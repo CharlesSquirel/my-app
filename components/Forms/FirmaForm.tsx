@@ -1,14 +1,16 @@
 'use client';
 
-import { createFirma } from '@/lib/actions/firmaActions';
+import { createFirma, editFirma } from '@/lib/actions/firmaActions';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { FirmaDTO } from '@/lib/types/firmaTypes';
 import { FirmaValidationSchema } from '@/lib/zod/zodSchema';
-import { MinusCircleIcon, PlusCircleIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ButtonBack from '../common/ButtonBack/ButtonBack';
+import DecrementButton from '../common/DecrementButton/DecrementButton';
+import IncrementButton from '../common/IncrementButton/IncrementButton';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
@@ -16,7 +18,7 @@ import { CardTitle } from '../ui/card';
 
 interface FirmaFormProps {
   mode: FormModeType;
-  defaultValues: Partial<FirmaDTO>;
+  defaultValues: FirmaDTO;
   id?: string;
 }
 
@@ -36,7 +38,13 @@ const getSuccessMessage = (mode: FormModeType) => {
 };
 
 export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
-  const [locationCount, setLocationCount] = useState(1);
+  if (mode === 'edit' && !id) {
+    throw new Error('Brak id firmy do edycji');
+  }
+  const [isLoading, setIsLoading] = useState(false);
+  const [locationCount, setLocationCount] = useState(
+    mode === 'edit' ? defaultValues.locations.length : 1,
+  );
   const handleIncrement = () => {
     setLocationCount(locationCount + 1);
   };
@@ -46,25 +54,32 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
   const router = useRouter();
 
   const handleOnSubmit = async (data: FirmaDTO) => {
+    setIsLoading(true);
     try {
-      console.table(data);
-      await createFirma(data);
+      if (mode === 'edit' && id) {
+        await editFirma(data, id);
+      } else {
+        await createFirma(data);
+      }
       toast.success(getSuccessMessage(mode));
       router.push('/firma');
+      setIsLoading(false);
     } catch (error) {
+      console.log(error);
       const message =
         error instanceof Error
           ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
           : 'Wystąpił nieoczekiwany błąd';
       toast.error(message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
-      <button onClick={() => router.back()}>
-        <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
-      </button>
+      <ButtonBack />
       <FormContainer
         mode={mode}
         onSubmit={handleOnSubmit}
@@ -72,6 +87,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
         formTitle={getFormTitle(mode)}
         validationSchema={FirmaValidationSchema}
         defaultValues={defaultValues}
+        isLoading={isLoading}
       >
         <TextInput
           placeholder="Wpisz nazwę"
@@ -121,13 +137,11 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
           <React.Fragment key={index}>
             <FormSectionContainer title={`Obiekt ${index + 1}`}>
               {index > 0 && (
-                <button
-                  className="absolute right-[25px] top-[23px] cursor-pointer hover:opacity-70"
-                  type="button"
-                  onClick={handleDecrement}
-                >
-                  <MinusCircleIcon stroke="#ef4444" size={26} />
-                </button>
+                <DecrementButton
+                  onDecrement={handleDecrement}
+                  mode={mode}
+                  count={locationCount}
+                />
               )}
               <TextInput
                 label="Nazwa obiektu"
@@ -176,12 +190,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
               />
             </FormSectionContainer>
             {index + 1 === locationCount && (
-              <button
-                type="button"
-                className="mb-4 flex cursor-pointer justify-center hover:opacity-70"
-              >
-                <PlusCircleIcon onClick={handleIncrement} size={26} />
-              </button>
+              <IncrementButton onIncrement={handleIncrement} />
             )}
           </React.Fragment>
         ))}
