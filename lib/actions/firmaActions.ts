@@ -170,7 +170,7 @@ export async function deleteFirma(id: string): Promise<void> {
       where: { id },
       include: { locations: true },
     });
-    console.log(`User succesfully deleted: ${deletedFirma}`);
+    console.log(`User successfully deleted: ${deletedFirma}`);
   } catch (error) {
     handleError(error, errorMessages.firmaNotExist);
   }
