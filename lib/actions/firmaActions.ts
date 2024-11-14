@@ -116,37 +116,50 @@ export async function editFirma(data: FirmaDTO, id: string): Promise<void> {
     contactEmail,
   };
 
-  const firmaLocationEdit: Partial<FirmaDTO> = {
-    locations: data.locations,
-  };
-
   try {
-    await prisma.firma.update({
-      where: { id },
-      data: firmaEditData,
-    });
-    if (data.locations && Array.isArray(data.locations)) {
-      await Promise.all(
-        data.locations.map((location) =>
-          prisma.location.update({
-            where: { id: location.locationId },
+    await prisma.$transaction(async (prisma) => {
+      const currentLocations = await prisma.location.findMany({
+        where: { locationId: id },
+      });
+
+      await prisma.firma.update({
+        where: { id },
+        data: firmaEditData,
+      });
+
+      const locationUpdates = currentLocations.map(async (currentLocation) => {
+        const foundLocation = locations.find(
+          (location) => location.fullName === currentLocation.fullName,
+        );
+        if (foundLocation) {
+          await prisma.location.update({
+            where: { id: currentLocation.id },
+            data: foundLocation,
+          });
+        } else {
+          await prisma.location.delete({
+            where: { id: currentLocation.id },
+          });
+        }
+      });
+
+      const locationCreates = locations.map(async (location) => {
+        const foundLocation = currentLocations.find(
+          (currentLocation) => location.fullName === currentLocation.fullName,
+        );
+        if (!foundLocation) {
+          await prisma.location.create({
             data: {
-              fullName: location.fullName,
-              shortName: location.shortName,
-              street: location.street,
-              houseNumber: location.houseNumber,
-              localNumber: location.localNumber,
-              postCode: location.postCode,
-              city: location.city,
-              tel: location.tel,
-              contactEmail: location.contactEmail,
+              ...location,
               locationId: id,
             },
-          }),
-        ),
-      );
-    }
+          });
+        }
+      });
+
+      await Promise.all([...locationUpdates, ...locationCreates]);
+    });
   } catch (error) {
-    console.log(error);
+    handleError(error, errorMessages.disconnect);
   }
 }

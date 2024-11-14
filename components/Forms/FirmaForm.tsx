@@ -5,10 +5,11 @@ import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { FirmaDTO } from '@/lib/types/firmaTypes';
 import { FirmaValidationSchema } from '@/lib/zod/zodSchema';
-import { MinusCircleIcon, PlusCircleIcon, X } from 'lucide-react';
+import { PlusCircleIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import DecrementButton from '../common/DecrementButton/DecrementButton';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
@@ -16,7 +17,7 @@ import { CardTitle } from '../ui/card';
 
 interface FirmaFormProps {
   mode: FormModeType;
-  defaultValues: Partial<FirmaDTO>;
+  defaultValues: FirmaDTO;
   id?: string;
 }
 
@@ -39,8 +40,10 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
   if (mode === 'edit' && !id) {
     throw new Error('Brak id firmy do edycji');
   }
-
-  const [locationCount, setLocationCount] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [locationCount, setLocationCount] = useState(
+    mode === 'edit' ? defaultValues.locations.length : 1,
+  );
   const handleIncrement = () => {
     setLocationCount(locationCount + 1);
   };
@@ -50,8 +53,11 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
   const router = useRouter();
 
   const handleOnSubmit = async (data: FirmaDTO) => {
+    setIsLoading(true);
     try {
       if (mode === 'edit' && id) {
+        console.log(data);
+        console.log(locationCount);
         await editFirma(data, id);
       } else {
         await createFirma(data);
@@ -59,6 +65,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
 
       toast.success(getSuccessMessage(mode));
       router.push('/firma');
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
       const message =
@@ -66,6 +73,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
           ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
           : 'Wystąpił nieoczekiwany błąd';
       toast.error(message);
+      setIsLoading(false);
     }
   };
 
@@ -81,6 +89,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
         formTitle={getFormTitle(mode)}
         validationSchema={FirmaValidationSchema}
         defaultValues={defaultValues}
+        isLoading={isLoading}
       >
         <TextInput
           placeholder="Wpisz nazwę"
@@ -130,13 +139,11 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
           <React.Fragment key={index}>
             <FormSectionContainer title={`Obiekt ${index + 1}`}>
               {index > 0 && (
-                <button
-                  className="absolute right-[25px] top-[23px] cursor-pointer hover:opacity-70"
-                  type="button"
-                  onClick={handleDecrement}
-                >
-                  <MinusCircleIcon stroke="#ef4444" size={26} />
-                </button>
+                <DecrementButton
+                  onDecrement={handleDecrement}
+                  mode={mode}
+                  count={locationCount}
+                />
               )}
               <TextInput
                 label="Nazwa obiektu"

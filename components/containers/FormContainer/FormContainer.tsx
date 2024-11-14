@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card';
 import { FormModeType } from '@/lib/types/common';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { LoaderCircle } from 'lucide-react';
 import {
   DefaultValues,
   FieldValues,
@@ -30,10 +31,11 @@ interface FormContainerProps<T extends FieldValues> {
   title?: string;
   formTitle: string;
   mode: FormModeType;
+  isLoading?: boolean;
 }
 
 const getSubmitButtonText = (mode: FormModeType) => {
-  return mode === 'add' ? 'Utwórz' : 'Edytuj';
+  return mode === 'add' ? 'Utwórz' : 'Zapisz';
 };
 
 export default function FormContainer<T extends FieldValues>({
@@ -44,6 +46,7 @@ export default function FormContainer<T extends FieldValues>({
   validationSchema,
   mode,
   defaultValues,
+  isLoading,
 }: FormContainerProps<T>) {
   const form = useForm<T>({
     resolver: zodResolver(validationSchema),
@@ -65,7 +68,13 @@ export default function FormContainer<T extends FieldValues>({
           )}
           <CardContent className="flex flex-col pb-0">{children}</CardContent>
           <CardFooter className="justify-end">
-            <Button type="submit">{getSubmitButtonText(mode)}</Button>
+            <Button disabled={isLoading} type="submit">
+              {isLoading ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                getSubmitButtonText(mode)
+              )}
+            </Button>
           </CardFooter>
         </Card>
       </form>
