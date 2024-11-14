@@ -5,7 +5,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
-import { CircleUserRound, LogOut } from 'lucide-react';
+import { Building2, CircleUserRound, LogOut } from 'lucide-react';
+import Link from 'next/link';
 
 export default function UserDropdown() {
   return (
@@ -18,6 +19,11 @@ export default function UserDropdown() {
         <DropdownMenuContent>
           <DropdownMenuItem>
             <CircleUserRound /> Profil
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/firma">
+              <Building2 /> Firmy
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LogOut />

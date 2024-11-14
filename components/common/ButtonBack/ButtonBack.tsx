@@ -7,7 +7,10 @@ export default function ButtonBack() {
   const router = useRouter();
   return (
     <button onClick={() => router.back()}>
-      <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
+      <X
+        className="absolute right-3 top-3 hover:opacity-70 md:right-6 md:top-6"
+        size={35}
+      />
     </button>
   );
 }

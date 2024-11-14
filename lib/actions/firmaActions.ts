@@ -163,3 +163,15 @@ export async function editFirma(data: FirmaDTO, id: string): Promise<void> {
     handleError(error, errorMessages.disconnect);
   }
 }
+
+export async function deleteFirma(id: string): Promise<void> {
+  try {
+    const deletedFirma = await prisma.firma.delete({
+      where: { id },
+      include: { locations: true },
+    });
+    console.log(`User successfully deleted: ${deletedFirma}`);
+  } catch (error) {
+    handleError(error, errorMessages.firmaNotExist);
+  }
+}

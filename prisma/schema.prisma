@@ -117,7 +117,7 @@ model Location {
   city         String
   tel          String?
   contactEmail String?
-  Firma        Firma?   @relation(fields: [locationId], references: [id])
+  Firma        Firma?   @relation(fields: [locationId], references: [id], onDelete: Cascade)
   locationId   String
 }
 

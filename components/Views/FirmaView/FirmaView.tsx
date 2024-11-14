@@ -1,6 +1,8 @@
+import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import ButtonBack from '@/components/common/ButtonBack/ButtonBack';
 import ViewDataRow from '@/components/common/ViewDataRow/ViewDataRow';
 import { Button } from '@/components/ui/button';
+import { deleteFirma } from '@/lib/actions/firmaActions';
 import { Prisma } from '@prisma/client';
 import { Pencil, Trash2 } from 'lucide-react';
 import Link from 'next/link';
@@ -14,24 +16,32 @@ interface FirmaViewProps {
 
 export default function FirmaViewComponent({ firma }: FirmaViewProps) {
   return (
-    <section className="m-auto flex w-[700px] flex-col gap-5">
+    <section className="mx-auto mt-5 flex w-full flex-col gap-5 md:mt-0 md:w-[700px]">
       <ButtonBack />
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <PageTitle title={`Dane firmy ${firma.shortName}`} />
-        <div className="flex gap-2">
+        <div className="md: flex gap-2">
           <Button asChild variant="outline">
             <Link href={`/firma/edit/${firma.id}`}>
               <Pencil />
               Edytuj
             </Link>
           </Button>
-          <Button
-            variant="destructive"
-            className="flex items-center"
-            aria-label="Usuń firmę"
+          <AlertDialogComponent
+            id={firma.id}
+            onDelete={deleteFirma}
+            title="Czy na pewno chcesz usunąć firmę?"
+            description="Ta operacja bezpowrotnie usunie firmę oraz wszystkie siedziby do niej przypisane"
+            pathAfterDelete="/firma"
           >
-            <Trash2 /> Usuń
-          </Button>
+            <Button
+              variant="destructive"
+              className="flex items-center"
+              aria-label="Usuń firmę"
+            >
+              <Trash2 /> Usuń
+            </Button>
+          </AlertDialogComponent>
         </div>
       </div>
       <Card className="flex flex-col gap-4 p-5">
