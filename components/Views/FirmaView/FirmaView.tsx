@@ -16,11 +16,11 @@ interface FirmaViewProps {
 
 export default function FirmaViewComponent({ firma }: FirmaViewProps) {
   return (
-    <section className="m-auto flex w-[700px] flex-col gap-5">
+    <section className="mx-auto mt-5 flex w-full flex-col gap-5 md:mt-0 md:w-[700px]">
       <ButtonBack />
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <PageTitle title={`Dane firmy ${firma.shortName}`} />
-        <div className="flex gap-2">
+        <div className="md: flex gap-2">
           <Button asChild variant="outline">
             <Link href={`/firma/edit/${firma.id}`}>
               <Pencil />

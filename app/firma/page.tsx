@@ -41,7 +41,7 @@ export default async function Firmas() {
                 <TableCell>{`${firma.street} ${firma.houseNumber}/${firma.localNumber}, ${firma.postCode} ${firma.city}`}</TableCell>
                 <TableCell>{`${firma.tel}, ${firma.contactEmail}`}</TableCell>
                 <TableCell>{firma.locations.length}</TableCell>
-                <TableCell className="flex gap-2">
+                <TableCell className="flex items-center gap-2 max-[480px]:translate-y-[50%]">
                   <Link href={`/firma/${firma.id}`}>
                     <SquareArrowRight className="cursor-pointer hover:stroke-customBlue" />
                   </Link>
