@@ -6,6 +6,7 @@ import { Pencil, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import PageTitle from '../../common/PageTitle/PageTitle';
 import { Card } from '../../ui/card';
+import LocationView from './LocationView';
 
 interface FirmaViewProps {
   firma: Prisma.FirmaGetPayload<{ include: { locations: true } }>;
@@ -48,26 +49,12 @@ export default function FirmaViewComponent({ firma }: FirmaViewProps) {
           <ViewDataRow label="Email kontaktowy" data={firma.contactEmail} />
         </div>
         {firma.locations.map((location, index) => (
-          <div
-            className={`${index + 1 !== firma.locations.length && 'border-b'} flex w-fit flex-col`}
+          <LocationView
+            location={location}
+            index={index}
+            locationsLength={firma.locations.length}
             key={location.id}
-          >
-            <p className="font-semibold">{`Siedziba ${index + 1}`}</p>
-            <ViewDataRow label="Pełna nazwa" data={location.fullName} />
-            <ViewDataRow label="Skrócona nazwa" data={location.shortName} />
-            <ViewDataRow label="Ulica" data={location.street} />
-            <ViewDataRow
-              label="Nr domu/lokalu"
-              data={`${location.houseNumber}/${location.localNumber}`}
-            />
-            <ViewDataRow label="Kod pocztowy" data={location.postCode} />
-            <ViewDataRow label="Miejscowość" data={location.city} />
-            <ViewDataRow label="Telefon kontaktowy" data={location.tel} />
-            <ViewDataRow
-              label="Email kontaktowy"
-              data={location.contactEmail}
-            />
-          </div>
+          />
         ))}
       </Card>
     </section>
