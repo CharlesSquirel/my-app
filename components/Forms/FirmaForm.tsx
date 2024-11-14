@@ -5,11 +5,12 @@ import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { FirmaDTO } from '@/lib/types/firmaTypes';
 import { FirmaValidationSchema } from '@/lib/zod/zodSchema';
-import { PlusCircleIcon, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import ButtonBack from '../common/ButtonBack/ButtonBack';
 import DecrementButton from '../common/DecrementButton/DecrementButton';
+import IncrementButton from '../common/IncrementButton/IncrementButton';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
@@ -56,13 +57,10 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
     setIsLoading(true);
     try {
       if (mode === 'edit' && id) {
-        console.log(data);
-        console.log(locationCount);
         await editFirma(data, id);
       } else {
         await createFirma(data);
       }
-
       toast.success(getSuccessMessage(mode));
       router.push('/firma');
       setIsLoading(false);
@@ -74,14 +72,14 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
           : 'Wystąpił nieoczekiwany błąd';
       toast.error(message);
       setIsLoading(false);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
-      <button onClick={() => router.back()}>
-        <X className="absolute right-6 top-6 hover:opacity-70" size={35} />
-      </button>
+      <ButtonBack />
       <FormContainer
         mode={mode}
         onSubmit={handleOnSubmit}
@@ -192,12 +190,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
               />
             </FormSectionContainer>
             {index + 1 === locationCount && (
-              <button
-                type="button"
-                className="mb-4 flex cursor-pointer justify-center hover:opacity-70"
-              >
-                <PlusCircleIcon onClick={handleIncrement} size={26} />
-              </button>
+              <IncrementButton onIncrement={handleIncrement} />
             )}
           </React.Fragment>
         ))}
