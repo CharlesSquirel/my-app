@@ -16,7 +16,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body
-        className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !px-[66px] !py-7 antialiased`}
+        className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !p-5 antialiased md:!px-[66px] md:!py-7`}
       >
         <Toaster position="top-center" />
         {children}

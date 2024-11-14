@@ -57,7 +57,7 @@ export default function FormContainer<T extends FieldValues>({
     <FormProvider {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-[700px] space-y-6"
+        className="w-full space-y-6 md:w-[700px]"
       >
         <PageTitle title={formTitle} />
         <Card>
@@ -66,7 +66,9 @@ export default function FormContainer<T extends FieldValues>({
               <CardTitle>{title}</CardTitle>
             </CardHeader>
           )}
-          <CardContent className="flex flex-col pb-0">{children}</CardContent>
+          <CardContent className="flex flex-col gap-1 pb-0">
+            {children}
+          </CardContent>
           <CardFooter className="justify-end">
             <Button disabled={isLoading} type="submit">
               {isLoading ? (

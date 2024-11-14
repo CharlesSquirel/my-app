@@ -19,7 +19,7 @@ interface AlertDialogComponentProps {
   title: string;
   description?: string;
   id: string;
-  onDelete: (id: string) => void;
+  onDelete: (id: string) => Promise<void>;
   pathAfterDelete?: string;
 }
 
