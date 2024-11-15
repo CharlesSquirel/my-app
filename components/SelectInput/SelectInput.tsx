@@ -9,14 +9,12 @@ import {
 } from '@/components/ui/select';
 import { ErrorMessage } from '@hookform/error-message';
 import { CircleAlert } from 'lucide-react';
-import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { Label } from '../ui/label';
 
-type SelectOptions = {
+export type SelectOptions = {
   value: string;
   label: string;
-  key: string;
 };
 
 interface SelectInputProps {
@@ -26,6 +24,7 @@ interface SelectInputProps {
   placeholder: string;
   isAsync?: boolean;
   secondaryData?: SelectOptions[];
+  disabled?: boolean;
 }
 
 export default function SelectInput({
@@ -35,6 +34,7 @@ export default function SelectInput({
   placeholder,
   isAsync,
   secondaryData,
+  disabled,
 }: SelectInputProps) {
   if (isAsync && !secondaryData) {
     throw new Error('secondaryData is required when isAsync is true');
@@ -43,29 +43,18 @@ export default function SelectInput({
     register,
     formState: { errors },
     setValue,
-    watch,
   } = useFormContext();
-  const [displayData, setDisplayData] = useState<SelectOptions[]>(data);
-  console.log(data);
-  useEffect(() => {
-    if (isAsync && secondaryData) {
-      const currentFirma = watch('firma');
-      const displayLocation = secondaryData.filter(
-        (item) => item.value === currentFirma,
-      );
-      setDisplayData(displayLocation);
-    }
-  }, [isAsync, watch, name, data, setValue]);
+
   return (
     <div className="flex flex-col gap-1">
       <Label htmlFor={name}>{label}</Label>
       <Select onValueChange={(value) => setValue(name, value)}>
-        <SelectTrigger className="w-1/2">
+        <SelectTrigger className="w-1/2" disabled={disabled}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent id={name} {...register(name)}>
-          {displayData.map((item, index) => (
-            <SelectItem value={item.value} key={item.key}>
+          {data.map((item, index) => (
+            <SelectItem value={item.value} key={item.value}>
               {item.label}
             </SelectItem>
           ))}

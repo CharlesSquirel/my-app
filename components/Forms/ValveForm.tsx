@@ -9,7 +9,7 @@ import { useState } from 'react';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
-import SelectInput from '../SelectInput/SelectInput';
+import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
 
 interface ValveFormProps {
   mode: FormModeType;
@@ -45,19 +45,6 @@ export default function ValveForm({
   if (mode === 'edit' && !id) {
     throw new Error('Brak id protokołu zaworu do edycji');
   }
-  const firmsOptions = firms.map((firma) => ({
-    value: firma.id,
-    label: firma.fullName,
-    key: firma.id,
-  }));
-
-  const locationsOptions = firms.flatMap((firma) =>
-    firma.locations.map((location) => ({
-      value: location.locationId,
-      label: location.shortName,
-      key: location.id,
-    })),
-  );
 
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -114,20 +101,7 @@ export default function ValveForm({
           name="serialNumber"
           label="Nr seryjny"
         />
-        <SelectInput
-          data={firmsOptions}
-          label="Firma"
-          name="firma"
-          placeholder="Wybierz firmę"
-        />
-        <SelectInput
-          data={locationsOptions}
-          // secondaryData={locationsOptions}
-          label="Obiekt"
-          name="location"
-          placeholder="Wybierz obiekt"
-          // isAsync
-        />
+        <FirmaLocationSelect firms={firms} />
       </FormContainer>
     </section>
   );
