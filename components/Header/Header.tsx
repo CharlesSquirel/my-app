@@ -1,7 +1,7 @@
 import UserDropdown from '@/components/common/UserDropdown/UserDropdown';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '../assets/logo.svg';
+import logo from '../../app/assets/logo.svg';
 
 export default function Header() {
   return (
