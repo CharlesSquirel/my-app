@@ -43,16 +43,15 @@ export default function SelectInput({
     register,
     formState: { errors },
     setValue,
-    getValues,
   } = useFormContext();
-  console.log(errors);
+
   return (
     <div className="flex flex-col gap-1">
       <Label htmlFor={name} className={`${disabled && 'opacity-50'}`}>
         {label}
       </Label>
-      <Select onValueChange={(value) => setValue(name, value)}>
-        <SelectTrigger className="w-1/2" disabled={disabled}>
+      <Select onValueChange={(value) => setValue(name, value)} name={name}>
+        <SelectTrigger className="w-1/2" disabled={disabled} id={name}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
         <SelectContent id={name}>

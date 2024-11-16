@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
+import TextareaInput from '../common/TextareaInput/TextareaInput';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
@@ -113,6 +114,11 @@ export default function ValveForm({
           placeholder="Wpisz numer"
           name="serialNumber"
           label="Nr seryjny"
+        />
+        <TextareaInput
+          label="Uwagi (opcjonalnie)"
+          placeholder="Wpisz swoje uwagi"
+          name="description"
         />
       </FormContainer>
     </section>
