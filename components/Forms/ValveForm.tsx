@@ -7,14 +7,18 @@ import { FormModeType } from '@/lib/types/common';
 import { ValveDTO, ValvesValidationSchema } from '@/lib/zod/zodSchema';
 import { Prisma } from '@prisma/client';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
+import DecrementButton from '../common/DecrementButton/DecrementButton';
+import IncrementButton from '../common/IncrementButton/IncrementButton';
 import TextareaInput from '../common/TextareaInput/TextareaInput';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
+import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
 import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
 import SelectInput from '../SelectInput/SelectInput';
+import { CardTitle } from '../ui/card';
 
 interface ValveFormProps {
   mode: FormModeType;
@@ -120,6 +124,35 @@ export default function ValveForm({
           placeholder="Wpisz swoje uwagi"
           name="description"
         />
+        <div className="my-5 flex justify-center">
+          <CardTitle>Zawory</CardTitle>
+        </div>
+        {[...Array(infoBlocksCount)].map((_, index) => (
+          <React.Fragment key={index}>
+            <FormSectionContainer title={`Zawór ${index + 1}`}>
+              {index > 0 && (
+                <DecrementButton
+                  onDecrement={handleDecrement}
+                  mode={mode}
+                  count={infoBlocksCount}
+                />
+              )}
+              <TextInput
+                placeholder="Wpisz numer"
+                name={`infoBlocks.${index}.serialNumber`}
+                label="Nr seryjny"
+              />
+              <TextareaInput
+                label="Uwagi (opcjonalnie)"
+                placeholder="Wpisz swoje uwagi"
+                name={`infoBlocks.${index}.description`}
+              />
+            </FormSectionContainer>
+            {index + 1 === infoBlocksCount && (
+              <IncrementButton onIncrement={handleIncrement} />
+            )}
+          </React.Fragment>
+        ))}
       </FormContainer>
     </section>
   );
