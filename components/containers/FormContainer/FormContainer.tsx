@@ -74,7 +74,7 @@ export default function FormContainer<T extends FieldValues>({
               <CardTitle>{title}</CardTitle>
             </CardHeader>
           )}
-          <CardContent className="flex flex-col gap-1 pb-0">
+          <CardContent className="flex flex-col gap-2 pb-0">
             {children}
           </CardContent>
           <CardFooter className="justify-end">

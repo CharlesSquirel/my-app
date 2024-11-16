@@ -1,15 +1,19 @@
 'use client';
 
+import { createValve } from '@/lib/actions/valveActions';
+import { valveTypes } from '@/lib/data/Valvedata';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ValveDTO, ValvesValidationSchema } from '@/lib/zod/zodSchema';
 import { Prisma } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
+import SelectInput from '../SelectInput/SelectInput';
 
 interface ValveFormProps {
   mode: FormModeType;
@@ -57,30 +61,32 @@ export default function ValveForm({
   const handleDecrement = () => {
     setInfoBlocksCount(infoBlocksCount - 1);
   };
+
   const handleOnSubmit = async (data: ValveDTO) => {
+    console.log('naciskam');
     console.log(data);
-    // setIsLoading(true);
-    // try {
-    //   //   if (mode === 'edit' && id) {
-    //   //     await editFirma(data, id);
-    //   //   } else {
-    //   //     await createFirma(data);
-    //   //   }
-    //   await createValve(data);
-    //   toast.success(getSuccessMessage(mode));
-    //   router.push('/valve');
-    //   setIsLoading(false);
-    // } catch (error) {
-    //   console.log(error);
-    //   const message =
-    //     error instanceof Error
-    //       ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
-    //       : 'Wystąpił nieoczekiwany błąd';
-    //   toast.error(message);
-    //   setIsLoading(false);
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+    try {
+      //   if (mode === 'edit' && id) {
+      //     await editFirma(data, id);
+      //   } else {
+      //     await createFirma(data);
+      //   }
+      await createValve(data);
+      toast.success(getSuccessMessage(mode));
+      router.push('/valve');
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+      const message =
+        error instanceof Error
+          ? (errorMessagesMap[error.message] ?? 'Wystąpił nieoczekiwany błąd')
+          : 'Wystąpił nieoczekiwany błąd';
+      toast.error(message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
@@ -96,12 +102,18 @@ export default function ValveForm({
         isLoading={isLoading}
         badgeColor="valve"
       >
+        <FirmaLocationSelect firms={firms} />
+        <SelectInput
+          placeholder="Wybierz typ"
+          label="Typ"
+          data={valveTypes}
+          name="type"
+        />
         <TextInput
           placeholder="Wpisz numer"
           name="serialNumber"
           label="Nr seryjny"
         />
-        <FirmaLocationSelect firms={firms} />
       </FormContainer>
     </section>
   );
