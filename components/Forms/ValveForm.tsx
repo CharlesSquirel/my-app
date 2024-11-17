@@ -1,7 +1,11 @@
 'use client';
 
 import { createValve } from '@/lib/actions/valveActions';
-import { valveTypes } from '@/lib/data/Valvedata';
+import {
+  valveInfoBlocksTypes,
+  valveInstallationTypes,
+  valveTypes,
+} from '@/lib/data/Valvedata';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ValveDTO, ValvesValidationSchema } from '@/lib/zod/zodSchema';
@@ -137,10 +141,40 @@ export default function ValveForm({
                   count={infoBlocksCount}
                 />
               )}
+              <SelectInput
+                data={valveInstallationTypes}
+                label="Miejsce instalowania zaworu"
+                placeholder="Wybierz miejsce"
+                name={`infoBlocks.valveLocation`}
+              />
+              <SelectInput
+                data={valveInfoBlocksTypes}
+                label="Typ"
+                placeholder="Wybierz typ"
+                name="valveType"
+              />
               <TextInput
                 placeholder="Wpisz numer"
-                name={`infoBlocks.${index}.serialNumber`}
+                name={`infoBlocks.${index}.valveSerialNumber`}
                 label="Nr seryjny"
+              />
+              <TextInput
+                type="number"
+                placeholder="Wpisz wartość"
+                label="Ciśnienie nastawy (bar)"
+                name={`infoBlocks.${index}.pressureSetting`}
+              />
+              <TextInput
+                type="number"
+                placeholder="Wpisz wartość"
+                label="Ciśnienie otwarcia (bar)"
+                name={`infoBlocks.${index}.pressureOpen`}
+              />
+              <TextInput
+                type="number"
+                placeholder="Wpisz wartość"
+                label="Ciśnienie zamknięcia (bar)"
+                name={`infoBlocks.${index}.pressureClose`}
               />
               <TextareaInput
                 label="Uwagi (opcjonalnie)"

@@ -22,8 +22,6 @@ interface SelectInputProps {
   name: string;
   data: SelectOptions[];
   placeholder: string;
-  isAsync?: boolean;
-  secondaryData?: SelectOptions[];
   disabled?: boolean;
 }
 
@@ -32,13 +30,8 @@ export default function SelectInput({
   name,
   data,
   placeholder,
-  isAsync,
-  secondaryData,
   disabled,
 }: SelectInputProps) {
-  if (isAsync && !secondaryData) {
-    throw new Error('secondaryData is required when isAsync is true');
-  }
   const {
     register,
     formState: { errors },

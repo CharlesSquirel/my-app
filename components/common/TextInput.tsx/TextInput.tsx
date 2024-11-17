@@ -2,6 +2,7 @@
 import { FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { InputType } from '@/lib/types/common';
 import { ErrorMessage } from '@hookform/error-message';
 import { CircleAlert } from 'lucide-react';
 import { useEffect } from 'react';
@@ -15,6 +16,7 @@ interface TextInputProps {
   defaultValues?: any;
   arrayName?: string;
   description?: string;
+  type?: InputType;
 }
 
 export default function TextInput({
@@ -25,11 +27,13 @@ export default function TextInput({
   defaultValues,
   arrayName,
   description,
+  type = 'text',
 }: TextInputProps) {
   const {
     register,
     formState: { errors },
     setValue,
+    getValues,
   } = useFormContext();
   useEffect(() => {
     if (defaultValues && arrayName) {
@@ -42,16 +46,17 @@ export default function TextInput({
       setValue(name, defaultValues[name]);
     }
   }, [setValue, name, defaultValues, arrayName]);
-
+  console.log(getValues());
   return (
     <div className="flex min-h-[60px] flex-col gap-1">
       {label && <Label htmlFor={name}>{label}</Label>}
       <Input
         id={name}
         placeholder={placeholder}
-        type="text"
+        type={type}
         disabled={disabled}
-        {...register(name)}
+        step={type === 'number' ? '0.01' : undefined}
+        {...register(name, { valueAsNumber: type === 'number' })}
         autoComplete="off"
         aria-label={label || placeholder}
       />
