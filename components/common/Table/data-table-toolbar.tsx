@@ -50,10 +50,10 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        {table.getColumn('type') && (
+        {table.getColumn('protocolType') && (
           <div className="flex gap-2">
             <DataTableFacetedFilter
-              column={table.getColumn('type')}
+              column={table.getColumn('protocolType')}
               title="Rodzaj"
               options={types}
             />

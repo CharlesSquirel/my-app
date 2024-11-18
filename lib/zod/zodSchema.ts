@@ -12,6 +12,8 @@ const getvalidationStringMessage = (num: number): string => {
   return `To pole nie może mieć więcej niż ${num} znaków!`;
 };
 
+const ProtocolType = z.union([z.literal('valve'), z.literal('chiller')]);
+
 const AirPollution = z.union([
   z.literal('Bardzo brudny'),
   z.literal('Brudny'),
@@ -201,3 +203,29 @@ export const FirmaValidationSchema = z.object({
     .array(LocationValidationSchema)
     .min(1, { message: 'Musi być minimum 1 obiekt' }),
 });
+
+const ValvesInfoBlockSchema = z.object({
+  valveLocation: createStringValidator(),
+  valveType: createStringValidator(),
+  valveSerialNumber: createStringValidator(),
+  pressureOpen: createNumberValidator(),
+  pressureClose: createNumberValidator(),
+  pressureSetting: createNumberValidator(),
+  description: z.string().optional(),
+});
+
+export const ValvesValidationSchema = z.object({
+  userId: createStringValidator(),
+  userSignature: createStringValidator(),
+  firstName: createStringValidator(),
+  lastName: createStringValidator(),
+  firma: createStringValidator(),
+  location: createStringValidator(),
+  type: createStringValidator(),
+  serialNumber: createStringValidator(),
+  infoBlocks: z.array(ValvesInfoBlockSchema).min(1),
+  description: z.string().optional(),
+  protocolType: createStringValidator(),
+});
+
+export type ValveDTO = z.infer<typeof ValvesValidationSchema>;

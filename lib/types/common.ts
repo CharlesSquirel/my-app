@@ -5,3 +5,5 @@ export interface FormEditPropsAsParams {
 }
 
 export type FormModeType = 'add' | 'edit';
+
+export type InputType = 'text' | 'number';

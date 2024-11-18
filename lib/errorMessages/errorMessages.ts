@@ -6,4 +6,6 @@ export const errorMessages = {
   firmaExist: 'Podana firma już istnieje',
   firmaNotExist: 'Nie znaleziono firmy o podanym id',
   firmaFailedCreation: 'Nie udało się utworzyć nowej firmy',
+  valveNotExist: 'Nie znaleziono zaworu o podanym id',
+  valveFailedCreation: 'Nie udało się utworzyć nowego zaworu',
 };

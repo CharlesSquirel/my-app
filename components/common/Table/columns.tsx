@@ -29,22 +29,30 @@ export const columns: ColumnDef<Protocol>[] = [
   {
     accessorKey: 'author',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Autor" />
+      <DataTableColumnHeader column={column} title="Serwisant" />
     ),
   },
   {
     accessorKey: 'firma',
     header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Firma" />
+    ),
+  },
+  {
+    accessorKey: 'location',
+    header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Obiekt" />
     ),
   },
   {
-    accessorKey: 'type',
+    accessorKey: 'protocolType',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Rodzaj" />
     ),
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.type);
+      const label = labels.find(
+        (label) => label.value === row.original.protocolType,
+      );
 
       return (
         <div className="flex space-x-2">

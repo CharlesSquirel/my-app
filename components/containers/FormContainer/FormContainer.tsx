@@ -32,6 +32,8 @@ interface FormContainerProps<T extends FieldValues> {
   formTitle: string;
   mode: FormModeType;
   isLoading?: boolean;
+  subTitle?: string;
+  badgeColor?: 'valve' | 'chiller';
 }
 
 const getSubmitButtonText = (mode: FormModeType) => {
@@ -47,6 +49,8 @@ export default function FormContainer<T extends FieldValues>({
   mode,
   defaultValues,
   isLoading,
+  subTitle,
+  badgeColor,
 }: FormContainerProps<T>) {
   const form = useForm<T>({
     resolver: zodResolver(validationSchema),
@@ -59,14 +63,18 @@ export default function FormContainer<T extends FieldValues>({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-6 md:w-[700px]"
       >
-        <PageTitle title={formTitle} />
+        <PageTitle
+          title={formTitle}
+          subTitle={subTitle}
+          badgeColor={badgeColor}
+        />
         <Card>
           {title && (
             <CardHeader>
               <CardTitle>{title}</CardTitle>
             </CardHeader>
           )}
-          <CardContent className="flex flex-col gap-1 pb-0">
+          <CardContent className="flex flex-col gap-2 pb-0">
             {children}
           </CardContent>
           <CardFooter className="justify-end">

@@ -2,9 +2,9 @@
 import { FormDescription } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { InputType } from '@/lib/types/common';
 import { ErrorMessage } from '@hookform/error-message';
 import { CircleAlert } from 'lucide-react';
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface TextInputProps {
@@ -13,8 +13,9 @@ interface TextInputProps {
   name: string;
   disabled?: boolean;
   defaultValues?: any;
-  arrayName?: string;
+  // arrayName?: string;
   description?: string;
+  type?: InputType;
 }
 
 export default function TextInput({
@@ -23,25 +24,26 @@ export default function TextInput({
   label,
   disabled,
   defaultValues,
-  arrayName,
+  // arrayName,
   description,
+  type = 'text',
 }: TextInputProps) {
   const {
     register,
     formState: { errors },
     setValue,
   } = useFormContext();
-  useEffect(() => {
-    if (defaultValues && arrayName) {
-      const index = name.charAt(arrayName.length + 1);
-      if (defaultValues[arrayName][index]) {
-        const restOfName = name.slice(name.indexOf(index) + 2);
-        setValue(name, defaultValues[arrayName][index][restOfName]);
-      }
-    } else if (defaultValues) {
-      setValue(name, defaultValues[name]);
-    }
-  }, [setValue, name, defaultValues, arrayName]);
+  // useEffect(() => {
+  //   if (defaultValues && arrayName) {
+  //     const index = name.charAt(arrayName.length + 1);
+  //     if (defaultValues[arrayName][index]) {
+  //       const restOfName = name.slice(name.indexOf(index) + 2);
+  //       setValue(name, defaultValues[arrayName][index][restOfName]);
+  //     }
+  //   } else if (defaultValues) {
+  //     setValue(name, defaultValues[name]);
+  //   }
+  // }, [setValue, name, defaultValues, arrayName]);
 
   return (
     <div className="flex min-h-[60px] flex-col gap-1">
@@ -49,9 +51,10 @@ export default function TextInput({
       <Input
         id={name}
         placeholder={placeholder}
-        type="text"
+        type={type}
         disabled={disabled}
-        {...register(name)}
+        step={type === 'number' ? '0.01' : undefined}
+        {...register(name, { valueAsNumber: type === 'number' })}
         autoComplete="off"
         aria-label={label || placeholder}
       />
