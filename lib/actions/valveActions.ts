@@ -56,6 +56,7 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
     serialNumber,
     description,
     infoBlocks,
+    protocolType,
   } = data;
 
   try {
@@ -70,6 +71,7 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
         firma,
         serialNumber,
         description,
+        protocolType,
         infoBlocks: {
           createMany: {
             data: infoBlocks,

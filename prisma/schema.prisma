@@ -34,6 +34,39 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
+model Location {
+  id           String   @id @default(cuid()) @map("_id")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  fullName     String
+  shortName    String
+  street       String
+  houseNumber  String
+  localNumber  String?
+  postCode     String
+  city         String
+  tel          String?
+  contactEmail String?
+  Firma        Firma?   @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId   String
+}
+
+model Firma {
+  id           String     @id @default(cuid()) @map("_id")
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  fullName     String
+  shortName    String
+  street       String
+  houseNumber  String
+  localNumber  String?
+  postCode     String
+  city         String
+  tel          String?
+  contactEmail String?
+  locations    Location[]
+}
+
 model Valve {
   id            String            @id @default(cuid()) @map("_id")
   firma         String
@@ -48,6 +81,7 @@ model Valve {
   lastName      String
   description   String?
   infoBlocks    ValvesInfoBlock[]
+  protocolType  String
 }
 
 model ValvesInfoBlock {
@@ -101,39 +135,6 @@ model HumidifierMaterial {
   materialAmount     String
   materialId         String
   humidifier         Humidifier @relation(fields: [materialId], references: [id])
-}
-
-model Location {
-  id           String   @id @default(cuid()) @map("_id")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  fullName     String
-  shortName    String
-  street       String
-  houseNumber  String
-  localNumber  String?
-  postCode     String
-  city         String
-  tel          String?
-  contactEmail String?
-  Firma        Firma?   @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  locationId   String
-}
-
-model Firma {
-  id           String     @id @default(cuid()) @map("_id")
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
-  fullName     String
-  shortName    String
-  street       String
-  houseNumber  String
-  localNumber  String?
-  postCode     String
-  city         String
-  tel          String?
-  contactEmail String?
-  locations    Location[]
 }
 
 model Circuit {

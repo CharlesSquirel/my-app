@@ -72,8 +72,6 @@ export default function ValveForm({
   };
 
   const handleOnSubmit = async (data: ValveDTO) => {
-    console.log('naciskam');
-    console.log(data);
     setIsLoading(true);
     try {
       //   if (mode === 'edit' && id) {
@@ -83,7 +81,7 @@ export default function ValveForm({
       //   }
       await createValve(data);
       toast.success(getSuccessMessage(mode));
-      router.push('/valve');
+      router.push('/');
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -145,13 +143,13 @@ export default function ValveForm({
                 data={valveInstallationTypes}
                 label="Miejsce instalowania zaworu"
                 placeholder="Wybierz miejsce"
-                name={`infoBlocks.valveLocation`}
+                name={`infoBlocks.${index}.valveLocation`}
               />
               <SelectInput
                 data={valveInfoBlocksTypes}
                 label="Typ"
                 placeholder="Wybierz typ"
-                name="valveType"
+                name={`infoBlocks.${index}.valveType`}
               />
               <TextInput
                 placeholder="Wpisz numer"

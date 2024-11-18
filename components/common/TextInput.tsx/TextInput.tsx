@@ -5,7 +5,6 @@ import { Label } from '@/components/ui/label';
 import { InputType } from '@/lib/types/common';
 import { ErrorMessage } from '@hookform/error-message';
 import { CircleAlert } from 'lucide-react';
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 interface TextInputProps {
@@ -14,7 +13,7 @@ interface TextInputProps {
   name: string;
   disabled?: boolean;
   defaultValues?: any;
-  arrayName?: string;
+  // arrayName?: string;
   description?: string;
   type?: InputType;
 }
@@ -25,7 +24,7 @@ export default function TextInput({
   label,
   disabled,
   defaultValues,
-  arrayName,
+  // arrayName,
   description,
   type = 'text',
 }: TextInputProps) {
@@ -33,20 +32,19 @@ export default function TextInput({
     register,
     formState: { errors },
     setValue,
-    getValues,
   } = useFormContext();
-  useEffect(() => {
-    if (defaultValues && arrayName) {
-      const index = name.charAt(arrayName.length + 1);
-      if (defaultValues[arrayName][index]) {
-        const restOfName = name.slice(name.indexOf(index) + 2);
-        setValue(name, defaultValues[arrayName][index][restOfName]);
-      }
-    } else if (defaultValues) {
-      setValue(name, defaultValues[name]);
-    }
-  }, [setValue, name, defaultValues, arrayName]);
-  console.log(getValues());
+  // useEffect(() => {
+  //   if (defaultValues && arrayName) {
+  //     const index = name.charAt(arrayName.length + 1);
+  //     if (defaultValues[arrayName][index]) {
+  //       const restOfName = name.slice(name.indexOf(index) + 2);
+  //       setValue(name, defaultValues[arrayName][index][restOfName]);
+  //     }
+  //   } else if (defaultValues) {
+  //     setValue(name, defaultValues[name]);
+  //   }
+  // }, [setValue, name, defaultValues, arrayName]);
+
   return (
     <div className="flex min-h-[60px] flex-col gap-1">
       {label && <Label htmlFor={name}>{label}</Label>}

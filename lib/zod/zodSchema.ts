@@ -12,6 +12,8 @@ const getvalidationStringMessage = (num: number): string => {
   return `To pole nie może mieć więcej niż ${num} znaków!`;
 };
 
+const ProtocolType = z.union([z.literal('valve'), z.literal('chiller')]);
+
 const AirPollution = z.union([
   z.literal('Bardzo brudny'),
   z.literal('Brudny'),
@@ -223,6 +225,7 @@ export const ValvesValidationSchema = z.object({
   serialNumber: createStringValidator(),
   infoBlocks: z.array(ValvesInfoBlockSchema).min(1),
   description: z.string().optional(),
+  protocolType: createStringValidator(),
 });
 
 export type ValveDTO = z.infer<typeof ValvesValidationSchema>;

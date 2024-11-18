@@ -32,5 +32,6 @@ export const valveDefaultValues: ValveDTO = {
   userSignature: 'FGASD/ASD',
   firstName: 'Karol',
   lastName: 'Wiewiórka',
+  protocolType: 'valve',
   infoBlocks: [],
 };
