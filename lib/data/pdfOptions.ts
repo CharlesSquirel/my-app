@@ -1,7 +1,7 @@
 export const options = {
   filename: 'my-document.pdf',
   margin: 0.25,
-  image: { type: 'png', quality: 1 },
-  html2canvas: { scale: 1.1, dpi: 300 },
+  image: { type: 'jpeg' }, //jpeg is the best regarding to file size
+  html2canvas: { scale: 3 }, //it is in charge of resolution as I noticed
   jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
 };
