@@ -16,7 +16,7 @@ export default function ProtocolFirmaInfo({ data }: ProtocolFirmaInfoProps) {
     contactEmail,
   } = data;
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col leading-tight">
       <p className="font-medium">{fullName}</p>
       <p>{`${street} ${houseNumber}/${localNumber}`}</p>
       <p>{`${postCode}, ${city}`}</p>
