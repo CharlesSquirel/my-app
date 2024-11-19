@@ -76,8 +76,6 @@ export const columns: ColumnDef<Protocol>[] = [
 
   {
     id: 'actions',
-    cell: () => {
-      return <TableRowActions />;
-    },
+    cell: ({ row }) => <TableRowActions protocol={row.original} />,
   },
 ];

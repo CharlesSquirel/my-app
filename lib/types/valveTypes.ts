@@ -8,6 +8,7 @@
 //   description?: string;
 // }
 
+import { Firma, Location, ValvesInfoBlock } from '@prisma/client';
 import { ValveDTO } from '../zod/zodSchema';
 
 // export interface ValveDTO {
@@ -35,3 +36,18 @@ export const valveDefaultValues: ValveDTO = {
   protocolType: 'valve',
   infoBlocks: [],
 };
+export interface ValveDisplay {
+  id: string;
+  type: string;
+  serialNumber: string;
+  createdAt: string;
+  updatedAt: Date;
+  userId: string;
+  userSignature: string;
+  firstName: string;
+  lastName: string;
+  description?: string | null;
+  firma: Firma;
+  location: Location;
+  infoBlocks: ValvesInfoBlock[];
+}

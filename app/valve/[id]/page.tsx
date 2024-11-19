@@ -8,6 +8,6 @@ export default async function Valve({
 }) {
   const { id } = await params;
   const valve = await getValveProtocolOptimized(id);
-  console.log(valve);
-  return <ValveProtocol />;
+
+  return <ValveProtocol valve={valve} />;
 }

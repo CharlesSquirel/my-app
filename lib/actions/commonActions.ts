@@ -1,10 +1,13 @@
 'use server';
 
 import { prisma } from '../db/db';
-import { findValveById } from './valveActions';
+import { formatDate } from '../utils';
 export async function getValveProtocolOptimized(id: string) {
   try {
-    const valveProtocol = await findValveById(id);
+    const valveProtocol = await prisma.valve.findUnique({
+      where: { id },
+      include: { infoBlocks: true },
+    });
     if (!valveProtocol) {
       throw Error('Valve protocol not found');
     }
@@ -20,8 +23,10 @@ export async function getValveProtocolOptimized(id: string) {
     if (!valveLocation) {
       throw Error('Valve protocol location not found');
     }
+
     return {
       ...valveProtocol,
+      createdAt: formatDate(valveProtocol.createdAt),
       firma: valveFirma,
       location: valveLocation,
     };
