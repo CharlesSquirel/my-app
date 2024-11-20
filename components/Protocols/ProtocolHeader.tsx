@@ -17,7 +17,7 @@ export default function ProtocolHeader({
   protocolHeaderData: { firma, location, user, date },
 }: ProtocolHeaderProps) {
   return (
-    <div className="flex justify-between font-roboto">
+    <div className="flex justify-between">
       <div className="flex gap-8">
         <ProtocolFirmaInfo data={firma} />
         <ProtocolFirmaInfo data={location} />

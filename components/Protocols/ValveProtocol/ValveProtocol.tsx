@@ -14,7 +14,7 @@ import ProtocolTitle from '../ProtocolTitle';
 import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
 import ValveInfoBlocks from './ValveInfoBlocks';
 
-interface ValveProtocolProps {
+export interface ValveProtocolProps {
   valve: ValveDisplay;
 }
 
@@ -38,14 +38,41 @@ export default function ValveProtocol({ valve }: ValveProtocolProps) {
 
   const handleDownload = () => {
     const protocol = protocolRef.current;
-    html2pdf()
-      .set({ ...options, filename: `Protokół_zaworów ${valve.createdAt}` })
-      .from(protocol)
-      .save();
-  };
 
+    if (protocol) {
+      const initialLineHeight = protocol.style.lineHeight;
+      console.log('Before setting lineHeight:', initialLineHeight);
+
+      // Ukryj element przed zmianą line-height
+      protocol.style.visibility = 'hidden';
+
+      // Zmień line-height i wygeneruj PDF
+      requestAnimationFrame(() => {
+        protocol.style.setProperty('line-height', '1px');
+        console.log('After setting lineHeight:', protocol.style.lineHeight);
+
+        html2pdf()
+          .set({ ...options, filename: `Protokół_zaworów ${valve.createdAt}` })
+          .from(protocol)
+          .save()
+          .then(() => {
+            // Przywróć oryginalny line-height i widoczność
+            protocol.style.setProperty('line-height', initialLineHeight);
+            protocol.style.visibility = 'visible';
+            console.log(
+              'After resetting lineHeight:',
+              protocol.style.lineHeight,
+            );
+          });
+      });
+    }
+  };
   return (
-    <section className="flex w-full flex-col" id="valve" ref={protocolRef}>
+    <section
+      className="flex w-full flex-col print:leading-[1px]"
+      id="valve"
+      ref={protocolRef}
+    >
       <header className="flex justify-between">
         <ProtocolTitle subTitle="badania zaworów" />
         <Button onClick={handleDownload}>Download</Button>
