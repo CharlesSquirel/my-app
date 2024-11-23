@@ -1,14 +1,4 @@
-'use client';
-
 import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
-import dynamic from 'next/dynamic';
-const PDFDownloadLink = dynamic(
-  () => import('@react-pdf/renderer').then((mod) => mod.PDFDownloadLink),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  },
-);
 
 const styles = StyleSheet.create({
   page: {
@@ -22,17 +12,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function ValvePDF() {
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <Text>Section #1</Text>
-        </View>
-        <View style={styles.section}>
-          <Text>Section #2</Text>
-        </View>
-      </Page>
-    </Document>
-  );
-}
+const MyDocument = () => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.section}>
+        <Text>ID: </Text>
+      </View>
+    </Page>
+  </Document>
+);
+
+export default MyDocument;
