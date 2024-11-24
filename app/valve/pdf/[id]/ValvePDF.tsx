@@ -1,9 +1,10 @@
+import PdfFirmaInfo from '@/components/PDF/PdfFirmaInfo';
+import PdfHeader from '@/components/PDF/PdfHeader';
 import { ValveDisplay } from '@/lib/types/valveTypes';
 
 import {
   Document,
   Font,
-  Image,
   Page,
   StyleSheet,
   Text,
@@ -76,27 +77,21 @@ Font.register({
 const styles = StyleSheet.create({
   title: {
     fontSize: 24,
-    // fontFamily: 'Roboto',
-    fontStyle: 'normal',
   },
   subTitle: {
-    // fontFamily: 'Roboto'
     fontWeight: 300,
-    fontStyle: 'normal',
   },
   page: {
     display: 'flex',
     flexDirection: 'column',
-    // backgroundColor: '#fff',
-    padding: 20,
+    gap: 15,
+    padding: 23,
     fontFamily: 'Inter',
   },
   section: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    // padding: 20,
-    // flexGrow: 1,
+    gap: 15,
   },
 });
 
@@ -107,17 +102,11 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
     language="pl"
   >
     <Page style={styles.page}>
+      <PdfHeader subtitle="badania zaworów bezpieczeństwa" />
       <View style={styles.section}>
-        <View style={{ display: 'flex', flexDirection: 'column' }}>
-          <Text style={styles.title}>Protokół</Text>
-          <Text style={{ fontWeight: 300 }}>
-            badania zaworów bezpieczeństwa
-          </Text>
-        </View>
-        <Image style={{ width: 150 }} src="app/assets/logo.png" />
-      </View>
-      <View style={styles.section}>
-        <Text>II View</Text>
+        <PdfFirmaInfo data={valve.firma} />
+        <PdfFirmaInfo data={valve.location} />
+        <Text>{valve.createdAt}</Text>
       </View>
     </Page>
   </Document>
