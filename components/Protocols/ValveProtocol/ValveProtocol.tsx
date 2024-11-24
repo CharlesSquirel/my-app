@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import { ValveDisplay } from '@/lib/types/valveTypes';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -70,6 +71,11 @@ export default function ValveProtocol({ valve }: ValveProtocolProps) {
       id="valve"
       ref={protocolRef}
     >
+      <div className="mb-4 flex justify-end">
+        <Button variant="outline" asChild>
+          <Link href={`/valve/pdf/${valve.id}`}>Pobierz</Link>
+        </Button>
+      </div>
       <header className="flex justify-between">
         <ProtocolTitle subTitle="badania zaworów" />
         {/* <Button onClick={handleDownload}>Download</Button> */}
