@@ -3,7 +3,7 @@ import { Document, Page, StyleSheet, Text, View } from '@react-pdf/renderer';
 const styles = StyleSheet.create({
   page: {
     flexDirection: 'row',
-    backgroundColor: '#E4E4E4',
+    backgroundColor: '#fff',
   },
   section: {
     margin: 10,
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const MyDocument = () => (
+const ValvePDF = () => (
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.section}>
@@ -22,4 +22,4 @@ const MyDocument = () => (
   </Document>
 );
 
-export default MyDocument;
+export default ValvePDF;

@@ -1,9 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import { options } from '@/lib/data/pdfOptions';
 import { ValveDisplay } from '@/lib/types/valveTypes';
-import html2pdf from 'html2pdf.js';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -36,37 +33,37 @@ export default function ValveProtocol({ valve }: ValveProtocolProps) {
     serialNumber: valve.serialNumber,
   };
 
-  const handleDownload = () => {
-    const protocol = protocolRef.current;
+  // const handleDownload = () => {
+  //   const protocol = protocolRef.current;
 
-    if (protocol) {
-      const initialLineHeight = protocol.style.lineHeight;
-      console.log('Before setting lineHeight:', initialLineHeight);
+  //   if (protocol) {
+  //     const initialLineHeight = protocol.style.lineHeight;
+  //     console.log('Before setting lineHeight:', initialLineHeight);
 
-      // Ukryj element przed zmianą line-height
-      protocol.style.visibility = 'hidden';
+  //     // Ukryj element przed zmianą line-height
+  //     protocol.style.visibility = 'hidden';
 
-      // Zmień line-height i wygeneruj PDF
-      requestAnimationFrame(() => {
-        protocol.style.setProperty('line-height', '1px');
-        console.log('After setting lineHeight:', protocol.style.lineHeight);
+  //     // Zmień line-height i wygeneruj PDF
+  //     requestAnimationFrame(() => {
+  //       protocol.style.setProperty('line-height', '1px');
+  //       console.log('After setting lineHeight:', protocol.style.lineHeight);
 
-        html2pdf()
-          .set({ ...options, filename: `Protokół_zaworów ${valve.createdAt}` })
-          .from(protocol)
-          .save()
-          .then(() => {
-            // Przywróć oryginalny line-height i widoczność
-            protocol.style.setProperty('line-height', initialLineHeight);
-            protocol.style.visibility = 'visible';
-            console.log(
-              'After resetting lineHeight:',
-              protocol.style.lineHeight,
-            );
-          });
-      });
-    }
-  };
+  //       html2pdf()
+  //         .set({ ...options, filename: `Protokół_zaworów ${valve.createdAt}` })
+  //         .from(protocol)
+  //         .save()
+  //         .then(() => {
+  //           // Przywróć oryginalny line-height i widoczność
+  //           protocol.style.setProperty('line-height', initialLineHeight);
+  //           protocol.style.visibility = 'visible';
+  //           console.log(
+  //             'After resetting lineHeight:',
+  //             protocol.style.lineHeight,
+  //           );
+  //         });
+  //     });
+  //   }
+  // };
   return (
     <section
       className="flex w-full flex-col print:leading-[1px]"
@@ -75,7 +72,7 @@ export default function ValveProtocol({ valve }: ValveProtocolProps) {
     >
       <header className="flex justify-between">
         <ProtocolTitle subTitle="badania zaworów" />
-        <Button onClick={handleDownload}>Download</Button>
+        {/* <Button onClick={handleDownload}>Download</Button> */}
         <Link href="/">
           <Image src={logo} alt="Chillair logo" width={200} priority />
         </Link>
