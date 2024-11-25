@@ -1,4 +1,40 @@
+'use server';
+
 import { prisma } from '../db/db';
+import { formatDate } from '../utils';
+export async function getValveProtocolOptimized(id: string) {
+  try {
+    const valveProtocol = await prisma.valve.findUnique({
+      where: { id },
+      include: { infoBlocks: true },
+    });
+    if (!valveProtocol) {
+      throw Error('Valve protocol not found');
+    }
+    const valveFirma = await prisma.firma.findUnique({
+      where: { id: valveProtocol.firma },
+    });
+    if (!valveFirma) {
+      throw Error('Valve protocol company not found');
+    }
+    const valveLocation = await prisma.location.findUnique({
+      where: { id: valveProtocol.location },
+    });
+    if (!valveLocation) {
+      throw Error('Valve protocol location not found');
+    }
+
+    return {
+      ...valveProtocol,
+      createdAt: formatDate(valveProtocol.createdAt),
+      firma: valveFirma,
+      location: valveLocation,
+    };
+  } catch (error) {
+    console.error('Error fetching valve protocol:', error);
+    throw new Error('Failed to fetch valve protocol');
+  }
+}
 
 export async function getValveProtocolsOptimized() {
   try {

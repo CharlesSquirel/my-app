@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        roboto: ['var(--roboto)'],
+      },
       colors: {
         customBlue: 'var(--customBlue)',
         customBrown: 'var(--customBrown)',

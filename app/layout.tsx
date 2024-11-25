@@ -1,3 +1,4 @@
+import { roboto } from '@/lib/fonts/fonts';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
@@ -16,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="pl">
       <body
-        className={`${GeistSans.className} flex w-screen flex-col justify-center overflow-x-hidden !p-5 antialiased md:!px-[66px] md:!py-7`}
+        className={`${GeistSans.className} ${roboto.variable} flex w-screen flex-col justify-center overflow-x-hidden !p-5 antialiased md:!px-[66px] md:!py-7`}
       >
         <Toaster position="top-center" />
         {children}

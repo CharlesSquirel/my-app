@@ -109,12 +109,6 @@ export function DataTable<TData, TValue>({
         </Table>
         <DataTablePagination table={table} />
       </div>
-      {/* <TablePagination
-        onNextClick={() => table.nextPage()}
-        onPreviousClick={() => table.previousPage()}
-        nextDisabled={!table.getCanNextPage()}
-        previousDisabled={!table.getCanPreviousPage()}
-      /> */}
     </>
   );
 }

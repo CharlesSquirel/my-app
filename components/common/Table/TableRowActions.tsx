@@ -5,6 +5,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Protocol } from '@/lib/types/columnTypes';
 import {
   CircleXIcon,
   Download,
@@ -12,8 +13,13 @@ import {
   MoreHorizontal,
   Pencil,
 } from 'lucide-react';
+import Link from 'next/link';
 
-export default function TableRowActions() {
+interface TableRowActionsProps {
+  protocol: Protocol;
+}
+
+export default function TableRowActions({ protocol }: TableRowActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -27,9 +33,11 @@ export default function TableRowActions() {
           <Pencil />
           Edytuj
         </DropdownMenuItem>
-        <DropdownMenuItem className="gap-1 hover:opacity-60">
-          <Eye />
-          Podgląd
+        <DropdownMenuItem className="gap-1 hover:opacity-60" asChild>
+          <Link href={`/${protocol.protocolType}/${protocol.id}`}>
+            <Eye />
+            Podgląd
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="gap-1 hover:opacity-60">
           <Download />
