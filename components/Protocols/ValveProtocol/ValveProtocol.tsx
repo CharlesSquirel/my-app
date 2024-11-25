@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ValveDisplay } from '@/lib/types/valveTypes';
+import { ValvePDFProps } from '@/lib/types/common';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -12,11 +12,7 @@ import ProtocolTitle from '../ProtocolTitle';
 import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
 import ValveInfoBlocks from './ValveInfoBlocks';
 
-export interface ValveProtocolProps {
-  valve: ValveDisplay;
-}
-
-export default function ValveProtocol({ valve }: ValveProtocolProps) {
+export default function ValveProtocol({ valve }: ValvePDFProps) {
   const protocolRef = useRef<HTMLElement>(null);
 
   const protocolHeaderData = {
@@ -77,17 +73,17 @@ export default function ValveProtocol({ valve }: ValveProtocolProps) {
         </Button>
       </div>
       <header className="flex justify-between">
-        <ProtocolTitle subTitle="badania zaworów" />
+        <ProtocolTitle subTitle="badania zaworów" mode="web" />
         {/* <Button onClick={handleDownload}>Download</Button> */}
         <Link href="/">
           <Image src={logo} alt="Chillair logo" width={200} priority />
         </Link>
       </header>
       <ProtocolHeader protocolHeaderData={protocolHeaderData} />
-      <InfoContainer title="Dane podstawowe">
+      <InfoContainer title="Dane podstawowe" mode="web">
         <ValveBasicInfo valveBasicInfo={valveBasicInfo} />
       </InfoContainer>
-      <InfoContainer title="Zawory">
+      <InfoContainer title="Zawory" mode="web">
         {valve.infoBlocks.map((infoBlock, index) => (
           <ValveInfoBlocks
             infoBlock={infoBlock}

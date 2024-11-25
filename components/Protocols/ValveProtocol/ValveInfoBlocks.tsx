@@ -16,20 +16,28 @@ export default function ValveInfoBlocks({
       <ProtocolRow
         label="Miejsce instalowania zaworu"
         value={infoBlock.valveLocation}
+        mode="web"
       />
-      <ProtocolRow label="Typ zaworu" value={infoBlock.valveType} />
-      <ProtocolRow label="Nr fabryczny" value={infoBlock.valveSerialNumber} />
+      <ProtocolRow label="Typ zaworu" value={infoBlock.valveType} mode="web" />
+      <ProtocolRow
+        label="Nr fabryczny"
+        value={infoBlock.valveSerialNumber}
+        mode="web"
+      />
       <ProtocolRow
         label="Ciśnienie nastawy"
         value={`${infoBlock.pressureSetting} bar`}
+        mode="web"
       />
       <ProtocolRow
         label="Ciśnienie otwarcia"
         value={`${infoBlock.pressureOpen} bar`}
+        mode="web"
       />
       <ProtocolRow
         label="Ciśnienie zamknięcia"
         value={`${infoBlock.pressureClose} bar`}
+        mode="web"
       />
     </div>
   );

@@ -1,4 +1,5 @@
-import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Image, StyleSheet, View } from '@react-pdf/renderer';
+import ProtocolTitle from '../Protocols/ProtocolTitle';
 
 interface PdfHeaderProps {
   subtitle: string;
@@ -11,12 +12,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-  },
-  subtitle: {
-    fontWeight: 300,
-  },
   image: {
     width: 150,
   },
@@ -25,10 +20,7 @@ const styles = StyleSheet.create({
 export default function PdfHeader({ subtitle }: PdfHeaderProps) {
   return (
     <View style={styles.section}>
-      <View style={{ display: 'flex', flexDirection: 'column' }}>
-        <Text style={styles.title}>Protokół</Text>
-        <Text style={styles.subtitle}>{subtitle}</Text>
-      </View>
+      <ProtocolTitle subTitle={subtitle} mode="pdf" />
       <Image style={styles.image} src="app/assets/logo.png" />
     </View>
   );

@@ -1,6 +1,11 @@
-import PdfFirmaInfo from '@/components/PDF/PdfFirmaInfo';
 import PdfHeader from '@/components/PDF/PdfHeader';
-import { ValveDisplay } from '@/lib/types/valveTypes';
+import { pdfStyles } from '@/components/PDF/styles/PDFStyles';
+import InfoContainer from '@/components/Protocols/InfoContainer';
+import ProtocolFirmaInfo from '@/components/Protocols/ProtocolFirmaInfo';
+import ProtocolRow from '@/components/Protocols/ProtocolRow';
+import ProtocolUserInfo from '@/components/Protocols/ProtocolUserInfo';
+import { pdfFonts } from '@/lib/fonts/fonts';
+import { ValvePDFProps } from '@/lib/types/common';
 
 import {
   Document,
@@ -11,75 +16,16 @@ import {
   View,
 } from '@react-pdf/renderer';
 
-interface ValvePDFProps {
-  valve: ValveDisplay;
-}
-
 Font.register({
   family: 'Inter',
-  fonts: [
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyeMZhrib2Bg-4.ttf',
-      fontWeight: 100,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuDyfMZhrib2Bg-4.ttf',
-      fontWeight: 200,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuOKfMZhrib2Bg-4.ttf',
-      fontWeight: 300,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfMZhrib2Bg-4.ttf',
-      fontWeight: 400,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fMZhrib2Bg-4.ttf',
-      fontWeight: 500,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYMZhrib2Bg-4.ttf',
-      fontWeight: 600,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYMZhrib2Bg-4.ttf',
-      fontWeight: 700,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuDyYMZhrib2Bg-4.ttf',
-      fontWeight: 800,
-    },
-    {
-      src: 'http://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuBWYMZhrib2Bg-4.ttf',
-      fontWeight: 900,
-    },
-  ],
+  fonts: pdfFonts,
 });
 
-// Font.register({
-//   family: 'Roboto',
-//   // src: 'http://fonts.gstatic.com/s/roboto/v15/W5F8_SL0XFawnjxHGsZjJA.ttf'
-//   fonts: [
-//     {
-//       src: 'http://fonts.gstatic.com/s/roboto/v15/W5F8_SL0XFawnjxHGsZjJA.ttf',
-//       fontWeight: 'normal',
-//     },
-//     {
-//       src: 'http://fonts.gstatic.com/s/roboto/v15/dtpHsbgPEm2lVWciJZ0P-A.ttf',
-//       fontWeight: 300,
-//     },
-//   ],
-//   // fontStyle: 'normal',
-//   // fontWeight: 'normal',
-// });
-
 const styles = StyleSheet.create({
-  title: {
-    fontSize: 24,
-  },
-  subTitle: {
-    fontWeight: 300,
+  section: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   page: {
     display: 'flex',
@@ -88,7 +34,7 @@ const styles = StyleSheet.create({
     padding: 23,
     fontFamily: 'Inter',
   },
-  section: {
+  basicInfoSection: {
     display: 'flex',
     flexDirection: 'row',
     gap: 15,
@@ -104,10 +50,24 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
     <Page style={styles.page}>
       <PdfHeader subtitle="badania zaworów bezpieczeństwa" />
       <View style={styles.section}>
-        <PdfFirmaInfo data={valve.firma} />
-        <PdfFirmaInfo data={valve.location} />
-        <Text>{valve.createdAt}</Text>
+        <View style={styles.basicInfoSection}>
+          <ProtocolFirmaInfo data={valve.firma} mode="pdf" />
+          <ProtocolFirmaInfo data={valve.location} mode="pdf" />
+          <ProtocolUserInfo
+            user={{
+              firstName: valve.firstName,
+              lastName: valve.lastName,
+              userSignature: valve.userSignature,
+            }}
+            mode="pdf"
+          />
+        </View>
+        <Text style={pdfStyles.textSmall}>{valve.createdAt}</Text>
       </View>
+      <InfoContainer mode="pdf" title="Dane podstawowe">
+        <ProtocolRow mode="pdf" label="Typ urządzenia" value={valve.type} />
+        <ProtocolRow mode="pdf" label="Nr seryjny" value={valve.serialNumber} />
+      </InfoContainer>
     </Page>
   </Document>
 );

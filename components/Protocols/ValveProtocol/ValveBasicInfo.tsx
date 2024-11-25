@@ -14,8 +14,16 @@ export default function ValveBasicInfo({
 }: ValveBasicInfoProps) {
   return (
     <div className="flex flex-col">
-      <ProtocolRow label="Typ urządzenia" value={valveBasicInfo.type} />
-      <ProtocolRow label="Nr seryjny" value={valveBasicInfo.serialNumber} />
+      <ProtocolRow
+        label="Typ urządzenia"
+        value={valveBasicInfo.type}
+        mode="web"
+      />
+      <ProtocolRow
+        label="Nr seryjny"
+        value={valveBasicInfo.serialNumber}
+        mode="web"
+      />
     </div>
   );
 }
