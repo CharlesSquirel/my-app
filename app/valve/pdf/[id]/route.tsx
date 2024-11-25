@@ -5,7 +5,7 @@ import ValvePDF from './ValvePDF';
 
 export async function GET(
   res: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: Promise<{ params: { id: string } }>,
 ) {
   const { id } = await params;
   const valve = await getValveProtocolOptimized(id);
