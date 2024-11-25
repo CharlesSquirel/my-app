@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { ValvePDFProps } from '@/lib/types/common';
+import { Download } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -69,7 +70,10 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
     >
       <div className="mb-4 flex justify-end">
         <Button variant="outline" asChild>
-          <Link href={`/valve/pdf/${valve.id}`}>Pobierz</Link>
+          <Link href={`/valve/pdf/${valve.id}`}>
+            <Download />
+            Pobierz
+          </Link>
         </Button>
       </div>
       <header className="flex justify-between">
