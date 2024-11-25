@@ -4,6 +4,7 @@ import InfoContainer from '@/components/Protocols/InfoContainer';
 import ProtocolFirmaInfo from '@/components/Protocols/ProtocolFirmaInfo';
 import ProtocolRow from '@/components/Protocols/ProtocolRow';
 import ProtocolUserInfo from '@/components/Protocols/ProtocolUserInfo';
+import ValveInfoBlocks from '@/components/Protocols/ValveProtocol/ValveInfoBlocks';
 import { pdfFonts } from '@/lib/fonts/fonts';
 import { ValvePDFProps } from '@/lib/types/common';
 
@@ -67,6 +68,16 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
       <InfoContainer mode="pdf" title="Dane podstawowe">
         <ProtocolRow mode="pdf" label="Typ urządzenia" value={valve.type} />
         <ProtocolRow mode="pdf" label="Nr seryjny" value={valve.serialNumber} />
+      </InfoContainer>
+      <InfoContainer title="Zawory" mode="pdf">
+        {valve.infoBlocks.map((infoBlock, index) => (
+          <ValveInfoBlocks
+            infoBlock={infoBlock}
+            key={infoBlock.id}
+            index={index}
+            mode="pdf"
+          />
+        ))}
       </InfoContainer>
     </Page>
   </Document>

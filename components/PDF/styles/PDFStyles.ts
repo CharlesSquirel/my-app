@@ -6,6 +6,10 @@ export const pdfStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
   containerDecoration: {
     position: 'absolute',
     left: 0,

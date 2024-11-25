@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     padding: 7,
     position: 'relative',
     width: '50%',
+    backgroundColor: '#ededed',
   },
   title: {
     fontWeight: 500,
