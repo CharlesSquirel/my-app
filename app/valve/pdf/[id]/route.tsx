@@ -3,9 +3,12 @@ import { renderToStream } from '@react-pdf/renderer';
 import { NextResponse } from 'next/server';
 import ValvePDF from './ValvePDF';
 
-export async function GET({ params }: { params: { id: string } }) {
-  const { id } = params;
-  const valve = await getValveProtocolOptimized(id);
+export async function GET(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> },
+) {
+  const protocolId = (await params).id;
+  const valve = await getValveProtocolOptimized(protocolId);
   const stream = await renderToStream(<ValvePDF valve={valve} />);
   const headers = new Headers();
   headers.set('Content-Type', 'application/pdf');
