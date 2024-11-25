@@ -109,12 +109,20 @@ export default function ValveForm({
         isLoading={isLoading}
         badgeColor="valve"
       >
-        <FirmaLocationSelect firms={firms} />
+        <FirmaLocationSelect
+          firms={firms}
+          mode={mode}
+          firmaDefaultValues={mode === 'edit' ? defaultValues.firma : undefined}
+          locationDefaultValues={
+            mode === 'edit' ? defaultValues.location : undefined
+          }
+        />
         <SelectInput
           placeholder="Wybierz typ"
           label="Typ"
           data={valveTypes}
           name="type"
+          defaultValue={mode === 'edit' ? defaultValues.type : undefined}
         />
         <TextInput
           placeholder="Wpisz numer"
@@ -144,12 +152,22 @@ export default function ValveForm({
                 label="Miejsce instalowania zaworu"
                 placeholder="Wybierz miejsce"
                 name={`infoBlocks.${index}.valveLocation`}
+                defaultValue={
+                  mode === 'edit'
+                    ? defaultValues.infoBlocks[index].valveLocation
+                    : undefined
+                }
               />
               <SelectInput
                 data={valveInfoBlocksTypes}
                 label="Typ"
                 placeholder="Wybierz typ"
                 name={`infoBlocks.${index}.valveType`}
+                defaultValue={
+                  mode === 'edit'
+                    ? defaultValues.infoBlocks[index].valveType
+                    : undefined
+                }
               />
               <TextInput
                 placeholder="Wpisz numer"

@@ -1,11 +1,15 @@
 'use client';
 
+import { FormModeType } from '@/lib/types/common';
 import { Prisma } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import SelectInput, { SelectOptions } from '../SelectInput/SelectInput';
 
 interface FirmaLocationSelectProps {
+  mode: FormModeType;
+  firmaDefaultValues?: string;
+  locationDefaultValues?: string;
   firms: Prisma.FirmaGetPayload<{
     include: {
       locations: true;
@@ -15,6 +19,9 @@ interface FirmaLocationSelectProps {
 
 export default function FirmaLocationSelect({
   firms,
+  mode,
+  firmaDefaultValues,
+  locationDefaultValues,
 }: FirmaLocationSelectProps) {
   const [locationsOptions, setLocationsOptions] = useState<SelectOptions[]>([]);
   const { setValue, watch } = useFormContext();
@@ -44,6 +51,7 @@ export default function FirmaLocationSelect({
         label="Firma"
         placeholder="Wybierz firmę"
         data={firmsOptions}
+        defaultValue={firmaDefaultValues}
       />
       <SelectInput
         name="location"
@@ -51,6 +59,7 @@ export default function FirmaLocationSelect({
         placeholder="Wybierz obiekt"
         data={locationsOptions}
         disabled={!locationsOptions.length}
+        defaultValue={locationDefaultValues}
       />
     </div>
   );

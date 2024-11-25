@@ -23,6 +23,7 @@ interface SelectInputProps {
   data: SelectOptions[];
   placeholder: string;
   disabled?: boolean;
+  defaultValue?: string;
 }
 
 export default function SelectInput({
@@ -31,6 +32,7 @@ export default function SelectInput({
   data,
   placeholder,
   disabled,
+  defaultValue,
 }: SelectInputProps) {
   const {
     register,
@@ -43,7 +45,11 @@ export default function SelectInput({
       <Label htmlFor={name} className={`${disabled && 'opacity-50'}`}>
         {label}
       </Label>
-      <Select onValueChange={(value) => setValue(name, value)} name={name}>
+      <Select
+        onValueChange={(value) => setValue(name, value)}
+        name={name}
+        defaultValue={defaultValue}
+      >
         <SelectTrigger className="w-1/2" disabled={disabled} id={name}>
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
