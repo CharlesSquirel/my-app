@@ -93,7 +93,7 @@ model ValvesInfoBlock {
   pressureClose     Float
   pressureSetting   Float
   description       String?
-  Valve             Valve?  @relation(fields: [valveId], references: [id])
+  Valve             Valve?  @relation(fields: [valveId], references: [id], onDelete: Cascade)
   valveId           String?
 }
 

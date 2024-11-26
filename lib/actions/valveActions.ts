@@ -161,3 +161,17 @@ export async function editValve(data: ValveDTO, id: string): Promise<void> {
     handleError(error, errorMessages.valveFailedCreation);
   }
 }
+
+export async function deleteValve(id: string): Promise<void> {
+  try {
+    const deletedValve = await prisma.valve.delete({
+      where: {
+        id,
+      },
+      include: { infoBlocks: true },
+    });
+    console.log(`Valve successfully deleted: ${deletedValve}`);
+  } catch (error) {
+    handleError(error, errorMessages.valveNotExist);
+  }
+}
