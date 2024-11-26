@@ -20,6 +20,7 @@ const AirPollution = z.union([
   z.literal('Koniecznie do mycia'),
   z.literal('Czysty'),
   z.literal('Bardzo czysty'),
+  z.literal('Brak'),
 ]);
 
 const TermalInsulation = z.union([
@@ -28,9 +29,14 @@ const TermalInsulation = z.union([
   z.literal('Średni'),
   z.literal('Dobry'),
   z.literal('Bardzo dobry'),
+  z.literal('Brak'),
 ]);
 
-const IsValid = z.union([z.literal('Poprawny'), z.literal('Niepoprawny')]);
+const IsValid = z.union([
+  z.literal('Poprawny'),
+  z.literal('Niepoprawny'),
+  z.literal('Brak'),
+]);
 
 const FreonTypes = z.union([
   z.literal('R134A'),
@@ -40,6 +46,7 @@ const FreonTypes = z.union([
   z.literal('R404A'),
   z.literal('R22'),
   z.literal('R290'),
+  z.literal('Brak'),
 ]);
 
 const Refrigerant = z.union([z.literal('Woda'), z.literal('Roztwór glikolu')]);
@@ -93,11 +100,15 @@ const PowerConsumptionSchema = z.object({
 });
 
 export const ChillerValidationSchema = z.object({
-  location: createStringValidator(),
   firma: createStringValidator(),
+  location: createStringValidator(),
+  userId: createStringValidator(),
+  userSignature: createStringValidator(),
+  firstName: createStringValidator(),
+  lastName: createStringValidator(),
   type: createStringValidator(),
   serialNumber: createStringValidator(),
-
+  protocolType: ProtocolType,
   pollution: AirPollution,
   termalInsulation: TermalInsulation,
   termalAndPressureControl: IsValid,
@@ -230,3 +241,4 @@ export const ValvesValidationSchema = z.object({
 });
 
 export type ValveDTO = z.infer<typeof ValvesValidationSchema>;
+export type ChillerDTO = z.infer<typeof ChillerValidationSchema>;
