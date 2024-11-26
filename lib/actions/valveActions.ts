@@ -81,7 +81,9 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log(`User created: ${JSON.stringify(newValve, null, 2)}`);
+      console.log(
+        `Valve protocol created: ${JSON.stringify(newValve, null, 2)}`,
+      );
     }
     return newValve;
   } catch (error) {
