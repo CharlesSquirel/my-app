@@ -97,6 +97,7 @@ export const ChillerValidationSchema = z.object({
   firma: createStringValidator(),
   type: createStringValidator(),
   serialNumber: createStringValidator(),
+
   pollution: AirPollution,
   termalInsulation: TermalInsulation,
   termalAndPressureControl: IsValid,
