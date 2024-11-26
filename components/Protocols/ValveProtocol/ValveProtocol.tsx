@@ -32,7 +32,7 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
     <section className="flex w-full flex-col" id="valve">
       <div className="mb-6 flex justify-end gap-2">
         <Button variant="outline" asChild>
-          <Link href="#">
+          <Link href={`/valve/edit/${valve.id}`}>
             <Pencil />
             Edytuj
           </Link>

@@ -6,22 +6,21 @@ import { useFormContext } from 'react-hook-form';
 
 interface DecrementButtonProps {
   onDecrement: () => void;
-  count: number;
   mode: FormModeType;
+  arrayName: string;
 }
 
 export default function DecrementButton({
   onDecrement,
-  count,
   mode,
+  arrayName,
 }: DecrementButtonProps) {
   const { setValue, getValues } = useFormContext();
   const handleOnClick = () => {
     onDecrement();
     if (mode === 'edit') {
-      const currentLocations = getValues('locations');
-      setValue('locations', currentLocations.slice(0, -1));
-      console.log(getValues('locations'));
+      const currentLocations = getValues(arrayName);
+      setValue(arrayName, currentLocations.slice(0, -1));
     }
   };
   return (

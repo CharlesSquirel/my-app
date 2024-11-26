@@ -140,7 +140,7 @@ export default function FirmaForm({ mode, defaultValues, id }: FirmaFormProps) {
                 <DecrementButton
                   onDecrement={handleDecrement}
                   mode={mode}
-                  count={locationCount}
+                  arrayName="locations"
                 />
               )}
               <TextInput

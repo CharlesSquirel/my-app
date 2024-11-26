@@ -88,3 +88,76 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
     handleError(error, errorMessages.valveFailedCreation);
   }
 }
+
+export async function editValve(data: ValveDTO, id: string): Promise<void> {
+  const {
+    userId,
+    userSignature,
+    firstName,
+    lastName,
+    firma,
+    location,
+    type,
+    serialNumber,
+    description,
+    protocolType,
+    infoBlocks,
+  } = data;
+  const valveEditData: Omit<ValveDTO, 'infoBlocks'> = {
+    userId,
+    userSignature,
+    firstName,
+    lastName,
+    firma,
+    location,
+    type,
+    serialNumber,
+    description,
+    protocolType,
+  };
+  try {
+    await prisma.$transaction(async (prisma) => {
+      const currentInfoBlocks = await prisma.valvesInfoBlock.findMany({
+        where: { valveId: id },
+      });
+      await prisma.valve.update({
+        where: {
+          id,
+        },
+        data: valveEditData,
+      });
+      const infoBlocksUpdate = currentInfoBlocks.map(
+        async (currentInfoBlocks, index) => {
+          if (infoBlocks[index]) {
+            return prisma.valvesInfoBlock.update({
+              where: {
+                id: currentInfoBlocks.id,
+              },
+              data: infoBlocks[index],
+            });
+          } else {
+            return prisma.valvesInfoBlock.delete({
+              where: {
+                id: currentInfoBlocks.id,
+              },
+            });
+          }
+        },
+      );
+
+      const infoBlocksCreate = infoBlocks.map(async (infoBlock, index) => {
+        if (!currentInfoBlocks[index]) {
+          return prisma.valvesInfoBlock.create({
+            data: {
+              ...infoBlock,
+              valveId: id,
+            },
+          });
+        }
+      });
+      await Promise.all([...infoBlocksUpdate, ...infoBlocksCreate]);
+    });
+  } catch (error) {
+    handleError(error, errorMessages.valveFailedCreation);
+  }
+}

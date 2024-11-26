@@ -6,6 +6,8 @@ import { useFormContext } from 'react-hook-form';
 import SelectInput, { SelectOptions } from '../SelectInput/SelectInput';
 
 interface FirmaLocationSelectProps {
+  firmaDefaultValues?: string;
+  locationDefaultValues?: string;
   firms: Prisma.FirmaGetPayload<{
     include: {
       locations: true;
@@ -15,10 +17,13 @@ interface FirmaLocationSelectProps {
 
 export default function FirmaLocationSelect({
   firms,
+  firmaDefaultValues,
+  locationDefaultValues,
 }: FirmaLocationSelectProps) {
   const [locationsOptions, setLocationsOptions] = useState<SelectOptions[]>([]);
   const { setValue, watch } = useFormContext();
   const currentFirma = watch('firma');
+  const currentLocation = watch('location');
 
   const firmsOptions = firms.map((firma) => ({
     value: firma.id,
@@ -34,8 +39,12 @@ export default function FirmaLocationSelect({
         }))
       : [];
     setLocationsOptions(filteredLocations);
-    setValue('location', '');
-  }, [currentFirma, firms, setValue]);
+    if (
+      !filteredLocations.some((location) => location.value === currentLocation)
+    ) {
+      setValue('location', '');
+    }
+  }, [currentFirma, firms, setValue, currentLocation]);
 
   return (
     <div className="flex flex-col gap-2">
@@ -44,6 +53,7 @@ export default function FirmaLocationSelect({
         label="Firma"
         placeholder="Wybierz firmę"
         data={firmsOptions}
+        defaultValue={firmaDefaultValues}
       />
       <SelectInput
         name="location"
@@ -51,6 +61,7 @@ export default function FirmaLocationSelect({
         placeholder="Wybierz obiekt"
         data={locationsOptions}
         disabled={!locationsOptions.length}
+        defaultValue={locationDefaultValues}
       />
     </div>
   );
