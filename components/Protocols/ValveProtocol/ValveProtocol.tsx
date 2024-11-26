@@ -1,6 +1,8 @@
 'use client';
 
+import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import { Button } from '@/components/ui/button';
+import { deleteValve } from '@/lib/actions/valveActions';
 import { ValvePDFProps } from '@/lib/types/common';
 import { Download, Pencil, Trash2 } from 'lucide-react';
 import Image from 'next/image';
@@ -43,9 +45,17 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             Pobierz
           </Link>
         </Button>
-        <Button variant="destructive">
-          <Trash2 /> Usuń
-        </Button>
+        <AlertDialogComponent
+          onDelete={deleteValve}
+          id={valve.id}
+          title="Czy na pewno chcesz usunąć ten protokół?"
+          description="Usunięcie tego protokołu jest nieodwracalne"
+          pathAfterDelete="/"
+        >
+          <Button variant="destructive">
+            <Trash2 /> Usuń
+          </Button>
+        </AlertDialogComponent>
       </div>
       <div className="flex flex-col gap-3">
         <header className="flex justify-between">

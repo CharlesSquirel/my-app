@@ -6,13 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Protocol } from '@/lib/types/columnTypes';
-import {
-  CircleXIcon,
-  Download,
-  Eye,
-  MoreHorizontal,
-  Pencil,
-} from 'lucide-react';
+import { Download, Eye, MoreHorizontal, Pencil } from 'lucide-react';
 import Link from 'next/link';
 
 interface TableRowActionsProps {
@@ -41,13 +35,11 @@ export default function TableRowActions({ protocol }: TableRowActionsProps) {
             Podgląd
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem className="gap-1 hover:opacity-60">
-          <Download />
-          Pobierz
-        </DropdownMenuItem>
-        <DropdownMenuItem className="gap-1 hover:opacity-60">
-          <CircleXIcon />
-          Usuń
+        <DropdownMenuItem className="gap-1 hover:opacity-60" asChild>
+          <Link href={`/${protocol.protocolType}/pdf/${protocol.id}`}>
+            <Download />
+            Pobierz
+          </Link>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

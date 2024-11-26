@@ -81,7 +81,9 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
     });
 
     if (process.env.NODE_ENV === 'development') {
-      console.log(`User created: ${JSON.stringify(newValve, null, 2)}`);
+      console.log(
+        `Valve protocol created: ${JSON.stringify(newValve, null, 2)}`,
+      );
     }
     return newValve;
   } catch (error) {
@@ -159,5 +161,19 @@ export async function editValve(data: ValveDTO, id: string): Promise<void> {
     });
   } catch (error) {
     handleError(error, errorMessages.valveFailedCreation);
+  }
+}
+
+export async function deleteValve(id: string): Promise<void> {
+  try {
+    const deletedValve = await prisma.valve.delete({
+      where: {
+        id,
+      },
+      include: { infoBlocks: true },
+    });
+    console.log(`Valve successfully deleted: ${deletedValve}`);
+  } catch (error) {
+    handleError(error, errorMessages.valveNotExist);
   }
 }
