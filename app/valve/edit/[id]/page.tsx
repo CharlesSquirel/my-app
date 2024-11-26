@@ -30,8 +30,11 @@ export default async function ValveEdit({
     location: valve.location,
     type: valve.type,
     serialNumber: valve.serialNumber,
-    infoBlocks: valve.infoBlocks,
-    description: valve.description,
+    infoBlocks: valve.infoBlocks.map((block) => ({
+      ...block,
+      description: block.description ?? undefined,
+    })),
+    description: valve.description ?? undefined,
     protocolType: valve.protocolType,
   };
   const firms = await findAllFirma();
