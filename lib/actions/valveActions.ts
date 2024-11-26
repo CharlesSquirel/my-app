@@ -126,6 +126,36 @@ export async function editValve(data: ValveDTO, id: string): Promise<void> {
         },
         data: valveEditData,
       });
+      const infoBlocksUpdate = currentInfoBlocks.map(
+        async (currentInfoBlocks, index) => {
+          if (infoBlocks[index]) {
+            return prisma.valvesInfoBlock.update({
+              where: {
+                id: currentInfoBlocks.id,
+              },
+              data: infoBlocks[index],
+            });
+          } else {
+            return prisma.valvesInfoBlock.delete({
+              where: {
+                id: currentInfoBlocks.id,
+              },
+            });
+          }
+        },
+      );
+
+      const infoBlocksCreate = infoBlocks.map(async (infoBlock, index) => {
+        if (!currentInfoBlocks[index]) {
+          return prisma.valvesInfoBlock.create({
+            data: {
+              ...infoBlock,
+              valveId: id,
+            },
+          });
+        }
+      });
+      await Promise.all([...infoBlocksUpdate, ...infoBlocksCreate]);
     });
   } catch (error) {
     handleError(error, errorMessages.valveFailedCreation);

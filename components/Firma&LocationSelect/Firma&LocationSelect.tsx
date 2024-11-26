@@ -1,13 +1,11 @@
 'use client';
 
-import { FormModeType } from '@/lib/types/common';
 import { Prisma } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import SelectInput, { SelectOptions } from '../SelectInput/SelectInput';
 
 interface FirmaLocationSelectProps {
-  mode: FormModeType;
   firmaDefaultValues?: string;
   locationDefaultValues?: string;
   firms: Prisma.FirmaGetPayload<{
@@ -19,13 +17,13 @@ interface FirmaLocationSelectProps {
 
 export default function FirmaLocationSelect({
   firms,
-  mode,
   firmaDefaultValues,
   locationDefaultValues,
 }: FirmaLocationSelectProps) {
   const [locationsOptions, setLocationsOptions] = useState<SelectOptions[]>([]);
   const { setValue, watch } = useFormContext();
   const currentFirma = watch('firma');
+  const currentLocation = watch('location');
 
   const firmsOptions = firms.map((firma) => ({
     value: firma.id,
@@ -41,8 +39,12 @@ export default function FirmaLocationSelect({
         }))
       : [];
     setLocationsOptions(filteredLocations);
-    setValue('location', '');
-  }, [currentFirma, firms, setValue]);
+    if (
+      !filteredLocations.some((location) => location.value === currentLocation)
+    ) {
+      setValue('location', '');
+    }
+  }, [currentFirma, firms, setValue, currentLocation]);
 
   return (
     <div className="flex flex-col gap-2">

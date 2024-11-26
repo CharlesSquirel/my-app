@@ -15,7 +15,8 @@ export default function TextareaInput({
   placeholder,
   name,
 }: TextareaInputProps) {
-  const { register } = useFormContext();
+  const { register, getValues } = useFormContext();
+  console.log(getValues());
   return (
     <div className="grid w-full gap-1.5">
       <Label htmlFor={name}>{label}</Label>

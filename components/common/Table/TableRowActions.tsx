@@ -29,9 +29,11 @@ export default function TableRowActions({ protocol }: TableRowActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem className="gap-1 hover:opacity-60">
-          <Pencil />
-          Edytuj
+        <DropdownMenuItem className="gap-1 hover:opacity-60" asChild>
+          <Link href={`/${protocol.protocolType}/edit/${protocol.id}`}>
+            <Pencil />
+            Edytuj
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuItem className="gap-1 hover:opacity-60" asChild>
           <Link href={`/${protocol.protocolType}/${protocol.id}`}>

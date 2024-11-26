@@ -1,6 +1,6 @@
 'use client';
 
-import { createValve } from '@/lib/actions/valveActions';
+import { createValve, editValve } from '@/lib/actions/valveActions';
 import {
   valveInfoBlocksTypes,
   valveInstallationTypes,
@@ -74,12 +74,11 @@ export default function ValveForm({
   const handleOnSubmit = async (data: ValveDTO) => {
     setIsLoading(true);
     try {
-      //   if (mode === 'edit' && id) {
-      //     await editFirma(data, id);
-      //   } else {
-      //     await createFirma(data);
-      //   }
-      await createValve(data);
+      if (mode === 'edit' && id) {
+        await editValve(data, id);
+      } else {
+        await createValve(data);
+      }
       toast.success(getSuccessMessage(mode));
       router.push('/');
       setIsLoading(false);
@@ -111,7 +110,6 @@ export default function ValveForm({
       >
         <FirmaLocationSelect
           firms={firms}
-          mode={mode}
           firmaDefaultValues={mode === 'edit' ? defaultValues.firma : undefined}
           locationDefaultValues={
             mode === 'edit' ? defaultValues.location : undefined
@@ -144,7 +142,7 @@ export default function ValveForm({
                 <DecrementButton
                   onDecrement={handleDecrement}
                   mode={mode}
-                  count={infoBlocksCount}
+                  arrayName="infoBlocks"
                 />
               )}
               <SelectInput
@@ -154,7 +152,7 @@ export default function ValveForm({
                 name={`infoBlocks.${index}.valveLocation`}
                 defaultValue={
                   mode === 'edit'
-                    ? defaultValues.infoBlocks[index].valveLocation
+                    ? defaultValues.infoBlocks[index]?.valveLocation
                     : undefined
                 }
               />
@@ -165,7 +163,7 @@ export default function ValveForm({
                 name={`infoBlocks.${index}.valveType`}
                 defaultValue={
                   mode === 'edit'
-                    ? defaultValues.infoBlocks[index].valveType
+                    ? defaultValues.infoBlocks[index]?.valveType
                     : undefined
                 }
               />
