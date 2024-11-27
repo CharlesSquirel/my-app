@@ -35,6 +35,8 @@ const TermalInsulation = z.union([
 const IsValid = z.union([
   z.literal('Poprawny'),
   z.literal('Niepoprawny'),
+  z.literal('Prawidłowa'),
+  z.literal('Nieprawidłowa'),
   z.literal('Brak informacji'),
 ]);
 

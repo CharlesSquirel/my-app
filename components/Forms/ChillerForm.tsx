@@ -1,6 +1,11 @@
 'use client';
 
-import { chillerDriverTypes, chillerTypes } from '@/lib/data/chillerData';
+import {
+  chillerControlledParametersTypes,
+  chillerDriverTypes,
+  chillerRefrigerantTypes,
+  chillerTypes,
+} from '@/lib/data/chillerData';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO, ChillerValidationSchema } from '@/lib/zod/zodSchema';
@@ -9,6 +14,7 @@ import { useState } from 'react';
 import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
 import SelectInput from '../Inputs/SelectInput/SelectInput';
 import TextInput from '../Inputs/TextInput.tsx/TextInput';
+import TextInputWithSwitch from '../Inputs/TextInputWithSwitch/TextInputWithSwitch';
 import TextareaInput from '../Inputs/TextareaInput/TextareaInput';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import FormContainer from '../containers/FormContainer/FormContainer';
@@ -113,6 +119,41 @@ export default function ChillerForm({
           name="driverType"
           defaultValue={mode === 'edit' ? defaultValues.driverType : undefined}
         />
+        <TextInputWithSwitch
+          switchTrueLabel="Prawidłowa"
+          switchFalseLabel="Nieprawidłowa"
+          label="Różnica międzyfazowa"
+          switchName="interphaseOK"
+          textInputName="interphase"
+        />
+        <TextInput
+          type="number"
+          placeholder="Wpisz wartość"
+          label="Temperatura powietrza zewnętrznego (°C)"
+          name="airTemperature"
+        />
+        <SelectInput
+          name="refrigerant"
+          placeholder="Wybierz czynnik"
+          label="Czynnik chłodzący"
+          data={chillerRefrigerantTypes}
+          defaultValue={mode === 'edit' ? defaultValues.refrigerant : undefined}
+        />
+        <SelectInput
+          name="controlledParameter"
+          label="Parametr kontrolowany"
+          placeholder="Wybierz parametr"
+          data={chillerControlledParametersTypes}
+          defaultValue={
+            mode === 'edit' ? defaultValues.controlledParameter : undefined
+          }
+        />
+        {/* <TextInput
+          type="number"
+          label="Temperatura nastawy (°C)"
+          placeholder="Wpisz wartość"
+          name="settingsTemperature"
+        /> */}
         {/* <SelectInput
         placeholder='Wybierz wartość'
         label='Różnica mędzyfazowa'

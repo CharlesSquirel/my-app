@@ -29,3 +29,25 @@ export const chillerDriverTypes: SelectOptions[] = [
     value: 'Driver 3',
   },
 ];
+
+export const chillerRefrigerantTypes: SelectOptions[] = [
+  {
+    label: 'Woda',
+    value: 'Woda',
+  },
+  {
+    label: 'Roztwór glikolu',
+    value: 'Roztwór glikolu',
+  },
+];
+
+export const chillerControlledParametersTypes: SelectOptions[] = [
+  {
+    label: 'Bezpośrednio',
+    value: 'Bezpośrednio',
+  },
+  {
+    label: 'Pośrednio',
+    value: 'Pośrednio',
+  },
+];
