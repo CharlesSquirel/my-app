@@ -12,6 +12,7 @@ import { findAllFirma } from '@/lib/actions/firmaActions';
 import { SquareArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
+export const dynamic = 'force-dynamic';
 
 export default async function Firmas() {
   const firmaAll = await findAllFirma();

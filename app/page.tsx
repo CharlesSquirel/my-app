@@ -3,6 +3,7 @@ import { DataTable } from '@/components/common/Table/data-table';
 import { getValveProtocolsOptimized } from '@/lib/actions/commonActions';
 import { formatDate } from '@/lib/utils';
 import Header from '../components/Header/Header';
+export const dynamic = 'force-dynamic';
 
 // const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
 //   author: `Jan Kowalski ${i + 1}`,
