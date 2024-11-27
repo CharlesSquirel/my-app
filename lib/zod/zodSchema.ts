@@ -20,7 +20,7 @@ const AirPollution = z.union([
   z.literal('Koniecznie do mycia'),
   z.literal('Czysty'),
   z.literal('Bardzo czysty'),
-  z.literal('Brak'),
+  z.literal('Brak informacji'),
 ]);
 
 const TermalInsulation = z.union([
@@ -29,13 +29,13 @@ const TermalInsulation = z.union([
   z.literal('Średni'),
   z.literal('Dobry'),
   z.literal('Bardzo dobry'),
-  z.literal('Brak'),
+  z.literal('Brak informacji'),
 ]);
 
 const IsValid = z.union([
   z.literal('Poprawny'),
   z.literal('Niepoprawny'),
-  z.literal('Brak'),
+  z.literal('Brak informacji'),
 ]);
 
 const FreonTypes = z.union([
@@ -46,26 +46,37 @@ const FreonTypes = z.union([
   z.literal('R404A'),
   z.literal('R22'),
   z.literal('R290'),
-  z.literal('Brak'),
+  z.literal('Brak informacji'),
 ]);
 
-const Refrigerant = z.union([z.literal('Woda'), z.literal('Roztwór glikolu')]);
+const Refrigerant = z.union([
+  z.literal('Woda'),
+  z.literal('Roztwór glikolu'),
+  z.literal('Brak informacji'),
+]);
 
-const SwitchField = z.union([z.literal('Wyłączony'), z.literal('Załączony')]);
+const SwitchField = z.union([
+  z.literal('Wyłączony'),
+  z.literal('Załączony'),
+  z.literal('Brak informacji'),
+]);
 
 const WaterField = z.union([
   z.literal('Wejście wody'),
   z.literal('Wyjście wody'),
+  z.literal('Brak informacji'),
 ]);
 
 const ControlMethod = z.union([
   z.literal('Bezpośrednio'),
   z.literal('Pośrednio'),
+  z.literal('Brak informacji'),
 ]);
 
 const NecessaryField = z.union([
   z.literal('Konieczna'),
   z.literal('Niekonieczna'),
+  z.literal('Brak informacji'),
 ]);
 
 const DeviceType = z.union([

@@ -3,14 +3,8 @@
 import { Prisma, Valve } from '@prisma/client';
 import { prisma } from '../db/db';
 import { errorMessages } from '../errorMessages/errorMessages';
+import { handleError } from '../utils';
 import { ValveDTO } from '../zod/zodSchema';
-
-function handleError(error: unknown, defaultMessage: string): never {
-  if (error instanceof Error) {
-    throw new Error(error.message || defaultMessage);
-  }
-  throw new Error(defaultMessage);
-}
 
 export async function findValveById(id: string): Promise<Valve> {
   try {

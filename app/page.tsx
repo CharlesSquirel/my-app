@@ -1,7 +1,6 @@
 import { columns } from '@/components/common/Table/columns';
 import { DataTable } from '@/components/common/Table/data-table';
-import { getValveProtocolsOptimized } from '@/lib/actions/commonActions';
-import { formatDate } from '@/lib/utils';
+import { getAllProtocolsOptimized } from '@/lib/actions/commonActions';
 import Header from '../components/Header/Header';
 
 // const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
@@ -12,10 +11,9 @@ import Header from '../components/Header/Header';
 //   description: `Opis ${i + 1} - ${'a'.repeat((i % 5) + 5)}`, // różna długość opisu
 // }));
 export default async function Home() {
-  const protocols = await getValveProtocolsOptimized();
+  const protocols = await getAllProtocolsOptimized();
   const displayProtocols = protocols.map((protocol) => ({
     ...protocol,
-    createdAt: formatDate(protocol.createdAt),
     author: `${protocol.firstName} ${protocol.lastName}`,
   }));
   return (

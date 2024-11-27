@@ -147,6 +147,7 @@ model Chiller {
   firma    String
   location String
 
+  protocolType             String
   type                     String
   serialNumber             String
   pollution                String

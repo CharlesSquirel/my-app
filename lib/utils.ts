@@ -12,3 +12,10 @@ export function formatDate(date: Date): string {
 
   return `${day}/${month}/${year}`;
 }
+
+export function handleError(error: unknown, defaultMessage: string): never {
+  if (error instanceof Error) {
+    throw new Error(error.message || defaultMessage);
+  }
+  throw new Error(defaultMessage);
+}

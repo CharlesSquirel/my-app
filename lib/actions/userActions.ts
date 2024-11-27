@@ -5,13 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { prisma } from '../db/db';
 import { errorMessages } from '../errorMessages/errorMessages';
 import { UserDTO } from '../types/userTypes';
-
-function handleError(error: unknown, defaultMessage: string): never {
-  if (error instanceof Error) {
-    throw new Error(error.message || defaultMessage);
-  }
-  throw new Error(defaultMessage);
-}
+import { handleError } from '../utils';
 
 export default async function findUserById(id: string): Promise<User> {
   try {

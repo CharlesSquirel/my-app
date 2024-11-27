@@ -4,13 +4,7 @@ import { Firma, Prisma } from '@prisma/client';
 import { prisma } from '../db/db';
 import { errorMessages } from '../errorMessages/errorMessages';
 import { FirmaDTO } from '../types/firmaTypes';
-
-function handleError(error: unknown, defaultMessage: string): never {
-  if (error instanceof Error) {
-    throw new Error(error.message || defaultMessage);
-  }
-  throw new Error(defaultMessage);
-}
+import { handleError } from '../utils';
 
 export async function createFirma(data: FirmaDTO): Promise<Firma> {
   const {
