@@ -51,3 +51,68 @@ export const chillerControlledParametersTypes: SelectOptions[] = [
     value: 'Pośrednio',
   },
 ];
+
+export const chillerFreonTypes: SelectOptions[] = [
+  {
+    label: 'R134A',
+    value: 'R134A',
+  },
+  {
+    label: 'R410A',
+    value: 'R410A',
+  },
+  {
+    label: 'R407C',
+    value: 'R407C',
+  },
+  {
+    label: 'R32',
+    value: 'R32',
+  },
+  {
+    label: 'R404A',
+    value: 'R404A',
+  },
+  {
+    label: 'R22',
+    value: 'R22',
+  },
+  {
+    label: 'R290',
+    value: 'R290',
+  },
+];
+
+export const chillerSwitchField: SelectOptions[] = [
+  {
+    label: 'Wyłączony',
+    value: 'Wyłączony',
+  },
+  {
+    label: 'Załączony',
+    value: 'Załączony',
+  },
+];
+
+export const chillerAirPollution: SelectOptions[] = [
+  {
+    label: 'Bardzo brudny',
+    value: 'Bardzo brudny',
+  },
+  {
+    label: 'Brudny',
+    value: 'Brudny',
+  },
+  {
+    label: 'Koniecznie do mycia',
+    value: 'Koniecznie do mycia',
+  },
+  {
+    label: 'Czysty',
+    value: 'Czysty',
+  },
+  {
+    label: 'Bardzo czysty',
+    value: 'Bardzo czysty',
+  },
+];

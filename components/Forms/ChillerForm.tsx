@@ -3,7 +3,9 @@
 import {
   chillerControlledParametersTypes,
   chillerDriverTypes,
+  chillerFreonTypes,
   chillerRefrigerantTypes,
+  chillerSwitchField,
   chillerTypes,
 } from '@/lib/data/chillerData';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
@@ -18,6 +20,8 @@ import TextInputWithSwitch from '../Inputs/TextInputWithSwitch/TextInputWithSwit
 import TextareaInput from '../Inputs/TextareaInput/TextareaInput';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import FormContainer from '../containers/FormContainer/FormContainer';
+import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
+import ChillerQualityForm from './ChillerQualityForm';
 
 interface ChillerFormProps {
   mode: FormModeType;
@@ -148,6 +152,62 @@ export default function ChillerForm({
             mode === 'edit' ? defaultValues.controlledParameter : undefined
           }
         />
+        <SelectInput
+          name="freonType"
+          label="Freon"
+          placeholder="Wybierz freon"
+          defaultValue={mode === 'edit' ? defaultValues.freonType : undefined}
+          data={chillerFreonTypes}
+        />
+        <TextInput
+          type="number"
+          name="freonAmount"
+          label="Ilość czynnika (kg)"
+          placeholder="Wpisz wartość"
+        />
+        <SelectInput
+          name="highPressure"
+          label="Wyłącznik wysokiego ciśnienia"
+          placeholder="Wybierz wartość"
+          defaultValue={
+            mode === 'edit' ? defaultValues.highPressure : undefined
+          }
+          data={chillerSwitchField}
+        />
+        <SelectInput
+          name="lowPressure"
+          label="Wyłącznik niskiego ciśnienia"
+          placeholder="Wybierz wartość"
+          defaultValue={mode === 'edit' ? defaultValues.lowPressure : undefined}
+          data={chillerSwitchField}
+        />
+        <SelectInput
+          name="antiFreezeTermostat"
+          label="Termostat przeciwzamrożeniowy"
+          placeholder="Wybierz wartość"
+          defaultValue={
+            mode === 'edit' ? defaultValues.antiFrezzeTermostat : undefined
+          }
+          data={chillerSwitchField}
+        />
+        <TextInput
+          name="measuredVoltage_1"
+          label="Zmierzone napięcie L1-L2 (V)"
+          placeholder="Wpisz wartość"
+          type="number"
+        />
+        <TextInput
+          name="measuredVoltage_2"
+          type="number"
+          placeholder="Wpisz wartość"
+          label="Zmierzone napięcie L1-L3 (V)"
+        />
+        <TextInput
+          name="measuredVoltage_3"
+          type="number"
+          placeholder="Wpisz wartość"
+          label="Zmierzone napięcie L2-L3 (V)"
+        />
         {/* <TextInput
           type="number"
           label="Temperatura nastawy (°C)"
@@ -164,6 +224,9 @@ export default function ChillerForm({
           placeholder="Wpisz swoje uwagi"
           name="description"
         />
+        <FormSectionContainer title="Kontrola jakości">
+          <ChillerQualityForm mode={mode} defaultValues={defaultValues} />
+        </FormSectionContainer>
         {/* <div className="my-5 flex justify-center">
           <CardTitle>Zawory</CardTitle>
         </div> */}
