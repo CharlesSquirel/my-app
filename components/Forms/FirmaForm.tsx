@@ -11,9 +11,9 @@ import toast from 'react-hot-toast';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import DecrementButton from '../common/DecrementButton/DecrementButton';
 import IncrementButton from '../common/IncrementButton/IncrementButton';
-import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
+import TextInput from '../Inputs/TextInput.tsx/TextInput';
 import { CardTitle } from '../ui/card';
 
 interface FirmaFormProps {

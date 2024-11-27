@@ -6,11 +6,11 @@ import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO, ChillerValidationSchema } from '@/lib/zod/zodSchema';
 import { Prisma } from '@prisma/client';
 import { useState } from 'react';
-import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
-import SelectInput from '../SelectInput/SelectInput';
+import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
+import SelectInput from '../Inputs/SelectInput/SelectInput';
+import TextInput from '../Inputs/TextInput.tsx/TextInput';
+import TextareaInput from '../Inputs/TextareaInput/TextareaInput';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
-import TextInput from '../common/TextInput.tsx/TextInput';
-import TextareaInput from '../common/TextareaInput/TextareaInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 
 interface ChillerFormProps {

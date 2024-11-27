@@ -1,6 +1,6 @@
 'use client';
 
-import TextInput from '@/components/common/TextInput.tsx/TextInput';
+import TextInput from '@/components/Inputs/TextInput.tsx/TextInput';
 import FormContainer from '@/components/containers/FormContainer/FormContainer';
 import { createUser, editUser } from '@/lib/actions/userActions';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';

@@ -1,4 +1,4 @@
-import { SelectOptions } from '@/components/SelectInput/SelectInput';
+import { SelectOptions } from '@/components/Inputs/SelectInput/SelectInput';
 
 export const chillerTypes: SelectOptions[] = [
   {

@@ -16,12 +16,12 @@ import toast from 'react-hot-toast';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
 import DecrementButton from '../common/DecrementButton/DecrementButton';
 import IncrementButton from '../common/IncrementButton/IncrementButton';
-import TextareaInput from '../common/TextareaInput/TextareaInput';
-import TextInput from '../common/TextInput.tsx/TextInput';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
-import FirmaLocationSelect from '../Firma&LocationSelect/Firma&LocationSelect';
-import SelectInput from '../SelectInput/SelectInput';
+import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
+import SelectInput from '../Inputs/SelectInput/SelectInput';
+import TextareaInput from '../Inputs/TextareaInput/TextareaInput';
+import TextInput from '../Inputs/TextInput.tsx/TextInput';
 import { CardTitle } from '../ui/card';
 
 interface ValveFormProps {
