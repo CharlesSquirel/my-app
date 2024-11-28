@@ -94,13 +94,15 @@ const CircuitValidationSchema = z.object({
   condensationTemperature: createNumberValidator(),
   subcooling: createNumberValidator(),
   airTemperature: createNumberValidator(),
+
   suctionPressure: createNumberValidator(),
   suctionTemperature: createNumberValidator(),
   overHeat: createNumberValidator(),
-  inTemperature: createNumberValidator(),
-  outTemperature: createNumberValidator(),
+
   inWaterPressure: createNumberValidator(),
   outWaterPressure: createNumberValidator(),
+  inTemperature: createNumberValidator(),
+  outTemperature: createNumberValidator(),
 });
 
 const PowerConsumptionSchema = z.object({
@@ -108,55 +110,60 @@ const PowerConsumptionSchema = z.object({
   amperage_1: createNumberValidator(),
   amperage_2: createNumberValidator(),
   amperage_3: createNumberValidator(),
-  interphase: createNumberValidator().optional(),
   interphaseOk: IsValid,
+  interphase: createNumberValidator().optional(),
 });
 
 export const ChillerValidationSchema = z.object({
-  firma: createStringValidator(),
-  location: createStringValidator(),
   userId: createStringValidator(),
   userSignature: createStringValidator(),
-  firstName: createStringValidator(),
   lastName: createStringValidator(),
+  firstName: createStringValidator(),
+  protocolType: ProtocolType,
+
+  firma: createStringValidator(),
+  location: createStringValidator(),
+
   type: createStringValidator(),
   serialNumber: createStringValidator(),
-  protocolType: ProtocolType,
-  pollution: AirPollution,
-  termalInsulation: TermalInsulation,
-  termalAndPressureControl: IsValid,
-  supplyVoltage: createNumberValidator(),
-  supplyPhase: createNumberValidator(),
-  measuredVoltage_1: createNumberValidator(),
-  measuredVoltage_2: createNumberValidator(),
-  measuredVoltage_3: createNumberValidator(),
-  interphase: createNumberValidator().optional(),
+  driverType: createStringValidator(),
+  airTemperature: createNumberValidator(),
   interphaseOK: IsValid,
-  freonType: FreonTypes,
-  freonAmount: createNumberValidator(),
+  interphase: createNumberValidator().optional(),
   refrigerationCircuits: z
     .array(z.number())
     .min(1, { message: 'Musi być minimum 1 obieg' }),
-  driverType: createStringValidator(),
   refrigerant: Refrigerant,
-  airTemperature: createNumberValidator(),
-  oilLevel: IsValid,
-  indicatorColor: IsValid,
-  tightSystem: IsValid,
-  currentConsumption: IsValid,
-  fansConsumption: IsValid,
-  highPressure: SwitchField,
-  lowPressure: SwitchField,
-  antiFrezzeTermostat: SwitchField,
   settingsTemperature: z
     .array(z.number())
     .min(1, { message: 'Musi być minimum 1 temperatura' }),
   controlledParameter: WaterField,
+  supplyVoltage: createNumberValidator(),
+  supplyPhase: createNumberValidator(),
+  freonType: FreonTypes,
+  freonAmount: createNumberValidator(),
+  highPressure: SwitchField,
+  lowPressure: SwitchField,
+  antiFrezzeTermostat: SwitchField,
+  measuredVoltage_1: createNumberValidator(),
+  measuredVoltage_2: createNumberValidator(),
+  measuredVoltage_3: createNumberValidator(),
+
+  pollution: AirPollution,
+  termalInsulation: TermalInsulation,
+  termalAndPressureControl: IsValid,
+  oilLevel: IsValid,
+  indicatorColor: IsValid,
+  currentConsumption: IsValid,
+  fansConsumption: IsValid,
+  tightSystem: IsValid,
+
   controlMethod: ControlMethod,
   leakGasTest: NecessaryField,
   gasAdded: createNumberValidator(),
   gasRegain: createNumberValidator(),
   description: z.string().optional(),
+
   circuits: z
     .array(CircuitValidationSchema)
     .min(1, { message: 'Musi być minimum 1 obieg' }),
