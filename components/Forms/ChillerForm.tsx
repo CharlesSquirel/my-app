@@ -1,26 +1,20 @@
 'use client';
 
-import {
-  chillerControlledParametersTypes,
-  chillerDriverTypes,
-  chillerFreonTypes,
-  chillerRefrigerantTypes,
-  chillerSwitchField,
-  chillerTypes,
-} from '@/lib/data/chillerData';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO, ChillerValidationSchema } from '@/lib/zod/zodSchema';
 import { Prisma } from '@prisma/client';
-import { useState } from 'react';
-import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
-import SelectInput from '../Inputs/SelectInput/SelectInput';
-import TextInput from '../Inputs/TextInput.tsx/TextInput';
-import TextInputWithSwitch from '../Inputs/TextInputWithSwitch/TextInputWithSwitch';
-import TextareaInput from '../Inputs/TextareaInput/TextareaInput';
+import React, { useState } from 'react';
 import ButtonBack from '../common/ButtonBack/ButtonBack';
+import DecrementButton from '../common/DecrementButton/DecrementButton';
+import IncrementButton from '../common/IncrementButton/IncrementButton';
 import FormContainer from '../containers/FormContainer/FormContainer';
 import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
+import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
+import { CardTitle } from '../ui/card';
+import ChillerBasicForm from './ChillerBasicForm';
+import ChillerLeakForm from './ChillerLeakForm';
+import ChillerPowerConsumptionForm from './ChillerPowerConsumptionForm';
 import ChillerQualityForm from './ChillerQualityForm';
 
 interface ChillerFormProps {
@@ -59,6 +53,15 @@ export default function ChillerForm({
     throw new Error('Brak id protokołu zaworu do edycji');
   }
   const [isLoading, setIsLoading] = useState(false);
+  const [powerCount, setPowerCount] = useState(
+    mode === 'edit' ? defaultValues.powerConsumptions.length : 1,
+  );
+  const handlePowerIncrement = () => {
+    setPowerCount(powerCount + 1);
+  };
+  const handlePowerDecrement = () => {
+    setPowerCount(powerCount - 1);
+  };
   const handleOnSubmit = async (data: ChillerDTO) => {
     console.log(data);
     // setIsLoading(true);
@@ -104,198 +107,38 @@ export default function ChillerForm({
             mode === 'edit' ? defaultValues.location : undefined
           }
         />
-        <SelectInput
-          placeholder="Wybierz typ"
-          label="Typ"
-          data={chillerTypes}
-          name="type"
-          defaultValue={mode === 'edit' ? defaultValues.type : undefined}
-        />
-        <TextInput
-          placeholder="Wpisz numer"
-          name="serialNumber"
-          label="Nr seryjny"
-        />
-        <SelectInput
-          data={chillerDriverTypes}
-          placeholder="Wybierz typ"
-          label="Typ sterownika"
-          name="driverType"
-          defaultValue={mode === 'edit' ? defaultValues.driverType : undefined}
-        />
-        <TextInputWithSwitch
-          switchTrueLabel="Prawidłowa"
-          switchFalseLabel="Nieprawidłowa"
-          label="Różnica międzyfazowa"
-          switchName="interphaseOK"
-          textInputName="interphase"
-        />
-        <TextInput
-          type="number"
-          placeholder="Wpisz wartość"
-          label="Temperatura powietrza zewnętrznego (°C)"
-          name="airTemperature"
-        />
-        <SelectInput
-          name="refrigerant"
-          placeholder="Wybierz czynnik"
-          label="Czynnik chłodzący"
-          data={chillerRefrigerantTypes}
-          defaultValue={mode === 'edit' ? defaultValues.refrigerant : undefined}
-        />
-        <SelectInput
-          name="controlledParameter"
-          label="Parametr kontrolowany"
-          placeholder="Wybierz parametr"
-          data={chillerControlledParametersTypes}
-          defaultValue={
-            mode === 'edit' ? defaultValues.controlledParameter : undefined
-          }
-        />
-        <SelectInput
-          name="freonType"
-          label="Freon"
-          placeholder="Wybierz freon"
-          defaultValue={mode === 'edit' ? defaultValues.freonType : undefined}
-          data={chillerFreonTypes}
-        />
-        <TextInput
-          type="number"
-          name="freonAmount"
-          label="Ilość czynnika (kg)"
-          placeholder="Wpisz wartość"
-        />
-        <SelectInput
-          name="highPressure"
-          label="Wyłącznik wysokiego ciśnienia"
-          placeholder="Wybierz wartość"
-          defaultValue={
-            mode === 'edit' ? defaultValues.highPressure : undefined
-          }
-          data={chillerSwitchField}
-        />
-        <SelectInput
-          name="lowPressure"
-          label="Wyłącznik niskiego ciśnienia"
-          placeholder="Wybierz wartość"
-          defaultValue={mode === 'edit' ? defaultValues.lowPressure : undefined}
-          data={chillerSwitchField}
-        />
-        <SelectInput
-          name="antiFreezeTermostat"
-          label="Termostat przeciwzamrożeniowy"
-          placeholder="Wybierz wartość"
-          defaultValue={
-            mode === 'edit' ? defaultValues.antiFrezzeTermostat : undefined
-          }
-          data={chillerSwitchField}
-        />
-        <TextInput
-          name="measuredVoltage_1"
-          label="Zmierzone napięcie L1-L2 (V)"
-          placeholder="Wpisz wartość"
-          type="number"
-        />
-        <TextInput
-          name="measuredVoltage_2"
-          type="number"
-          placeholder="Wpisz wartość"
-          label="Zmierzone napięcie L1-L3 (V)"
-        />
-        <TextInput
-          name="measuredVoltage_3"
-          type="number"
-          placeholder="Wpisz wartość"
-          label="Zmierzone napięcie L2-L3 (V)"
-        />
-        {/* <TextInput
-          type="number"
-          label="Temperatura nastawy (°C)"
-          placeholder="Wpisz wartość"
-          name="settingsTemperature"
-        /> */}
-        {/* <SelectInput
-        placeholder='Wybierz wartość'
-        label='Różnica mędzyfazowa'
-        name='interphase'
-        /> */}
-        <TextareaInput
-          label="Uwagi (opcjonalnie)"
-          placeholder="Wpisz swoje uwagi"
-          name="description"
-        />
+        <ChillerBasicForm mode={mode} defaultValues={defaultValues} />
         <FormSectionContainer title="Kontrola jakości">
           <ChillerQualityForm mode={mode} defaultValues={defaultValues} />
         </FormSectionContainer>
-        {/* <div className="my-5 flex justify-center">
-          <CardTitle>Zawory</CardTitle>
-        </div> */}
-        {/* {[...Array(infoBlocksCount)].map((_, index) => (
+        <FormSectionContainer title="Kontrola szczelności">
+          <ChillerLeakForm mode={mode} defaultValues={defaultValues} />
+        </FormSectionContainer>
+
+        <div className="my-5 flex justify-center">
+          <CardTitle>Parametry poboru prądu</CardTitle>
+        </div>
+        {[...Array(powerCount)].map((_, index) => (
           <React.Fragment key={index}>
-            <FormSectionContainer title={`Zawór ${index + 1}`}>
+            <FormSectionContainer title={`Pobór ${index + 1}`}>
               {index > 0 && (
                 <DecrementButton
-                  onDecrement={handleDecrement}
+                  onDecrement={handlePowerDecrement}
                   mode={mode}
-                  arrayName="infoBlocks"
+                  arrayName="powerConsumptions"
                 />
               )}
-              <SelectInput
-                data={valveInstallationTypes}
-                label="Miejsce instalowania zaworu"
-                placeholder="Wybierz miejsce"
-                name={`infoBlocks.${index}.valveLocation`}
-                defaultValue={
-                  mode === 'edit'
-                    ? defaultValues.infoBlocks[index]?.valveLocation
-                    : undefined
-                }
-              />
-              <SelectInput
-                data={valveInfoBlocksTypes}
-                label="Typ"
-                placeholder="Wybierz typ"
-                name={`infoBlocks.${index}.valveType`}
-                defaultValue={
-                  mode === 'edit'
-                    ? defaultValues.infoBlocks[index]?.valveType
-                    : undefined
-                }
-              />
-              <TextInput
-                placeholder="Wpisz numer"
-                name={`infoBlocks.${index}.valveSerialNumber`}
-                label="Nr seryjny"
-              />
-              <TextInput
-                type="number"
-                placeholder="Wpisz wartość"
-                label="Ciśnienie nastawy (bar)"
-                name={`infoBlocks.${index}.pressureSetting`}
-              />
-              <TextInput
-                type="number"
-                placeholder="Wpisz wartość"
-                label="Ciśnienie otwarcia (bar)"
-                name={`infoBlocks.${index}.pressureOpen`}
-              />
-              <TextInput
-                type="number"
-                placeholder="Wpisz wartość"
-                label="Ciśnienie zamknięcia (bar)"
-                name={`infoBlocks.${index}.pressureClose`}
-              />
-              <TextareaInput
-                label="Uwagi (opcjonalnie)"
-                placeholder="Wpisz swoje uwagi"
-                name={`infoBlocks.${index}.description`}
+              <ChillerPowerConsumptionForm
+                mode={mode}
+                defaultValues={defaultValues}
+                index={index}
               />
             </FormSectionContainer>
-            {index + 1 === infoBlocksCount && (
-              <IncrementButton onIncrement={handleIncrement} />
+            {index + 1 === powerCount && (
+              <IncrementButton onIncrement={handlePowerIncrement} />
             )}
           </React.Fragment>
-        ))} */}
+        ))}
       </FormContainer>
     </section>
   );

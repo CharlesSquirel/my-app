@@ -116,3 +116,83 @@ export const chillerAirPollution: SelectOptions[] = [
     value: 'Bardzo czysty',
   },
 ];
+
+export const chillerTermalInsulationTypes: SelectOptions[] = [
+  {
+    label: 'Bardzo słaby',
+    value: 'Bardzo słaby',
+  },
+  {
+    label: 'Słaby',
+    value: 'Słaby',
+  },
+  {
+    label: 'Średni',
+    value: 'Średni',
+  },
+  {
+    label: 'Dobry',
+    value: 'Dobry',
+  },
+  {
+    label: 'Bardzo dobry',
+    value: 'Bardzo dobry',
+  },
+];
+
+export const chillerValidTypes: SelectOptions[] = [
+  {
+    label: 'Poprawny',
+    value: 'Poprawny',
+  },
+  {
+    label: 'Niepoprawny',
+    value: 'Niepoprawny',
+  },
+];
+
+export const chillerNecessaryTypes: SelectOptions[] = [
+  {
+    label: 'Konieczna',
+    value: 'Konieczna',
+  },
+  {
+    label: 'Niekonieczna',
+    value: 'Niekonieczna',
+  },
+];
+
+export const chillerDeviceTypes: SelectOptions[] = [
+  {
+    label: 'Sprężarka',
+    value: 'Sprężarka',
+  },
+  {
+    label: 'Chłodnica',
+    value: 'Chłodnica',
+  },
+  {
+    label: 'Zbiornik',
+    value: 'Zbiornik',
+  },
+  {
+    label: 'Pompa',
+    value: 'Pompa',
+  },
+  {
+    label: 'Wymiennik',
+    value: 'Wymiennik',
+  },
+  {
+    label: 'Czujnik',
+    value: 'Czujnik',
+  },
+  {
+    label: 'Sterownik',
+    value: 'Sterownik',
+  },
+  {
+    label: 'Inne',
+    value: 'Inne',
+  },
+];
