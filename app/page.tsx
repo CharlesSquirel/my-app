@@ -18,6 +18,19 @@ export default async function Home() {
   }));
   return (
     <>
+      {/* <Image
+        src={newYorkImg}
+        alt=""
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: 'cover',
+          zIndex: -1,
+          filter: 'blur(6px)',
+        }}
+      /> */}
       <Header />
       <DataTable columns={columns} data={displayProtocols} />
     </>

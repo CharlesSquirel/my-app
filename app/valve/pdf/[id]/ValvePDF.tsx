@@ -3,6 +3,7 @@ import { pdfStyles } from '@/components/PDF/styles/PDFStyles';
 import InfoContainer from '@/components/Protocols/InfoContainer';
 import ProtocolFirmaInfo from '@/components/Protocols/ProtocolFirmaInfo';
 import ProtocolRow from '@/components/Protocols/ProtocolRow';
+import ProtocolSign from '@/components/Protocols/ProtocolSign';
 import ProtocolUserInfo from '@/components/Protocols/ProtocolUserInfo';
 import ValveInfoBlocks from '@/components/Protocols/ValveProtocol/ValveInfoBlocks';
 import { pdfFonts } from '@/lib/fonts/fonts';
@@ -79,6 +80,7 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
           />
         ))}
       </InfoContainer>
+      <ProtocolSign author={`${valve.firstName} ${valve.lastName}`} />
     </Page>
   </Document>
 );

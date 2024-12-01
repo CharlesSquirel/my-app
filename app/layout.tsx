@@ -2,6 +2,7 @@ import { roboto } from '@/lib/fonts/fonts';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
+
 import './globals.css';
 
 export const metadata: Metadata = {
