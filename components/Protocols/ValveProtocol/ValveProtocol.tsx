@@ -1,12 +1,15 @@
 'use client';
 
 import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
+import SignModal from '@/components/Forms/SignModal';
 import { Button } from '@/components/ui/button';
 import { deleteValve } from '@/lib/actions/valveActions';
 import { ValvePDFProps } from '@/lib/types/common';
-import { Download, Pencil, Trash2 } from 'lucide-react';
+import { ArrowUpDown, Download, Pencil, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import logo from '../../../app/assets/logo.svg';
 import InfoContainer from '../InfoContainer';
 import ProtocolHeader from '../ProtocolHeader';
@@ -15,6 +18,7 @@ import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
 import ValveInfoBlocks from './ValveInfoBlocks';
 
 export default function ValveProtocol({ valve }: ValvePDFProps) {
+  const [showSignModal, setShowSignModal] = useState(false);
   const protocolHeaderData = {
     firma: valve.firma,
     location: valve.location,
@@ -32,6 +36,7 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
 
   return (
     <section className="flex w-full flex-col" id="valve">
+      {showSignModal && createPortal(<SignModal />, document.body)}
       <div className="mb-6 flex justify-end gap-2">
         <Button variant="outline" asChild>
           <Link href={`/valve/edit/${valve.id}`}>
@@ -44,6 +49,9 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             <Download />
             Pobierz
           </Link>
+        </Button>
+        <Button variant="outline">
+          <ArrowUpDown /> Pobierz i wyślij z podpisem
         </Button>
         <AlertDialogComponent
           onDelete={deleteValve}

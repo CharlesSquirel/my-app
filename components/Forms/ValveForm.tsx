@@ -80,7 +80,7 @@ export default function ValveForm({
         await createValve(data);
       }
       toast.success(getSuccessMessage(mode));
-      router.push('/');
+      router.push(`/valve/${id}`);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
