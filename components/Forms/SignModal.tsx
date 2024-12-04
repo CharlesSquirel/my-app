@@ -1,11 +1,14 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { updateValveSignedStatus } from '@/lib/actions/valveActions';
 import { downloadProtocolWithSignature } from '@/lib/fetch/downloadProtocolWithSignature';
 import useBlurBackground from '@/lib/hooks/useBackgroundBlur';
 import { ProtocolType } from '@/lib/zod/zodSchema';
 import { X } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import toast from 'react-hot-toast';
 import SignatureCanvas from 'react-signature-canvas';
 
 interface SignModalProps {
@@ -21,6 +24,7 @@ export default function SignModal({
   createdAt,
   mode,
 }: SignModalProps) {
+  const router = useRouter();
   const sigCanvas = useRef<SignatureCanvas | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -31,6 +35,18 @@ export default function SignModal({
       sigCanvas.current.clear();
     } else {
       console.error('sigCanvas is not initialized');
+    }
+  };
+
+  const handleDownload = async () => {
+    if (sigCanvas.current) {
+      downloadProtocolWithSignature(sigCanvas, createdAt, id, mode);
+      await updateValveSignedStatus(id);
+      onCancel();
+      toast.success('Operacja zakończona pomyślnie');
+      router.refresh();
+    } else {
+      toast.error('Wystąpił błąd podczas generowania pliku PDF');
     }
   };
 
@@ -57,19 +73,7 @@ export default function SignModal({
         <Button onClick={clearSignature} variant="outline">
           Wyczyść
         </Button>
-        <Button
-          onClick={() =>
-            downloadProtocolWithSignature(
-              sigCanvas,
-              createdAt,
-              id,
-              mode,
-              onCancel,
-            )
-          }
-        >
-          Zapisz
-        </Button>
+        <Button onClick={handleDownload}>Zapisz</Button>
       </div>
     </div>
   );

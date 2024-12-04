@@ -98,8 +98,10 @@ export async function editValve(data: ValveDTO, id: string): Promise<void> {
     description,
     protocolType,
     infoBlocks,
+    signed,
   } = data;
   const valveEditData: Omit<ValveDTO, 'infoBlocks'> = {
+    signed,
     userId,
     userSignature,
     firstName,
@@ -169,5 +171,20 @@ export async function deleteValve(id: string): Promise<void> {
     console.log(`Valve successfully deleted: ${deletedValve}`);
   } catch (error) {
     handleError(error, errorMessages.valveNotExist);
+  }
+}
+
+export async function updateValveSignedStatus(id: string): Promise<void> {
+  try {
+    await prisma.valve.update({
+      where: {
+        id,
+      },
+      data: {
+        signed: true,
+      },
+    });
+  } catch (error) {
+    handleError(error, errorMessages.disconnect);
   }
 }

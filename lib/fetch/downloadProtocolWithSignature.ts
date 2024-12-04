@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast';
 import ReactSignatureCanvas from 'react-signature-canvas';
 import { ProtocolType } from '../zod/zodSchema';
 
@@ -7,7 +6,6 @@ export async function downloadProtocolWithSignature(
   createdAt: string,
   protocolId: string,
   mode: ProtocolType,
-  onCancel: () => void,
 ) {
   try {
     if (ref.current) {
@@ -37,11 +35,8 @@ export async function downloadProtocolWithSignature(
       } else {
         console.error('Failed to generate PDF');
       }
-      toast.success('Operacja zakończona pomyślnie');
-      onCancel();
     }
   } catch (error) {
     console.error(error);
-    toast.error('Wystąpił błąd podczas generowania pliku PDF');
   }
 }

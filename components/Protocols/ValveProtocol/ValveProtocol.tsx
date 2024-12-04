@@ -2,6 +2,7 @@
 
 import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import SignModal from '@/components/Forms/SignModal';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { deleteValve } from '@/lib/actions/valveActions';
 import { ValvePDFProps } from '@/lib/types/common';
@@ -34,6 +35,7 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
     type: valve.type,
     serialNumber: valve.serialNumber,
   };
+  const valveSigned = valve.signed;
 
   return (
     <section className="flex w-full flex-col" id="valve">
@@ -60,7 +62,11 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             Pobierz
           </Link>
         </Button>
-        <Button variant="outline" onClick={handleSignModal}>
+        <Button
+          variant="outline"
+          onClick={handleSignModal}
+          disabled={valveSigned}
+        >
           <ArrowUpDown /> Pobierz i wyślij z podpisem
         </Button>
         <AlertDialogComponent
@@ -77,7 +83,15 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
       </div>
       <div className="flex flex-col gap-3">
         <header className="flex justify-between">
-          <ProtocolTitle subTitle="badania zaworów" mode="web" />
+          <div className="flex flex-col gap-2">
+            <ProtocolTitle subTitle="badania zaworów" mode="web" />
+            <Badge
+              variant={valveSigned ? 'signed' : 'unsigned'}
+              className="h-[20px] w-fit"
+            >
+              {valveSigned ? 'Wysłany' : 'Niewysłany'}
+            </Badge>
+          </div>
 
           <Link href="/">
             <Image src={logo} alt="Chillair logo" width={200} priority />

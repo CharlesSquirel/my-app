@@ -248,6 +248,7 @@ const ValvesInfoBlockSchema = z.object({
 });
 
 export const ValvesValidationSchema = z.object({
+  signed: z.boolean(),
   userId: createStringValidator(),
   userSignature: createStringValidator(),
   firstName: createStringValidator(),
