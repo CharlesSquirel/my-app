@@ -1,11 +1,26 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { downloadProtocolWithSignature } from '@/lib/fetch/downloadProtocolWithSignature';
 import useBlurBackground from '@/lib/hooks/useBackgroundBlur';
+import { ProtocolType } from '@/lib/zod/zodSchema';
+import { X } from 'lucide-react';
 import { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
-export default function SignModal() {
+interface SignModalProps {
+  onCancel: () => void;
+  id: string;
+  createdAt: string;
+  mode: ProtocolType;
+}
+
+export default function SignModal({
+  onCancel,
+  id,
+  createdAt,
+  mode,
+}: SignModalProps) {
   const sigCanvas = useRef<SignatureCanvas | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -19,22 +34,12 @@ export default function SignModal() {
     }
   };
 
-  const saveSignature = () => {
-    if (sigCanvas.current) {
-      const signatureImage = sigCanvas.current
-        .getTrimmedCanvas()
-        .toDataURL('image/png');
-      console.log('Signature Data URL:', signatureImage);
-      // Możesz wysłać ten podpis na serwer
-      // fetch('/api/save-signature', { method: 'POST', body: JSON.stringify({ signature: signatureImage }) });
-    }
-  };
-
   return (
     <div
       className="absolute left-[50%] top-[50%] z-10 flex translate-x-[-50%] translate-y-[-50%] flex-col gap-2 bg-white p-5 shadow-lg"
       ref={modalRef}
     >
+      <X className="absolute right-3 top-3 cursor-pointer" onClick={onCancel} />
       <h2 className="font-semibold">Złóż podpis:</h2>
       <p className="text-gray-500">
         Podpis nie będzie przechowywany w bazie danych. Będzie jednorazowo
@@ -42,7 +47,7 @@ export default function SignModal() {
       </p>
       <SignatureCanvas
         penColor="#008dd2"
-        backgroundColor="#f5f5f5"
+        backgroundColor="#fff"
         ref={sigCanvas}
         canvasProps={{
           className: 'border w-full h-40',
@@ -52,7 +57,19 @@ export default function SignModal() {
         <Button onClick={clearSignature} variant="outline">
           Wyczyść
         </Button>
-        <Button onClick={saveSignature}>Zapisz</Button>
+        <Button
+          onClick={() =>
+            downloadProtocolWithSignature(
+              sigCanvas,
+              createdAt,
+              id,
+              mode,
+              onCancel,
+            )
+          }
+        >
+          Zapisz
+        </Button>
       </div>
     </div>
   );

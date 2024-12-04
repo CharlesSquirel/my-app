@@ -19,6 +19,7 @@ import ValveInfoBlocks from './ValveInfoBlocks';
 
 export default function ValveProtocol({ valve }: ValvePDFProps) {
   const [showSignModal, setShowSignModal] = useState(false);
+  const handleSignModal = () => setShowSignModal(!showSignModal);
   const protocolHeaderData = {
     firma: valve.firma,
     location: valve.location,
@@ -36,7 +37,16 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
 
   return (
     <section className="flex w-full flex-col" id="valve">
-      {showSignModal && createPortal(<SignModal />, document.body)}
+      {showSignModal &&
+        createPortal(
+          <SignModal
+            onCancel={handleSignModal}
+            id={valve.id}
+            createdAt={valve.createdAt}
+            mode="valve"
+          />,
+          document.body,
+        )}
       <div className="mb-6 flex justify-end gap-2">
         <Button variant="outline" asChild>
           <Link href={`/valve/edit/${valve.id}`}>
@@ -50,7 +60,7 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             Pobierz
           </Link>
         </Button>
-        <Button variant="outline">
+        <Button variant="outline" onClick={handleSignModal}>
           <ArrowUpDown /> Pobierz i wyślij z podpisem
         </Button>
         <AlertDialogComponent

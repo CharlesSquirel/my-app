@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from '@react-pdf/renderer';
+import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
 import { pdfStyles } from '../PDF/styles/PDFStyles';
 
 const styles = StyleSheet.create({
@@ -7,7 +7,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignSelf: 'flex-end',
     width: '25%',
-    gap: 10,
+    gap: 5,
+  },
+  authorSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   signLine: {
     width: '100%',
@@ -18,13 +24,20 @@ const styles = StyleSheet.create({
 
 interface ProtocolSignProps {
   author: string;
+  signature?: string;
 }
 
-export default function ProtocolSign({ author }: ProtocolSignProps) {
+export default function ProtocolSign({ author, signature }: ProtocolSignProps) {
   return (
     <View style={styles.section}>
+      {signature && (
+        <Image src={signature} style={{ width: 100, height: 50 }} />
+      )}
       <View style={styles.signLine}></View>
-      <Text style={pdfStyles.textSmall}>{author}</Text>
+      <View style={styles.authorSection}>
+        <Text style={pdfStyles.textSmall}>{author}</Text>
+        <Text style={pdfStyles.textSmall}>Serwisant</Text>
+      </View>
     </View>
   );
 }

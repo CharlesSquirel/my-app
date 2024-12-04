@@ -43,7 +43,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const ValvePDF = ({ valve }: ValvePDFProps) => (
+interface ValvePDFPropsWithSignature extends ValvePDFProps {
+  signature?: string;
+}
+
+const ValvePDF = ({ valve, signature }: ValvePDFPropsWithSignature) => (
   <Document
     title={`Protokół badania zaworów bezpieczeństwa ${valve.createdAt}`}
     author={`${valve.firstName} ${valve.lastName}`}
@@ -80,7 +84,10 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
           />
         ))}
       </InfoContainer>
-      <ProtocolSign author={`${valve.firstName} ${valve.lastName}`} />
+      <ProtocolSign
+        author={`${valve.firstName} ${valve.lastName}`}
+        signature={signature}
+      />
     </Page>
   </Document>
 );

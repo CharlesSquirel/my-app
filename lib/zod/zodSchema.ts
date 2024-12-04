@@ -13,6 +13,7 @@ const getvalidationStringMessage = (num: number): string => {
 };
 
 const ProtocolType = z.union([z.literal('valve'), z.literal('chiller')]);
+export type ProtocolType = z.infer<typeof ProtocolType>;
 
 const AirPollution = z.union([
   z.literal('Bardzo brudny'),
