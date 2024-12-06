@@ -5,10 +5,10 @@ import ValvePDF from '../../[id]/ValvePDF';
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const protocolId = await params.id;
+    const protocolId = (await params).id;
 
     // Pobierz dane z treści żądania
     const body = await req.json();
