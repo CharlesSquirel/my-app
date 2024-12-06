@@ -25,7 +25,6 @@ export default function TextInputWithSwitch({
 }: TextInputWithSwitchProps) {
   const {
     setValue,
-    getValues,
     formState: { errors },
   } = useFormContext();
   const [isSwitchTrue, setIsSwitchTrue] = useState(true);
@@ -37,7 +36,6 @@ export default function TextInputWithSwitch({
       setValue(textInputName, 0);
     }
   };
-  console.log(getValues());
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor={switchName}>{label}</Label>

@@ -152,5 +152,14 @@ export const chillerDefaultValues: ChillerDTO = {
   gasRegain: 0,
   description: undefined,
   circuits: [],
-  powerConsumptions: [],
+  powerConsumptions: [
+    {
+      deviceType: '',
+      amperage_1: 0,
+      amperage_2: 0,
+      amperage_3: 0,
+      interphaseOk: 'Prawidłowa',
+      interphase: 0,
+    },
+  ],
 };

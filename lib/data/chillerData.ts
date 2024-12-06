@@ -168,31 +168,19 @@ export const chillerDeviceTypes: SelectOptions[] = [
     value: 'Sprężarka',
   },
   {
-    label: 'Chłodnica',
-    value: 'Chłodnica',
+    label: 'Wentylator',
+    value: 'Wentylator',
   },
   {
-    label: 'Zbiornik',
-    value: 'Zbiornik',
+    label: 'Pompa WL',
+    value: 'Pompa WL',
   },
   {
-    label: 'Pompa',
-    value: 'Pompa',
+    label: 'Silnik',
+    value: 'Silnik',
   },
   {
-    label: 'Wymiennik',
-    value: 'Wymiennik',
-  },
-  {
-    label: 'Czujnik',
-    value: 'Czujnik',
-  },
-  {
-    label: 'Sterownik',
-    value: 'Sterownik',
-  },
-  {
-    label: 'Inne',
-    value: 'Inne',
+    label: 'Falownik',
+    value: 'Falownik',
   },
 ];

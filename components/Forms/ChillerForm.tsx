@@ -13,6 +13,7 @@ import FormSectionContainer from '../containers/FormSectionContainer/FormSection
 import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
 import { CardTitle } from '../ui/card';
 import ChillerBasicForm from './ChillerBasicForm';
+import ChillerCircuitsForm from './ChillerCircuitsForm';
 import ChillerLeakForm from './ChillerLeakForm';
 import ChillerPowerConsumptionForm from './ChillerPowerConsumptionForm';
 import ChillerQualityForm from './ChillerQualityForm';
@@ -56,6 +57,16 @@ export default function ChillerForm({
   const [powerCount, setPowerCount] = useState(
     mode === 'edit' ? defaultValues.powerConsumptions.length : 1,
   );
+  const [circulationCount, setCirculationCount] = useState(
+    mode === 'edit' ? defaultValues.circuits.length : 1,
+  );
+
+  const handleCirculationIncrement = () => {
+    setCirculationCount(circulationCount + 1);
+  };
+  const handleCirculationDecrement = () => {
+    setCirculationCount(circulationCount - 1);
+  };
   const handlePowerIncrement = () => {
     setPowerCount(powerCount + 1);
   };
@@ -114,6 +125,31 @@ export default function ChillerForm({
         <FormSectionContainer title="Kontrola szczelności">
           <ChillerLeakForm mode={mode} defaultValues={defaultValues} />
         </FormSectionContainer>
+
+        <div className="my-5 flex justify-center">
+          <CardTitle>Parametry obiegów</CardTitle>
+        </div>
+        {[...Array(circulationCount)].map((_, index) => (
+          <React.Fragment key={index}>
+            <FormSectionContainer title={`Obieg ${index + 1}`}>
+              {index > 0 && (
+                <DecrementButton
+                  onDecrement={handleCirculationDecrement}
+                  mode={mode}
+                  arrayName="circuits"
+                />
+              )}
+              <ChillerCircuitsForm
+                mode={mode}
+                index={index}
+                defaultValues={defaultValues}
+              />
+            </FormSectionContainer>
+            {index + 1 === circulationCount && (
+              <IncrementButton onIncrement={handleCirculationIncrement} />
+            )}
+          </React.Fragment>
+        ))}
 
         <div className="my-5 flex justify-center">
           <CardTitle>Parametry poboru prądu</CardTitle>

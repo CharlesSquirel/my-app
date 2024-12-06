@@ -99,7 +99,7 @@ export default function ChillerBasicForm({
         data={chillerSwitchField}
       />
       <SelectInput
-        name="antiFreezeTermostat"
+        name="antiFrezzeTermostat"
         label="Termostat przeciwzamrożeniowy"
         placeholder="Wybierz wartość"
         defaultValue={

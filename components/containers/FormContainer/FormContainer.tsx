@@ -55,6 +55,7 @@ export default function FormContainer<T extends FieldValues>({
   const form = useForm<T>({
     resolver: zodResolver(validationSchema),
     defaultValues: defaultValues,
+    mode: 'onBlur',
   });
 
   return (
