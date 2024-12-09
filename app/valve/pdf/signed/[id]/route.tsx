@@ -1,7 +1,7 @@
 import { getValveProtocolOptimized } from '@/lib/actions/commonActions';
 import { renderToStream } from '@react-pdf/renderer';
 import { NextResponse } from 'next/server';
-import ValvePDF from '../../[id]/ValvePDF';
+import ValvePDF from '../../../../../components/PDF/ValvePDF';
 
 export async function POST(
   req: Request,

@@ -1,10 +1,10 @@
 import PdfHeader from '@/components/PDF/PdfHeader';
 import { pdfStyles } from '@/components/PDF/styles/PDFStyles';
+import ProtocolFirmaInfo from '@/components/Protocols/common/ProtocolFirmaInfo';
+import ProtocolRow from '@/components/Protocols/common/ProtocolRow';
+import ProtocolSign from '@/components/Protocols/common/ProtocolSign';
+import ProtocolUserInfo from '@/components/Protocols/common/ProtocolUserInfo';
 import InfoContainer from '@/components/Protocols/InfoContainer';
-import ProtocolFirmaInfo from '@/components/Protocols/ProtocolFirmaInfo';
-import ProtocolRow from '@/components/Protocols/ProtocolRow';
-import ProtocolSign from '@/components/Protocols/ProtocolSign';
-import ProtocolUserInfo from '@/components/Protocols/ProtocolUserInfo';
 import ValveInfoBlocks from '@/components/Protocols/ValveProtocol/ValveInfoBlocks';
 import { pdfFonts } from '@/lib/fonts/fonts';
 import { ValvePDFProps } from '@/lib/types/common';

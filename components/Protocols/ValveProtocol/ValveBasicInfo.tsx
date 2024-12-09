@@ -1,4 +1,4 @@
-import ProtocolRow from '../ProtocolRow';
+import ProtocolRow from '../common/ProtocolRow';
 
 export type BasicInfo = {
   serialNumber: string;

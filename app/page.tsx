@@ -1,7 +1,7 @@
-import { columns } from '@/components/common/Table/columns';
-import { DataTable } from '@/components/common/Table/data-table';
+import Header from '@/components/Header/Header';
+import { columns } from '@/components/Table/columns';
+import { DataTable } from '@/components/Table/data-table';
 import { getAllProtocolsOptimized } from '@/lib/actions/commonActions';
-import Header from '../components/Header/Header';
 
 // const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
 //   author: `Jan Kowalski ${i + 1}`,

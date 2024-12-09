@@ -1,5 +1,5 @@
 import { Image, StyleSheet, View } from '@react-pdf/renderer';
-import ProtocolTitle from '../Protocols/ProtocolTitle';
+import ProtocolTitle from '../Protocols/common/ProtocolTitle';
 
 interface PdfHeaderProps {
   subtitle: string;

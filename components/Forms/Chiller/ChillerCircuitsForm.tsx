@@ -1,7 +1,7 @@
+import TextInput from '@/components/Inputs/TextInput/TextInput';
+import { Label } from '@/components/ui/label';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO } from '@/lib/zod/zodSchema';
-import TextInput from '../Inputs/TextInput.tsx/TextInput';
-import { Label } from '../ui/label';
 
 interface ChillerCircuitsFormProps {
   index: number;

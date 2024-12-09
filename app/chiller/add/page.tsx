@@ -1,4 +1,4 @@
-import ChillerForm from '@/components/Forms/ChillerForm';
+import ChillerForm from '@/components/Forms/Chiller/ChillerForm';
 import { findAllFirma } from '@/lib/actions/firmaActions';
 import { chillerDefaultValues } from '@/lib/types/chillerTypes';
 

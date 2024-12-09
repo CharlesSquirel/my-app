@@ -1,3 +1,4 @@
+import SelectInput from '@/components/Inputs/SelectInput/SelectInput';
 import {
   chillerAirPollution,
   chillerTermalInsulationTypes,
@@ -5,7 +6,6 @@ import {
 } from '@/lib/data/chillerData';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO } from '@/lib/zod/zodSchema';
-import SelectInput from '../Inputs/SelectInput/SelectInput';
 
 interface ChillerQualityFormProps {
   mode: FormModeType;

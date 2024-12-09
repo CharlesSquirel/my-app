@@ -4,8 +4,8 @@ import {
 } from '@/lib/data/chillerData';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO } from '@/lib/zod/zodSchema';
-import SelectInput from '../Inputs/SelectInput/SelectInput';
-import TextInput from '../Inputs/TextInput.tsx/TextInput';
+import SelectInput from '../../Inputs/SelectInput/SelectInput';
+import TextInput from '../../Inputs/TextInput/TextInput';
 
 interface ChillerLeakFormProps {
   mode: FormModeType;

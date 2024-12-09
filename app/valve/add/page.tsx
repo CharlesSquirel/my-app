@@ -1,4 +1,4 @@
-import ValveForm from '@/components/Forms/ValveForm';
+import ValveForm from '@/components/Forms/Valve/ValveForm';
 import { findAllFirma } from '@/lib/actions/firmaActions';
 import { valveDefaultValues } from '@/lib/types/valveTypes';
 

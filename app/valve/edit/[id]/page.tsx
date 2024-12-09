@@ -1,4 +1,4 @@
-import ValveForm from '@/components/Forms/ValveForm';
+import ValveForm from '@/components/Forms/Valve/ValveForm';
 import { findAllFirma } from '@/lib/actions/firmaActions';
 import { prisma } from '@/lib/db/db';
 import { ValveDTO } from '@/lib/zod/zodSchema';
@@ -36,6 +36,7 @@ export default async function ValveEdit({
     })),
     description: valve.description ?? undefined,
     protocolType: valve.protocolType,
+    signed: valve.signed,
   };
   const firms = await findAllFirma();
   return (

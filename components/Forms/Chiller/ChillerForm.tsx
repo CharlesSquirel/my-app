@@ -1,22 +1,22 @@
 'use client';
 
+import ButtonBack from '@/components/common/ButtonBack/ButtonBack';
+import DecrementButton from '@/components/common/DecrementButton/DecrementButton';
+import IncrementButton from '@/components/common/IncrementButton/IncrementButton';
+import FormContainer from '@/components/containers/FormContainer/FormContainer';
+import FormSectionContainer from '@/components/containers/FormSectionContainer/FormSectionContainer';
+import ChillerBasicForm from '@/components/Forms/Chiller/ChillerBasicForm';
+import ChillerCircuitsForm from '@/components/Forms/Chiller/ChillerCircuitsForm';
+import ChillerLeakForm from '@/components/Forms/Chiller/ChillerLeakForm';
+import ChillerPowerConsumptionForm from '@/components/Forms/Chiller/ChillerPowerConsumptionForm';
+import ChillerQualityForm from '@/components/Forms/Chiller/ChillerQualityForm';
+import FirmaLocationSelect from '@/components/Inputs/Firma&LocationSelect/Firma&LocationSelect';
+import { CardTitle } from '@/components/ui/card';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO, ChillerValidationSchema } from '@/lib/zod/zodSchema';
 import { Prisma } from '@prisma/client';
 import React, { useState } from 'react';
-import ButtonBack from '../common/ButtonBack/ButtonBack';
-import DecrementButton from '../common/DecrementButton/DecrementButton';
-import IncrementButton from '../common/IncrementButton/IncrementButton';
-import FormContainer from '../containers/FormContainer/FormContainer';
-import FormSectionContainer from '../containers/FormSectionContainer/FormSectionContainer';
-import FirmaLocationSelect from '../Inputs/Firma&LocationSelect/Firma&LocationSelect';
-import { CardTitle } from '../ui/card';
-import ChillerBasicForm from './ChillerBasicForm';
-import ChillerCircuitsForm from './ChillerCircuitsForm';
-import ChillerLeakForm from './ChillerLeakForm';
-import ChillerPowerConsumptionForm from './ChillerPowerConsumptionForm';
-import ChillerQualityForm from './ChillerQualityForm';
 
 interface ChillerFormProps {
   mode: FormModeType;

@@ -12,9 +12,9 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import logo from '../../../app/assets/logo.svg';
+import ProtocolHeader from '../common/ProtocolHeader';
+import ProtocolTitle from '../common/ProtocolTitle';
 import InfoContainer from '../InfoContainer';
-import ProtocolHeader from '../ProtocolHeader';
-import ProtocolTitle from '../ProtocolTitle';
 import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
 import ValveInfoBlocks from './ValveInfoBlocks';
 

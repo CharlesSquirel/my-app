@@ -6,7 +6,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import { CircleAlert } from 'lucide-react';
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import TextInput from '../TextInput.tsx/TextInput';
+import TextInput from '../TextInput/TextInput';
 
 interface TextInputWithSwitchProps {
   label: string;

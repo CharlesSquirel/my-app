@@ -1,6 +1,7 @@
 'use client';
 
-import TextInput from '@/components/Inputs/TextInput.tsx/TextInput';
+import TextInput from '@/components/Inputs/TextInput/TextInput';
+import ButtonBack from '@/components/common/ButtonBack/ButtonBack';
 import FormContainer from '@/components/containers/FormContainer/FormContainer';
 import { createUser, editUser } from '@/lib/actions/userActions';
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
@@ -10,7 +11,6 @@ import { UserValidationSchema } from '@/lib/zod/zodSchema';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import ButtonBack from '../common/ButtonBack/ButtonBack';
 
 interface UserFormProps {
   mode: FormModeType;

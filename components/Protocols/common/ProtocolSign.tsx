@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../PDF/styles/PDFStyles';
+import { pdfStyles } from '../../PDF/styles/PDFStyles';
 
 const styles = StyleSheet.create({
   section: {

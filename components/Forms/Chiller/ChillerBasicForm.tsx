@@ -1,3 +1,6 @@
+import SelectInput from '@/components/Inputs/SelectInput/SelectInput';
+import TextInput from '@/components/Inputs/TextInput/TextInput';
+import TextInputWithSwitch from '@/components/Inputs/TextInputWithSwitch/TextInputWithSwitch';
 import {
   chillerControlledParametersTypes,
   chillerDriverTypes,
@@ -8,9 +11,6 @@ import {
 } from '@/lib/data/chillerData';
 import { FormModeType } from '@/lib/types/common';
 import { ChillerDTO } from '@/lib/zod/zodSchema';
-import SelectInput from '../Inputs/SelectInput/SelectInput';
-import TextInput from '../Inputs/TextInput.tsx/TextInput';
-import TextInputWithSwitch from '../Inputs/TextInputWithSwitch/TextInputWithSwitch';
 
 interface ChillerBasicFormProps {
   mode: FormModeType;
