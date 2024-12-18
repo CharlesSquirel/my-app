@@ -1,3 +1,4 @@
+import SignOutBtn from '@/components/common/SignOutBtn/SignOutBtn';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -5,7 +6,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DotsVerticalIcon } from '@radix-ui/react-icons';
-import { Building2, CircleUserRound, LogOut } from 'lucide-react';
+import { Building2, CircleUserRound } from 'lucide-react';
 import Link from 'next/link';
 
 export default function UserDropdown() {
@@ -25,10 +26,10 @@ export default function UserDropdown() {
               <Building2 /> Firmy
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <LogOut />
-            Wyloguj
-          </DropdownMenuItem>
+
+          <SignOutBtn />
+          {/* <LogOut />
+            Wyloguj */}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
