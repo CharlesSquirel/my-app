@@ -43,6 +43,17 @@ export const chillerRefrigerantTypes: SelectOptions[] = [
 
 export const chillerControlledParametersTypes: SelectOptions[] = [
   {
+    label: 'Wejście wody',
+    value: 'Wejście wody',
+  },
+  {
+    label: 'Wyjście wody',
+    value: 'Wyjście wody',
+  },
+];
+
+export const chillerControlMethodTypes: SelectOptions[] = [
+  {
     label: 'Bezpośrednio',
     value: 'Bezpośrednio',
   },

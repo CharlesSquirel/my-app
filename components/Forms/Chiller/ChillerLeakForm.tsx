@@ -1,5 +1,5 @@
 import {
-  chillerControlledParametersTypes,
+  chillerControlMethodTypes,
   chillerNecessaryTypes,
 } from '@/lib/data/chillerData';
 import { FormModeType } from '@/lib/types/common';
@@ -23,7 +23,7 @@ export default function ChillerLeakForm({
         label="Metoda kontroli szczelności"
         placeholder="Wybierz metodę"
         defaultValue={mode === 'edit' ? defaultValues.controlMethod : undefined}
-        data={chillerControlledParametersTypes}
+        data={chillerControlMethodTypes}
       />
       <SelectInput
         name="leakGasTest"
