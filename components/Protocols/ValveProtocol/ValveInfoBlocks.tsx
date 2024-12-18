@@ -2,7 +2,7 @@ import { pdfStyles } from '@/components/PDF/styles/PDFStyles';
 import { ProtocolModeType } from '@/lib/types/common';
 import { ValvesInfoBlock } from '@prisma/client';
 import { Text, View } from '@react-pdf/renderer';
-import ProtocolRow from '../ProtocolRow';
+import ProtocolRow from '../common/ProtocolRow';
 
 interface ValveInfoBlocksProps {
   infoBlock: ValvesInfoBlock;

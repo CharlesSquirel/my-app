@@ -1,4 +1,4 @@
-import FirmaForm from '@/components/Forms/FirmaForm';
+import FirmaForm from '@/components/Forms/Firma/FirmaForm';
 import { firmaDefaultValues } from '@/lib/types/firmaTypes';
 
 export default function FirmaAdd() {

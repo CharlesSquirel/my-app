@@ -1,9 +1,7 @@
-import { columns } from '@/components/common/Table/columns';
-import { DataTable } from '@/components/common/Table/data-table';
-import { getValveProtocolsOptimized } from '@/lib/actions/commonActions';
-import { formatDate } from '@/lib/utils';
-import Header from '../components/Header/Header';
-export const dynamic = 'force-dynamic';
+import Header from '@/components/Header/Header';
+import { columns } from '@/components/Table/columns';
+import { DataTable } from '@/components/Table/data-table';
+import { getAllProtocolsOptimized } from '@/lib/actions/commonActions';
 
 // const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
 //   author: `Jan Kowalski ${i + 1}`,
@@ -13,14 +11,26 @@ export const dynamic = 'force-dynamic';
 //   description: `Opis ${i + 1} - ${'a'.repeat((i % 5) + 5)}`, // różna długość opisu
 // }));
 export default async function Home() {
-  const protocols = await getValveProtocolsOptimized();
+  const protocols = await getAllProtocolsOptimized();
   const displayProtocols = protocols.map((protocol) => ({
     ...protocol,
-    createdAt: formatDate(protocol.createdAt),
     author: `${protocol.firstName} ${protocol.lastName}`,
   }));
   return (
     <>
+      {/* <Image
+        src={newYorkImg}
+        alt=""
+        placeholder="blur"
+        quality={100}
+        fill
+        sizes="100vw"
+        style={{
+          objectFit: 'cover',
+          zIndex: -1,
+          filter: 'blur(6px)',
+        }}
+      /> */}
       <Header />
       <DataTable columns={columns} data={displayProtocols} />
     </>

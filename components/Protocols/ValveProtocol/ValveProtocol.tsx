@@ -1,20 +1,26 @@
 'use client';
 
 import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
+import SignModal from '@/components/Forms/SignModal';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { deleteValve } from '@/lib/actions/valveActions';
 import { ValvePDFProps } from '@/lib/types/common';
-import { Download, Pencil, Trash2 } from 'lucide-react';
+import { ArrowUpDown, Download, Pencil, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import logo from '../../../app/assets/logo.svg';
+import ProtocolHeader from '../common/ProtocolHeader';
+import ProtocolTitle from '../common/ProtocolTitle';
 import InfoContainer from '../InfoContainer';
-import ProtocolHeader from '../ProtocolHeader';
-import ProtocolTitle from '../ProtocolTitle';
 import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
 import ValveInfoBlocks from './ValveInfoBlocks';
 
 export default function ValveProtocol({ valve }: ValvePDFProps) {
+  const [showSignModal, setShowSignModal] = useState(false);
+  const handleSignModal = () => setShowSignModal(!showSignModal);
   const protocolHeaderData = {
     firma: valve.firma,
     location: valve.location,
@@ -29,9 +35,20 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
     type: valve.type,
     serialNumber: valve.serialNumber,
   };
+  const valveSigned = valve.signed;
 
   return (
     <section className="flex w-full flex-col" id="valve">
+      {showSignModal &&
+        createPortal(
+          <SignModal
+            onCancel={handleSignModal}
+            id={valve.id}
+            createdAt={valve.createdAt}
+            mode="valve"
+          />,
+          document.body,
+        )}
       <div className="mb-6 flex justify-end gap-2">
         <Button variant="outline" asChild>
           <Link href={`/valve/edit/${valve.id}`}>
@@ -44,6 +61,13 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             <Download />
             Pobierz
           </Link>
+        </Button>
+        <Button
+          variant="outline"
+          onClick={handleSignModal}
+          disabled={valveSigned}
+        >
+          <ArrowUpDown /> Pobierz i wyślij z podpisem
         </Button>
         <AlertDialogComponent
           onDelete={deleteValve}
@@ -59,7 +83,15 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
       </div>
       <div className="flex flex-col gap-3">
         <header className="flex justify-between">
-          <ProtocolTitle subTitle="badania zaworów" mode="web" />
+          <div className="flex flex-col gap-2">
+            <ProtocolTitle subTitle="badania zaworów" mode="web" />
+            <Badge
+              variant={valveSigned ? 'signed' : 'unsigned'}
+              className="h-[20px] w-fit"
+            >
+              {valveSigned ? 'Wysłany' : 'Niewysłany'}
+            </Badge>
+          </div>
 
           <Link href="/">
             <Image src={logo} alt="Chillair logo" width={200} priority />

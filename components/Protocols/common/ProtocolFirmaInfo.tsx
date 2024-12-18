@@ -1,7 +1,7 @@
 import { ProtocolModeType } from '@/lib/types/common';
 import { Firma, Location } from '@prisma/client';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
-import { pdfStyles } from '../PDF/styles/PDFStyles';
+import { pdfStyles } from '../../PDF/styles/PDFStyles';
 
 interface ProtocolFirmaInfoProps {
   data: Firma | Location;

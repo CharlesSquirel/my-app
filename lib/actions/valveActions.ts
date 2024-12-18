@@ -3,14 +3,8 @@
 import { Prisma, Valve } from '@prisma/client';
 import { prisma } from '../db/db';
 import { errorMessages } from '../errorMessages/errorMessages';
+import { handleError } from '../utils';
 import { ValveDTO } from '../zod/zodSchema';
-
-function handleError(error: unknown, defaultMessage: string): never {
-  if (error instanceof Error) {
-    throw new Error(error.message || defaultMessage);
-  }
-  throw new Error(defaultMessage);
-}
 
 export async function findValveById(id: string): Promise<Valve> {
   try {
@@ -104,8 +98,10 @@ export async function editValve(data: ValveDTO, id: string): Promise<void> {
     description,
     protocolType,
     infoBlocks,
+    signed,
   } = data;
   const valveEditData: Omit<ValveDTO, 'infoBlocks'> = {
+    signed,
     userId,
     userSignature,
     firstName,
@@ -175,5 +171,20 @@ export async function deleteValve(id: string): Promise<void> {
     console.log(`Valve successfully deleted: ${deletedValve}`);
   } catch (error) {
     handleError(error, errorMessages.valveNotExist);
+  }
+}
+
+export async function updateValveSignedStatus(id: string): Promise<void> {
+  try {
+    await prisma.valve.update({
+      where: {
+        id,
+      },
+      data: {
+        signed: true,
+      },
+    });
+  } catch (error) {
+    handleError(error, errorMessages.disconnect);
   }
 }

@@ -17,6 +17,8 @@ const badgeVariants = cva(
         outline: 'text-foreground',
         chiller: 'border-transparent bg-customBlue text-white shadow',
         valve: 'border-transparent bg-customBrown text-white shadow',
+        signed: 'border-transparent bg-customGreen text-white shadow',
+        unsigned: 'border-transparent bg-customYellow text-gray-700 shadow',
       },
     },
     defaultVariants: {

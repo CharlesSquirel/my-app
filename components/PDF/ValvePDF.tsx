@@ -1,9 +1,10 @@
 import PdfHeader from '@/components/PDF/PdfHeader';
 import { pdfStyles } from '@/components/PDF/styles/PDFStyles';
+import ProtocolFirmaInfo from '@/components/Protocols/common/ProtocolFirmaInfo';
+import ProtocolRow from '@/components/Protocols/common/ProtocolRow';
+import ProtocolSign from '@/components/Protocols/common/ProtocolSign';
+import ProtocolUserInfo from '@/components/Protocols/common/ProtocolUserInfo';
 import InfoContainer from '@/components/Protocols/InfoContainer';
-import ProtocolFirmaInfo from '@/components/Protocols/ProtocolFirmaInfo';
-import ProtocolRow from '@/components/Protocols/ProtocolRow';
-import ProtocolUserInfo from '@/components/Protocols/ProtocolUserInfo';
 import ValveInfoBlocks from '@/components/Protocols/ValveProtocol/ValveInfoBlocks';
 import { pdfFonts } from '@/lib/fonts/fonts';
 import { ValvePDFProps } from '@/lib/types/common';
@@ -42,7 +43,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const ValvePDF = ({ valve }: ValvePDFProps) => (
+interface ValvePDFPropsWithSignature extends ValvePDFProps {
+  signature?: string;
+}
+
+const ValvePDF = ({ valve, signature }: ValvePDFPropsWithSignature) => (
   <Document
     title={`Protokół badania zaworów bezpieczeństwa ${valve.createdAt}`}
     author={`${valve.firstName} ${valve.lastName}`}
@@ -79,6 +84,10 @@ const ValvePDF = ({ valve }: ValvePDFProps) => (
           />
         ))}
       </InfoContainer>
+      <ProtocolSign
+        author={`${valve.firstName} ${valve.lastName}`}
+        signature={signature}
+      />
     </Page>
   </Document>
 );

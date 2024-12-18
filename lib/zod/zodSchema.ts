@@ -6,132 +6,204 @@ const validationMessages = {
   invalidPhoneFormat: 'To nie jest poprawny numer telefonu',
   invalidPostCodeFormat: 'To nie jest poprawny kod pocztowy!',
   invalidPostCodeLetters: 'Kod pocztowy musi składać się z 6 znaków!',
+  invalidEmptyString: 'To pole nie może być puste',
 };
 
 const getvalidationStringMessage = (num: number): string => {
   return `To pole nie może mieć więcej niż ${num} znaków!`;
 };
 
+const getValidationNumberMessage = (num: number): string => {
+  return `To pole musi być większe niż ${num}`;
+};
+
 const ProtocolType = z.union([z.literal('valve'), z.literal('chiller')]);
+export type ProtocolType = z.infer<typeof ProtocolType>;
 
-const AirPollution = z.union([
-  z.literal('Bardzo brudny'),
-  z.literal('Brudny'),
-  z.literal('Koniecznie do mycia'),
-  z.literal('Czysty'),
-  z.literal('Bardzo czysty'),
-]);
+const AirPollution = z
+  .string()
+  .refine(
+    (val) =>
+      [
+        'Bardzo brudny',
+        'Brudny',
+        'Koniecznie do mycia',
+        'Czysty',
+        'Bardzo czysty',
+      ].includes(val),
+    {
+      message: validationMessages.invalidEmptyString,
+    },
+  );
 
-const TermalInsulation = z.union([
-  z.literal('Bardzo słaby'),
-  z.literal('Słaby'),
-  z.literal('Średni'),
-  z.literal('Dobry'),
-  z.literal('Bardzo dobry'),
-]);
+const TermalInsulation = z
+  .string()
+  .refine(
+    (val) =>
+      ['Bardzo słaby', 'Słaby', 'Średni', 'Dobry', 'Bardzo dobry'].includes(
+        val,
+      ),
+    {
+      message: validationMessages.invalidEmptyString,
+    },
+  );
 
-const IsValid = z.union([z.literal('Poprawny'), z.literal('Niepoprawny')]);
+const IsValid = z
+  .string()
+  .refine(
+    (val) =>
+      ['Poprawny', 'Niepoprawny', 'Prawidłowa', 'Nieprawidłowa'].includes(val),
+    {
+      message: validationMessages.invalidEmptyString,
+    },
+  );
 
-const FreonTypes = z.union([
-  z.literal('R134A'),
-  z.literal('R410A'),
-  z.literal('R407C'),
-  z.literal('R32'),
-  z.literal('R404A'),
-  z.literal('R22'),
-  z.literal('R290'),
-]);
+const FreonTypes = z
+  .string()
+  .refine(
+    (val) =>
+      ['R134A', 'R410A', 'R407C', 'R32', 'R404A', 'R22', 'R290'].includes(val),
+    {
+      message: validationMessages.invalidEmptyString,
+    },
+  );
 
-const Refrigerant = z.union([z.literal('Woda'), z.literal('Roztwór glikolu')]);
+const Refrigerant = z
+  .string()
+  .refine((val) => ['Woda', 'Roztwór glikolu'].includes(val), {
+    message: validationMessages.invalidEmptyString,
+  });
 
-const SwitchField = z.union([z.literal('Wyłączony'), z.literal('Załączony')]);
+const SwitchField = z
+  .string()
+  .refine((val) => ['Wyłączony', 'Załączony'].includes(val), {
+    message: validationMessages.invalidEmptyString,
+  });
 
-const WaterField = z.union([
-  z.literal('Wejście wody'),
-  z.literal('Wyjście wody'),
-]);
+const WaterField = z
+  .string()
+  .refine((val) => ['Wejście wody', 'Wyjście wody'].includes(val), {
+    message: validationMessages.invalidEmptyString,
+  });
+const ControlMethod = z
+  .string()
+  .refine((val) => ['Bezpośrednio', 'Pośrednio'].includes(val), {
+    message: validationMessages.invalidEmptyString,
+  });
 
-const ControlMethod = z.union([
-  z.literal('Bezpośrednio'),
-  z.literal('Pośrednio'),
-]);
+const NecessaryField = z
+  .string()
+  .refine((val) => ['Konieczna', 'Niekonieczna'].includes(val), {
+    message: validationMessages.invalidEmptyString,
+  });
 
-const NecessaryField = z.union([
-  z.literal('Konieczna'),
-  z.literal('Niekonieczna'),
-]);
-
-const DeviceType = z.union([
-  z.literal('Sprężarka'),
-  z.literal('Wentylator'),
-  z.literal('Pompa WL'),
-  z.literal('Silnik'),
-  z.literal('Falownik'),
-]);
+const DeviceType = z
+  .string()
+  .refine(
+    (val) =>
+      ['Sprężarka', 'Wentylator', 'Pompa WL', 'Silnik', 'Falownik'].includes(
+        val,
+      ),
+    {
+      message: validationMessages.invalidEmptyString,
+    },
+  );
 
 const CircuitValidationSchema = z.object({
   dischargePressure: createNumberValidator(),
   condensationTemperature: createNumberValidator(),
   subcooling: createNumberValidator(),
   airTemperature: createNumberValidator(),
+
   suctionPressure: createNumberValidator(),
   suctionTemperature: createNumberValidator(),
   overHeat: createNumberValidator(),
-  inTemperature: createNumberValidator(),
-  outTemperature: createNumberValidator(),
+
   inWaterPressure: createNumberValidator(),
   outWaterPressure: createNumberValidator(),
+  inTemperature: createNumberValidator(),
+  outTemperature: createNumberValidator(),
 });
 
 const PowerConsumptionSchema = z.object({
   deviceType: DeviceType,
-  amperage_1: createNumberValidator(),
-  amperage_2: createNumberValidator(),
-  amperage_3: createNumberValidator(),
-  interphase: createNumberValidator().optional(),
+  amperage_1: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  amperage_2: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  amperage_3: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
   interphaseOk: IsValid,
+  interphase: createNumberValidator().optional(),
 });
 
 export const ChillerValidationSchema = z.object({
-  location: createStringValidator(),
+  userId: createStringValidator(),
+  userSignature: createStringValidator(),
+  lastName: createStringValidator(),
+  firstName: createStringValidator(),
+  protocolType: ProtocolType,
+
   firma: createStringValidator(),
+  location: createStringValidator(),
+
   type: createStringValidator(),
   serialNumber: createStringValidator(),
-  pollution: AirPollution,
-  termalInsulation: TermalInsulation,
-  termalAndPressureControl: IsValid,
-  supplyVoltage: createNumberValidator(),
-  supplyPhase: createNumberValidator(),
-  measuredVoltage_1: createNumberValidator(),
-  measuredVoltage_2: createNumberValidator(),
-  measuredVoltage_3: createNumberValidator(),
-  interphase: createNumberValidator().optional(),
+  driverType: createStringValidator(),
+  airTemperature: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
   interphaseOK: IsValid,
-  freonType: FreonTypes,
-  freonAmount: createNumberValidator(),
+  interphase: createNumberValidator().optional(),
   refrigerationCircuits: z
     .array(z.number())
     .min(1, { message: 'Musi być minimum 1 obieg' }),
-  driverType: createStringValidator(),
   refrigerant: Refrigerant,
-  airTemperature: createNumberValidator(),
-  oilLevel: IsValid,
-  indicatorColor: IsValid,
-  tightSystem: IsValid,
-  currentConsumption: IsValid,
-  fansConsumption: IsValid,
-  highPressure: SwitchField,
-  lowPressure: SwitchField,
-  antiFrezzeTermostat: SwitchField,
   settingsTemperature: z
     .array(z.number())
     .min(1, { message: 'Musi być minimum 1 temperatura' }),
   controlledParameter: WaterField,
+  supplyVoltage: createNumberValidator(),
+  supplyPhase: createNumberValidator(),
+  freonType: FreonTypes,
+  freonAmount: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  highPressure: SwitchField,
+  lowPressure: SwitchField,
+  antiFrezzeTermostat: SwitchField,
+  measuredVoltage_1: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  measuredVoltage_2: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  measuredVoltage_3: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+
+  pollution: AirPollution,
+  termalInsulation: TermalInsulation,
+  termalAndPressureControl: IsValid,
+  oilLevel: IsValid,
+  indicatorColor: IsValid,
+  currentConsumption: IsValid,
+  fansConsumption: IsValid,
+  tightSystem: IsValid,
+
   controlMethod: ControlMethod,
   leakGasTest: NecessaryField,
-  gasAdded: createNumberValidator(),
-  gasRegain: createNumberValidator(),
+  gasAdded: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
+  gasRegain: createNumberValidator().min(1, {
+    message: getValidationNumberMessage(1),
+  }),
   description: z.string().optional(),
+
   circuits: z
     .array(CircuitValidationSchema)
     .min(1, { message: 'Musi być minimum 1 obieg' }),
@@ -215,6 +287,7 @@ const ValvesInfoBlockSchema = z.object({
 });
 
 export const ValvesValidationSchema = z.object({
+  signed: z.boolean(),
   userId: createStringValidator(),
   userSignature: createStringValidator(),
   firstName: createStringValidator(),
@@ -229,3 +302,4 @@ export const ValvesValidationSchema = z.object({
 });
 
 export type ValveDTO = z.infer<typeof ValvesValidationSchema>;
+export type ChillerDTO = z.infer<typeof ChillerValidationSchema>;

@@ -1,4 +1,4 @@
-import FirmaForm from '@/components/Forms/FirmaForm';
+import FirmaForm from '@/components/Forms/Firma/FirmaForm';
 import { findFirmaById } from '@/lib/actions/firmaActions';
 import { FirmaDTO } from '@/lib/types/firmaTypes';
 

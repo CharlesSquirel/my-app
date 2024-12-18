@@ -14,47 +14,40 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid()) @map("_id")
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   firstName     String
-  lastName      String   @unique
-  email         String   @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  lastName      String @unique
+  email         String @unique
   userSignature String
-}
-
-model VerificationRequest {
-  id         String   @id @default(cuid()) @map("_id")
-  identifier String
-  token      String   @unique
-  expires    DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  @@unique([identifier, token])
 }
 
 model Location {
-  id           String   @id @default(cuid()) @map("_id")
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   fullName     String
   shortName    String
   street       String
   houseNumber  String
-  localNumber  String?
   postCode     String
   city         String
   tel          String?
+  localNumber  String?
   contactEmail String?
-  Firma        Firma?   @relation(fields: [locationId], references: [id], onDelete: Cascade)
-  locationId   String
+
+  Firma      Firma? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  locationId String
 }
 
 model Firma {
-  id           String     @id @default(cuid()) @map("_id")
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   fullName     String
   shortName    String
   street       String
@@ -64,28 +57,35 @@ model Firma {
   city         String
   tel          String?
   contactEmail String?
-  locations    Location[]
+
+  locations Location[]
 }
 
 model Valve {
-  id            String            @id @default(cuid()) @map("_id")
-  firma         String
-  location      String
-  type          String
-  serialNumber  String
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  signed    Boolean  @default(false)
+
+  firma    String
+  location String
+
   userId        String
-  userSignature String
   firstName     String
   lastName      String
-  description   String?
-  infoBlocks    ValvesInfoBlock[]
-  protocolType  String
+  userSignature String
+
+  type         String
+  serialNumber String
+  protocolType String
+  description  String?
+
+  infoBlocks ValvesInfoBlock[]
 }
 
 model ValvesInfoBlock {
-  id                String  @id @default(cuid()) @map("_id")
+  id String @id @default(cuid()) @map("_id")
+
   valveLocation     String
   valveType         String
   valveSerialNumber String
@@ -93,123 +93,101 @@ model ValvesInfoBlock {
   pressureClose     Float
   pressureSetting   Float
   description       String?
-  Valve             Valve?  @relation(fields: [valveId], references: [id], onDelete: Cascade)
-  valveId           String?
-}
 
-model Humidifier {
-  id                   String               @id @default(cuid()) @map("_id")
-  createdAt            DateTime             @default(now())
-  updatedAt            DateTime             @updatedAt
-  firma                String
-  type                 String
-  serialNumber         String
-  userId               String
-  userSingature        String
-  protectionType       String
-  ratedCurrent         String
-  description          String?
-  nameplateVoltage     String
-  nameplatePhase       String
-  nameplateCurrentDraw String
-  cylinders            Cylinder[]
-  materials            HumidifierMaterial[]
-}
-
-model Cylinder {
-  id             String     @id @default(cuid()) @map("_id")
-  humidifier     Humidifier @relation(fields: [cylinderId], references: [id])
-  cylinderId     String
-  cylinderNumber String
-  voltage1       String
-  voltage2       String
-  voltage3       String
-  amper1         String
-  amper2         String
-  amper3         String
-}
-
-model HumidifierMaterial {
-  id                 String     @id @default(cuid()) @map("_id")
-  materialDecription String
-  materialAmount     String
-  materialId         String
-  humidifier         Humidifier @relation(fields: [materialId], references: [id])
+  Valve   Valve?  @relation(fields: [valveId], references: [id], onDelete: Cascade)
+  valveId String?
 }
 
 model Circuit {
-  id                      String  @id @default(cuid()) @map("_id")
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   dischargePressure       Float
   condensationTemperature Float
   subcooling              Float
   airTemperature          Float
-  suctionPressure         Float
-  suctionTemperature      Float
-  overHeat                Float
-  inTemperature           Float
-  outTemperature          Float
-  inWaterPressure         Float
-  outWaterPressure        Float
-  circuitId               String
-  editKey                 String
-  Chiller                 Chiller @relation(fields: [circuitId], references: [id])
+
+  suctionPressure    Float
+  suctionTemperature Float
+  overHeat           Float
+
+  inWaterPressure  Float
+  outWaterPressure Float
+  inTemperature    Float
+  outTemperature   Float
+
+  Chiller   Chiller @relation(fields: [circuitId], references: [id], onDelete: Cascade)
+  circuitId String
 }
 
 model PowerConsumption {
-  id                 String  @id @default(cuid()) @map("_id")
-  deviceType         String
-  amperage_1         Float
-  amperage_2         Float
-  amperage_3         Float
-  interphase         Float?
-  interphaseOk       String
+  id        String   @id @default(cuid()) @map("_id")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  deviceType   String
+  amperage_1   Float
+  amperage_2   Float
+  amperage_3   Float
+  interphaseOk String
+  interphase   Float?
+
+  Chiller            Chiller @relation(fields: [powerConsumptionId], references: [id], onDelete: Cascade)
   powerConsumptionId String
-  editKey            String
-  Chiller            Chiller @relation(fields: [powerConsumptionId], references: [id])
 }
 
 model Chiller {
-  id                       String             @id @default(cuid()) @map("_id")
-  createdAt                DateTime           @default(now())
-  updatedAt                DateTime           @updatedAt
-  userSignature            String
-  firstName                String
-  userId                   String
-  lastName                 String
-  firma                    String
-  description              String?
-  type                     String
-  serialNumber             String
+  id           String   @id @default(cuid()) @map("_id")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  protocolType String
+
+  userId        String
+  firstName     String
+  lastName      String
+  userSignature String
+
+  firma    String
+  location String
+
+  type                  String
+  serialNumber          String
+  driverType            String
+  airTemperature        Float
+  interphaseOK          String
+  interphase            Float?
+  refrigerationCircuits Float[]
+  refrigerant           String
+  settingsTemperature   Float[]
+  controlledParameter   String
+  supplyVoltage         Float
+  supplyPhase           Float
+  freonType             String
+  freonAmount           Float
+  highPressure          String
+  lowPressure           String
+  antiFrezzeTermostat   String
+  measuredVoltage_1     Float
+  measuredVoltage_2     Float
+  measuredVoltage_3     Float
+
   pollution                String
   termalInsulation         String
   termalAndPressureControl String
-  supplyVoltage            Float
-  supplyPhase              Float
-  measuredVoltage_1        Float
-  measuredVoltage_2        Float
-  measuredVoltage_3        Float
-  interphase               Float?
-  interphaseOK             String
-  freonType                String
-  freonAmount              Float
-  refrigerationCircuits    Float[]
-  driverType               String
-  refrigerant              String
-  airTemperature           Float
   oilLevel                 String
   indicatorColor           String
-  tightSystem              String
   currentConsumption       String
   fansConsumption          String
-  highPressure             String
-  lowPressure              String
-  antiFrezzeTermostat      String
-  settingsTemperature      Float[]
-  controlledParameter      String
-  controlMethod            String
-  leakGasTest              String
-  gasAdded                 Float
-  gasRegain                Float
-  circuits                 Circuit[]
-  powerConsumptions        PowerConsumption[]
+  tightSystem              String
+
+  controlMethod String
+  leakGasTest   String
+  gasAdded      Float
+  gasRegain     Float
+
+  description String?
+
+  circuits          Circuit[]
+  powerConsumptions PowerConsumption[]
 }

@@ -12,7 +12,11 @@ export default function Header() {
             <Image src={logo} alt="Chillair logo" width={150} priority />
           </Link>
           <h1 className="text-xl font-semibold md:text-2xl">
-            Chillair Protocols System
+            <span className="text-customBlue">C</span>
+            SPS
+            <span className="text-base font-normal">
+              {` (ChillAir Serwis Protocols System)`}
+            </span>
           </h1>
         </div>
         <UserDropdown />

@@ -15,7 +15,7 @@ export default function NewProtocolDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <Link href="/">Protokół agregatu</Link>
+          <Link href="/chiller/add">Protokół agregatu</Link>
         </DropdownMenuItem>
         <DropdownMenuItem>
           <Link href="/valve/add">Protokół zaworu</Link>

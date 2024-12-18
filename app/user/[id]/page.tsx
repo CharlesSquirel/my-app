@@ -1,4 +1,4 @@
-import UserForm from '@/components/Forms/UserForm';
+import UserForm from '@/components/Forms/User/UserForm';
 import findUserById from '@/lib/actions/userActions';
 import { UserDTO } from '@/lib/types/userTypes';
 

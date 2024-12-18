@@ -25,6 +25,7 @@ import { ValveDTO } from '../zod/zodSchema';
 // }
 
 export const valveDefaultValues: ValveDTO = {
+  signed: false,
   firma: '',
   location: '',
   type: '',
@@ -37,6 +38,7 @@ export const valveDefaultValues: ValveDTO = {
   infoBlocks: [],
 };
 export interface ValveDisplay {
+  signed: boolean;
   id: string;
   type: string;
   serialNumber: string;
