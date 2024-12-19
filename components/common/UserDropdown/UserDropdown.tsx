@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { currentUser } from '@clerk/nextjs/server';
 import { HamburgerMenuIcon } from '@radix-ui/react-icons';
-import { Building2 } from 'lucide-react';
+import { Building2, CircleUserRound } from 'lucide-react';
 import Link from 'next/link';
 
 export default async function UserDropdown() {
@@ -20,9 +20,11 @@ export default async function UserDropdown() {
           <HamburgerMenuIcon className="h-5 w-5" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
-          {/* <DropdownMenuItem>
-            <CircleUserRound /> Profil
-          </DropdownMenuItem> */}
+          <DropdownMenuItem asChild>
+            <Link href="/user/view">
+              <CircleUserRound /> Profil
+            </Link>
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link href="/firma">
               <Building2 /> Firmy
