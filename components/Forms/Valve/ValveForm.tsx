@@ -9,10 +9,7 @@ import SelectInput from '@/components/Inputs/SelectInput/SelectInput';
 import TextareaInput from '@/components/Inputs/TextareaInput/TextareaInput';
 import TextInput from '@/components/Inputs/TextInput/TextInput';
 import { CardTitle } from '@/components/ui/card';
-import {
-  findUserIdByEmail,
-  findUserSignatureById,
-} from '@/lib/actions/userActions';
+import { fetchUserDataFromMongo } from '@/lib/actions/userActions';
 import { createValve, editValve } from '@/lib/actions/valveActions';
 import {
   valveInfoBlocksTypes,
@@ -79,19 +76,22 @@ export default function ValveForm({
   };
 
   const handleOnSubmit = async (data: ValveDTO) => {
-    const currentUserMongoId = await findUserIdByEmail(
+    if (!user || !user.firstName || !user.lastName) {
+      throw new Error('Brak użytkownika');
+    }
+    const fetchedUserDataFromMongo = await fetchUserDataFromMongo(
       user?.emailAddresses[0].emailAddress,
+      user?.firstName,
+      user?.lastName,
     );
-    const currentUserSignature =
-      await findUserSignatureById(currentUserMongoId);
 
     const newData = {
       ...data,
+      ...fetchedUserDataFromMongo,
       firstName: user?.firstName || 'unknown',
       lastName: user?.lastName || 'unknown',
-      userId: currentUserMongoId,
-      userSignature: currentUserSignature,
     };
+
     setIsLoading(true);
 
     try {

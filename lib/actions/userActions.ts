@@ -130,3 +130,30 @@ export async function findUserSignatureById(id: string): Promise<string> {
     handleError(error, 'Unexpected error finding user signature by ID.');
   }
 }
+
+export async function fetchUserDataFromMongo(
+  email: string | undefined,
+  firstName: string | undefined,
+  lastName: string | undefined,
+): Promise<{
+  userId: string;
+  userSignature: string;
+  firstName: string;
+  lastName: string;
+}> {
+  try {
+    if (!email || !firstName || !lastName) {
+      throw Error(errorMessages.userNotExist);
+    }
+    const userId = await findUserIdByEmail(email);
+    const userSignature = await findUserSignatureById(userId);
+    return {
+      userId: userId,
+      userSignature: userSignature,
+      firstName,
+      lastName,
+    };
+  } catch (error) {
+    handleError(error, 'Unexpected error fetching user data.');
+  }
+}
