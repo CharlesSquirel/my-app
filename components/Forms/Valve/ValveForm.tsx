@@ -9,6 +9,10 @@ import SelectInput from '@/components/Inputs/SelectInput/SelectInput';
 import TextareaInput from '@/components/Inputs/TextareaInput/TextareaInput';
 import TextInput from '@/components/Inputs/TextInput/TextInput';
 import { CardTitle } from '@/components/ui/card';
+import {
+  findUserIdByEmail,
+  findUserSignatureById,
+} from '@/lib/actions/userActions';
 import { createValve, editValve } from '@/lib/actions/valveActions';
 import {
   valveInfoBlocksTypes,
@@ -18,6 +22,7 @@ import {
 import { errorMessages } from '@/lib/errorMessages/errorMessages';
 import { FormModeType } from '@/lib/types/common';
 import { ValveDTO, ValvesValidationSchema } from '@/lib/zod/zodSchema';
+import { useUser } from '@clerk/nextjs';
 import { Prisma } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -55,6 +60,8 @@ export default function ValveForm({
   id,
   firms,
 }: ValveFormProps) {
+  const { user } = useUser();
+
   if (mode === 'edit' && !id) {
     throw new Error('Brak id protokołu zaworu do edycji');
   }
@@ -72,15 +79,29 @@ export default function ValveForm({
   };
 
   const handleOnSubmit = async (data: ValveDTO) => {
+    const currentUserMongoId = await findUserIdByEmail(
+      user?.emailAddresses[0].emailAddress,
+    );
+    const currentUserSignature =
+      await findUserSignatureById(currentUserMongoId);
+
+    const newData = {
+      ...data,
+      firstName: user?.firstName || 'unknown',
+      lastName: user?.lastName || 'unknown',
+      userId: currentUserMongoId,
+      userSignature: currentUserSignature,
+    };
     setIsLoading(true);
+
     try {
       if (mode === 'edit' && id) {
-        await editValve(data, id);
+        await editValve(newData, id);
       } else {
-        await createValve(data);
+        await createValve(newData);
       }
       toast.success(getSuccessMessage(mode));
-      router.push(`/valve/${id}`);
+      router.push(`/`);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
