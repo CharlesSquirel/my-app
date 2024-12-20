@@ -1,18 +1,16 @@
 'use client';
 
-import AlertDialogComponent from '@/components/common/AlertDialog/AlertDialogComponent';
 import SignModal from '@/components/Forms/SignModal';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { deleteValve } from '@/lib/actions/valveActions';
 import { ValvePDFProps } from '@/lib/types/common';
-import { ArrowUpDown, Download, Pencil, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import logo from '../../../app/assets/logo.svg';
 import ProtocolHeader from '../common/ProtocolHeader';
+import ValveMenu from '../common/ProtocolMenu';
 import ProtocolTitle from '../common/ProtocolTitle';
 import InfoContainer from '../InfoContainer';
 import ValveBasicInfo, { BasicInfo } from './ValveBasicInfo';
@@ -49,7 +47,15 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
           />,
           document.body,
         )}
-      <div className="mb-6 flex justify-end gap-2">
+      <ValveMenu
+        id={valve.id}
+        deleteValve={deleteValve}
+        handleSignModal={handleSignModal}
+        valveSigned={valveSigned}
+        lastName={valve.lastName}
+        type="valve"
+      />
+      {/* <div className="mb-6 flex justify-end gap-2">
         <Button variant="outline" asChild>
           <Link href={`/valve/edit/${valve.id}`}>
             <Pencil />
@@ -80,7 +86,7 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
             <Trash2 /> Usuń
           </Button>
         </AlertDialogComponent>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-3">
         <header className="flex justify-between">
           <div className="flex flex-col gap-2">
