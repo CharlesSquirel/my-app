@@ -79,6 +79,7 @@ export async function createValve(data: ValveDTO): Promise<Valve> {
         `Valve protocol created: ${JSON.stringify(newValve, null, 2)}`,
       );
     }
+
     return newValve;
   } catch (error) {
     handleError(error, errorMessages.valveFailedCreation);

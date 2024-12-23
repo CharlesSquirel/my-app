@@ -2,6 +2,8 @@ import Header from '@/components/Header/Header';
 import { columns } from '@/components/Table/columns';
 import { DataTable } from '@/components/Table/data-table';
 import { getAllProtocolsOptimized } from '@/lib/actions/commonActions';
+import { currentUser } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 
 // const protocols: Protocol[] = Array.from({ length: 100 }, (_, i) => ({
 //   author: `Jan Kowalski ${i + 1}`,
@@ -11,6 +13,12 @@ import { getAllProtocolsOptimized } from '@/lib/actions/commonActions';
 //   description: `Opis ${i + 1} - ${'a'.repeat((i % 5) + 5)}`, // różna długość opisu
 // }));
 export default async function Home() {
+  const user = await currentUser();
+
+  if (!user) {
+    redirect('/sign-in');
+  }
+
   const protocols = await getAllProtocolsOptimized();
   const displayProtocols = protocols.map((protocol) => ({
     ...protocol,

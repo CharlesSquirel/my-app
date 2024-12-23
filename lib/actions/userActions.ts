@@ -89,3 +89,71 @@ export async function deleteUser(id: string): Promise<void> {
     handleError(error, errorMessages.userNotExist || 'User does not exist.');
   }
 }
+
+export async function findUserIdByEmail(
+  email: string | undefined,
+): Promise<string> {
+  try {
+    if (!email) {
+      throw Error(errorMessages.userNotExist);
+    }
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+      select: { id: true },
+    });
+    if (!user) {
+      throw Error(errorMessages.userNotExist);
+    }
+
+    return user.id;
+  } catch (error) {
+    handleError(error, 'Unexpected error finding user by email.');
+  }
+}
+
+export async function findUserSignatureById(id: string): Promise<string> {
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+      select: { userSignature: true },
+    });
+    if (!user) {
+      throw Error(errorMessages.userNotExist);
+    }
+
+    return user.userSignature;
+  } catch (error) {
+    handleError(error, 'Unexpected error finding user signature by ID.');
+  }
+}
+
+export async function fetchUserDataFromMongo(
+  email: string | undefined,
+  firstName: string | undefined,
+  lastName: string | undefined,
+): Promise<{
+  userId: string;
+  userSignature: string;
+  firstName: string;
+  lastName: string;
+}> {
+  try {
+    if (!email || !firstName || !lastName) {
+      throw Error(errorMessages.userNotExist);
+    }
+    const userId = await findUserIdByEmail(email);
+    const userSignature = await findUserSignatureById(userId);
+    return {
+      userId: userId,
+      userSignature: userSignature,
+      firstName,
+      lastName,
+    };
+  } catch (error) {
+    handleError(error, 'Unexpected error fetching user data.');
+  }
+}

@@ -16,7 +16,7 @@ interface ProtocolTitleProps {
 export default function ProtocolTitle({ subTitle, mode }: ProtocolTitleProps) {
   if (mode === 'web') {
     return (
-      <div className="flex flex-col gap-1 font-roboto text-[32px] leading-[1]">
+      <div className="flex w-fit flex-col gap-1 font-roboto text-[24px] leading-[1] sm:text-[32px]">
         <h2 className="">Protokół</h2>
         <p className="font-light">{subTitle}</p>
       </div>

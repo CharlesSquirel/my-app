@@ -1,4 +1,5 @@
 import { roboto } from '@/lib/fonts/fonts';
+import { ClerkProvider } from '@clerk/nextjs';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
@@ -16,13 +17,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pl">
-      <body
-        className={`${GeistSans.className} ${roboto.variable} flex w-screen flex-col justify-center overflow-x-hidden !p-5 antialiased md:!px-[66px] md:!py-7`}
-      >
-        <Toaster position="top-center" />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="pl">
+        <body
+          className={`${GeistSans.className} ${roboto.variable} flex w-screen flex-col justify-center overflow-x-hidden !p-5 antialiased md:!px-[66px] md:!py-7`}
+        >
+          {/* <header>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header> */}
+          <Toaster position="top-center" />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
