@@ -18,7 +18,7 @@ export default function ProtocolHeader({
 }: ProtocolHeaderProps) {
   return (
     <div className="flex justify-between">
-      <div className="flex gap-8">
+      <div className="flex flex-col gap-4 sm:flex-row sm:gap-8">
         <ProtocolFirmaInfo data={firma} mode="web" />
         <ProtocolFirmaInfo data={location} mode="web" />
         <ProtocolUserInfo user={user} mode="web" />

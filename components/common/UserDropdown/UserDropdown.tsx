@@ -13,11 +13,11 @@ import Link from 'next/link';
 export default async function UserDropdown() {
   const user = await currentUser();
   return (
-    <div className="flex items-center gap-2">
-      <h2 className="text-lg font-semibold">{`${user?.firstName} ${user?.lastName}`}</h2>
+    <div className="flex flex-col-reverse items-end gap-2 sm:flex-row sm:items-center">
+      <h2 className="text-end text-base font-semibold sm:text-lg">{`${user?.firstName} ${user?.lastName}`}</h2>
       <DropdownMenu>
         <DropdownMenuTrigger className="cursor-pointer outline-0">
-          <HamburgerMenuIcon className="h-5 w-5" />
+          <HamburgerMenuIcon className="h-6 w-6" />
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild>

@@ -55,40 +55,8 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
         lastName={valve.lastName}
         type="valve"
       />
-      {/* <div className="mb-6 flex justify-end gap-2">
-        <Button variant="outline" asChild>
-          <Link href={`/valve/edit/${valve.id}`}>
-            <Pencil />
-            Edytuj
-          </Link>
-        </Button>
-        <Button variant="outline" asChild>
-          <Link href={`/valve/pdf/${valve.id}`}>
-            <Download />
-            Pobierz
-          </Link>
-        </Button>
-        <Button
-          variant="outline"
-          onClick={handleSignModal}
-          disabled={valveSigned}
-        >
-          <ArrowUpDown /> Pobierz i wyślij z podpisem
-        </Button>
-        <AlertDialogComponent
-          onDelete={deleteValve}
-          id={valve.id}
-          title="Czy na pewno chcesz usunąć ten protokół?"
-          description="Usunięcie tego protokołu jest nieodwracalne"
-          pathAfterDelete="/"
-        >
-          <Button variant="destructive">
-            <Trash2 /> Usuń
-          </Button>
-        </AlertDialogComponent>
-      </div> */}
       <div className="flex flex-col gap-3">
-        <header className="flex justify-between">
+        <header className="flex items-center justify-between">
           <div className="flex flex-col gap-2">
             <ProtocolTitle subTitle="badania zaworów" mode="web" />
             <Badge
@@ -100,7 +68,12 @@ export default function ValveProtocol({ valve }: ValvePDFProps) {
           </div>
 
           <Link href="/">
-            <Image src={logo} alt="Chillair logo" width={200} priority />
+            <Image
+              src={logo}
+              alt="Chillair logo"
+              className="w-[150px] sm:w-[200px]"
+              priority
+            />
           </Link>
         </header>
         <ProtocolHeader protocolHeaderData={protocolHeaderData} />
