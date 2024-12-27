@@ -23,12 +23,15 @@ import { useUser } from '@clerk/nextjs';
 import { Prisma } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import toast from 'react-hot-toast';
 import ButtonBack from '../../common/ButtonBack/ButtonBack';
+import SignModal from '../SignModal';
 
 interface ValveFormProps {
   mode: FormModeType;
   defaultValues: ValveDTO;
+  createdAt?: string;
   id?: string;
   firms: Prisma.FirmaGetPayload<{
     include: {
@@ -56,18 +59,22 @@ export default function ValveForm({
   defaultValues,
   id,
   firms,
+  createdAt,
 }: ValveFormProps) {
   const { user } = useUser();
 
-  if (mode === 'edit' && !id) {
+  if (mode === 'edit' && !id && !createdAt) {
     throw new Error('Brak id protokołu zaworu do edycji');
   }
 
   const router = useRouter();
+  const [showSignModal, setShowSignModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [infoBlocksCount, setInfoBlocksCount] = useState(
     mode === 'edit' ? defaultValues.infoBlocks.length : 1,
   );
+  const handleSignModal = () => setShowSignModal(!showSignModal);
+
   const handleIncrement = () => {
     setInfoBlocksCount(infoBlocksCount + 1);
   };
@@ -95,7 +102,12 @@ export default function ValveForm({
     setIsLoading(true);
 
     try {
-      if (mode === 'edit' && id) {
+      if (mode === 'edit' && id && defaultValues.signed) {
+        handleSignModal();
+        await editValve(newData, id);
+
+        return;
+      } else if (mode === 'edit' && id && !defaultValues.signed) {
         await editValve(newData, id);
       } else {
         await createValve(newData);
@@ -117,6 +129,20 @@ export default function ValveForm({
   };
   return (
     <section className="flex w-full flex-col items-center justify-center gap-5">
+      {showSignModal &&
+        mode === 'edit' &&
+        id &&
+        createdAt &&
+        createPortal(
+          <SignModal
+            onCancel={handleSignModal}
+            id={id}
+            createdAt={createdAt}
+            mode="valve"
+            isSigned={defaultValues.signed}
+          />,
+          document.body,
+        )}
       <ButtonBack />
       <FormContainer
         mode={mode}
@@ -128,6 +154,7 @@ export default function ValveForm({
         defaultValues={defaultValues}
         isLoading={isLoading}
         badgeColor="valve"
+        isSigned={defaultValues.signed}
       >
         <FirmaLocationSelect
           firms={firms}

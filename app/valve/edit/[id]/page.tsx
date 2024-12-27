@@ -1,6 +1,7 @@
 import ValveForm from '@/components/Forms/Valve/ValveForm';
 import { findAllFirma } from '@/lib/actions/firmaActions';
 import { prisma } from '@/lib/db/db';
+import { formatDate } from '@/lib/utils';
 import { ValveDTO } from '@/lib/zod/zodSchema';
 import { notFound } from 'next/navigation';
 
@@ -45,6 +46,7 @@ export default async function ValveEdit({
       defaultValues={editValues}
       firms={firms}
       id={valve.id}
+      createdAt={formatDate(valve.createdAt)}
     />
   );
 }

@@ -34,11 +34,8 @@ interface FormContainerProps<T extends FieldValues> {
   isLoading?: boolean;
   subTitle?: string;
   badgeColor?: 'valve' | 'chiller';
+  isSigned?: boolean;
 }
-
-const getSubmitButtonText = (mode: FormModeType) => {
-  return mode === 'add' ? 'Utwórz' : 'Zapisz';
-};
 
 export default function FormContainer<T extends FieldValues>({
   children,
@@ -51,6 +48,7 @@ export default function FormContainer<T extends FieldValues>({
   isLoading,
   subTitle,
   badgeColor,
+  isSigned,
 }: FormContainerProps<T>) {
   const form = useForm<T>({
     resolver: zodResolver(validationSchema),
@@ -58,6 +56,17 @@ export default function FormContainer<T extends FieldValues>({
     mode: 'onBlur',
   });
 
+  if (mode === 'edit' && isSigned === undefined) {
+    throw new Error('isSigned is required in edit mode');
+  }
+
+  const getSubmitButtonText = (mode: FormModeType) => {
+    return mode === 'add'
+      ? 'Utwórz'
+      : !isSigned
+        ? 'Zapisz'
+        : 'Zapisz i wyślij ponownie';
+  };
   return (
     <FormProvider {...form}>
       <form
