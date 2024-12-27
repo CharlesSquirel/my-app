@@ -16,6 +16,7 @@ interface SignModalProps {
   id: string;
   createdAt: string;
   mode: ProtocolType;
+  isSigned?: boolean;
 }
 
 export default function SignModal({
@@ -23,6 +24,7 @@ export default function SignModal({
   id,
   createdAt,
   mode,
+  isSigned,
 }: SignModalProps) {
   const router = useRouter();
   const sigCanvas = useRef<SignatureCanvas | null>(null);
@@ -42,9 +44,14 @@ export default function SignModal({
     if (sigCanvas.current) {
       downloadProtocolWithSignature(sigCanvas, createdAt, id, mode);
       await updateValveSignedStatus(id);
+      if (isSigned) {
+        router.back();
+      }
       onCancel();
       toast.success('Operacja zakończona pomyślnie');
-      router.refresh();
+      if (!isSigned) {
+        router.refresh();
+      }
     } else {
       toast.error('Wystąpił błąd podczas generowania pliku PDF');
     }
