@@ -105,7 +105,6 @@ export default function ValveForm({
       if (mode === 'edit' && id && defaultValues.signed) {
         handleSignModal();
         await editValve(newData, id);
-
         return;
       } else if (mode === 'edit' && id && !defaultValues.signed) {
         await editValve(newData, id);
